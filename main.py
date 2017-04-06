@@ -161,7 +161,22 @@ while playing and player.alive:
             else:
                 print("That isn't currently equipped.")
                 commandSuccess = False
-
+                
+        elif checkCommand(commandWords[0].lower(),"inspect"):
+            descriptionGiven = False
+            while not descriptionGiven:
+                for item in player.items:
+                    if checkCommand(commandWords[1].lower(),item.name()):
+                        item.describe()
+                        descriptionGiven = True
+            while not descriptionGiven:
+                for item in player.location.items:
+                        if checkCommand(commandWords[1].lower(),item.name()):
+                            item.describe()
+                            descriptionGiven = True 
+            if not descriptionGiven: 
+                    print("You do not have that item")
+            commandSuccess = False
 
         else:
             print("Not a valid command")
