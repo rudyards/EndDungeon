@@ -1,0 +1,10 @@
+I’m partnering with Rhody Kaner
+
+Setting
+Dungeon of the End - A limbo where adventurers in this fantasy setting go when they die. This is the final dungeon that the adventurers will ever explore, as depending on how they die within this dungeon, they will go to different afterlives (Think of this like a more lethal sorting hat). The dungeon changes for each person as they enter it, procedurally generated.
+
+Story
+The player is an adventurer who has died and gone to the Dungeon of the End. However, there is a legend that if they manage to find their way to the end of the dungeon, they can be restored to life! The player is driven to fight their way through the dungeon to either get an afterlife they deserve, or return to life.
+
+Gameplay
+Standard text based adventure with procedurally generated elements for both the layout of the dungeon, and the list of items and monsters available within. 
