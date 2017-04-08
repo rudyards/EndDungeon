@@ -59,12 +59,12 @@ def printSituation():
 def showHelp():
     clear()
     print("go <direction> -- moves you in the given direction")
-    print("attack <monster> -- make one attack against a monster")
+    print("attack <monster> -- makes one attack against a monster")
     print("inventory -- opens your inventory")
     print("pickup <item> -- picks up the item")
     print("equip <item> -- equips an item you are carrying. only one weapon and one armor can be equipped at once")
-    print("unequip <item> -- unequip an item you have equipped.")
-    print("wait -- wait one turn")
+    print("unequip <item> -- unequips an item you have equipped.")
+    print("wait -- waits one turn")
     input("Press enter to continue...")
 
 
@@ -79,13 +79,26 @@ while playing and player.alive:
         commandSuccess = True
         command = input("What now? ")
         commandWords = command.split()
+        
+        def checkCommand(entry, command): #Idk if this is the best place to put this function, might make the code prettier elsewhere
+            commandLength = len(entry)
+            matchedLetters = 0
+            if entry == "i" or entry == "in":
+                print("did you mean inspect or inventory?")
+                commandSuccess = False
+            else:
+                for value in range(commandLength):
+                    if command[value] == entry[value]:
+                    matchedLetters += 1
+                if matchedLetters == len(entry):
+                    return True
 
-        if commandWords[0].lower() == "go":   #cannot handle multi-word directions
+        if checkCommand(commandWords[0].lower(),"go"):   #cannot handle multi-word directions
             player.goDirection(commandWords[1]) 
             timePasses = True
 
 
-        elif commandWords[0].lower() == "pickup":  #can handle multi-word objects
+        elif checkCommand(commandWords[0].lower(),"pickup"):  #can handle multi-word objects
             targetName = command[7:]
             target = player.location.getItemByName(targetName)
             if target != False:
@@ -98,7 +111,7 @@ while playing and player.alive:
                 print("No such item.")
                 commandSuccess = False
 
-        elif commandWords[0].lower() == "drop":
+        elif checkCommand(commandWords[0].lower(),"drop"):
             targetName = command[5:]
             target = player.isInInventory(targetName)
             if target != False:
@@ -111,20 +124,20 @@ while playing and player.alive:
                     print()
                 commandSuccess = False
 
-        elif commandWords[0].lower() == "inventory":
+        elif checkCommand(commandWords[0].lower(),"inventory"):
             player.showInventory()        
             player.showEquipped()
 
 
-        elif commandWords[0].lower() == "help":
+        elif checkCommand(commandWords[0].lower(),"help"):
             showHelp()
 
 
-        elif commandWords[0].lower() == "exit":
+        elif checkCommand(commandWords[0].lower(),"exit"):
             playing = False
 
 
-        elif commandWords[0].lower() == "attack":
+        elif checkCommand(commandWords[0].lower(),"attack"):
             targetName = command[7:]
             target = player.location.getMonsterByName(targetName)
             if target != False:
@@ -134,15 +147,15 @@ while playing and player.alive:
                 commandSuccess = False
 
 
-        elif commandWords[0].lower() == "wait":
+        elif checkCommand(commandWords[0].lower(),"wait"):
             timePasses = True
         
 
-        elif commandWords[0].lower() == "me":
+        elif checkCommand(commandWords[0].lower(),"me"):
             player.showStats()
 
 
-        elif commandWords[0].lower() == "equip":
+        elif checkCommand(commandWords[0].lower(),"equip"):
             equipChoice = command[6:]
             equipitem = player.isInInventory(equipChoice)
             if equipitem != False:
@@ -153,7 +166,7 @@ while playing and player.alive:
                 commandSuccess = False
 
 
-        elif commandWords[0].lower() == "unequip":
+        elif checkCommand(commandWords[0].lower(),"unequip"):
             equipChoice = command[8:]
             equipitem = player.isEquipped(equipChoice)
             if equipitem != False:
