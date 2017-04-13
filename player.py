@@ -35,7 +35,9 @@ class Player:
         self.damage = 0 + self.strength//2
         self.bonusDamage = 0
         self.defense = 0 + self.dexterity//2
-
+        self.poisoned = False
+        self.poisonRegenLoss = 0
+        self.poisonTimeLeft = 0
         #Character Advancement things
         self.xp = 0
         self.gp = 100
@@ -43,11 +45,22 @@ class Player:
    
 
     def update(self):
+<<<<<<< HEAD
         if self.health < self.maxHealth:
             if self.health + self.regen < self.maxHealth:
                 self.health += self.regen
             else:
                 self.health = self.maxHealth
+=======
+        if (self.health < self.maxhealth):
+                if self.poisoned == True:
+                    self.health += (self.regen-self.poisonRegenLoss)
+                    self.poisonTimeLeft -= 1
+                    if self.poisonTimeLeft = 0:
+                        self.poisoned = False
+                else:
+                    self.health += self.regen
+>>>>>>> master
         self.checkXP()
 
 

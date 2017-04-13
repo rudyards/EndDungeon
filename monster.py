@@ -60,6 +60,17 @@ class Monster:
             player.alive = False
 
 
+    def poison(self,player):
+        self.poisoned = True
+        if self.type == spider:
+            self.poisonRegenLoss = 2
+            self.poisonTimeLeft = 5
+        elif self.type == devil:
+            self.poisonRegenLoss = 1
+            self.poisonTimeLeft = 3
+
+
+
 
 #Balance notes:
 #Players deal 5.5 damage + half their strength + bonus weapons
