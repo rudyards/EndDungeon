@@ -45,6 +45,7 @@ class Player:
    
 
     def update(self):
+<<<<<<< HEAD
         if (self.health < self.maxhealth):
                 if self.poisoned == True:
                     self.health += (self.regen-self.poisonRegenLoss)
@@ -53,6 +54,13 @@ class Player:
                         self.poisoned = False
                 else:
                     self.health += self.regen
+=======
+        if self.health < self.maxHealth:
+            if self.health + self.regen < self.maxHealth:
+                self.health += self.regen
+            else:
+                self.health = self.maxHealth
+>>>>>>> refs/remotes/origin/piperminiupdate
         self.checkXP()
 
 
@@ -178,9 +186,11 @@ class Player:
             attackDamage = 0
         mon.health -= attackDamage
         print(mon.name + "'s health is " + str(mon.health) + ".")
+        if(mon.regeneration > 0):
+            print("The monster is regenerating!")
+
         if(mon.health <= 0):
-            mon.die()
-            self.xp += mon.xpBounty
+            mon.die(self)
         else:
             mon.attackPlayer(self)
 
