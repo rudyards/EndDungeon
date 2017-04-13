@@ -25,8 +25,13 @@ class Monster:
         self.type = type
 
     def update(self):
-        if random.random() < .5:
-            self.moveTo(self.room.randomNeighbor())
+        if player.room != self.room:
+            if random.random() < .5:
+                self.moveTo(self.room.randomNeighbor())
+                if self.type == "Velociraptor":
+                    self.moveTo(self.room.randomNeighbor())
+                #Velociraptor moves 2 rooms each turn instead of 1
+            #Monsters only move if the player is not in their room
 
         if self.health < self.maxHealth:
             if self.health + self.regeneration < self.maxHealth:
@@ -53,6 +58,12 @@ class Monster:
         if(attackDamage < 0):
             attackDamage = 0
         player.health-=attackDamage
+      
+        self.poison(player)
+        if player.poisonTimeLeft > 0:
+            print("The monster has poisoned you!")
+        #If the monster can poison the player, they will do so on hit
+
 
         print("Your health is " + str(player.health) + ".")
         if (player.health <= 0):
@@ -61,9 +72,9 @@ class Monster:
 
 
     def poison(self,player):
-        if self.type == spider:
-            self.poisonRegenLoss = 2
-            self.poisonTimeLeft = 5
+        if self.type == "Spider":
+            player.poisonRegenLoss = 1
+            player.poisonTimeLeft = 4
         # elif self.type == devil:
         #     self.poisonRegenLoss = 1
         #     self.poisonTimeLeft = 3
@@ -77,10 +88,37 @@ class Monster:
 #Players don't default to having any defense
 
 class Troll(Monster):
-    self.type = "troll"
+    self.type = "Troll"
     self.health = 15
     self.regeneration = 2
     self.damage = 3
     self.damageRange = 3
-    #Trolls deal 3-6 damage each hit, dealing aproximately 4.5 damage
+    #Trolls deal 4-6 damage each hit, dealing aproximately 5 damage
+    #Trolls are unique because they regenerate each turn, heavily punishing low damage players
 
+
+class GiantRat(Monster):
+    self.type = "Rat"
+    self.health = 15
+    self.damage = 0
+    self.damageRange = 4
+    #Rats deal 1-4 damage each hit, dealing 2.5 damage each hit
+    #Rats are unique because they're cute
+
+
+class Spider(Monster):
+    self.type = "Spider"
+    self.health = 10
+    self.damage = 0
+    self.damageRange = 4
+    #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
+    #Spiders are unique because they poison the player
+
+class Velociraptor(Monster):
+    self.type = "Velociraptor"
+    self.health = 13
+    self.damage = 4
+    self.damageRange = 6
+    self.defense = 1
+    #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
+    #Velociraptors are unique because they move 2 rooms per movement
