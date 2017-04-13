@@ -173,6 +173,9 @@ class Player:
             attackDamage = 0
         mon.health -= attackDamage
         print(mon.name + "'s health is " + str(mon.health) + ".")
+        if(mon.regeneration > 0):
+            print("The monster is regenerating!")
+
         if(mon.health <= 0):
             mon.die(self)
         else:

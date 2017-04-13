@@ -142,6 +142,7 @@ while playing and player.alive:
             target = player.location.getMonsterByName(targetName)
             if target != False:
                 player.attackMonster(target)
+                timePasses = True
             else:
                 print("No such monster.")
                 commandSuccess = False
