@@ -21,9 +21,9 @@ def createWorld():
     rock7.putInRoom(entrance)
     rock8.putInRoom(entrance)
 
-    genericDungeonRoom = Room("This is the place where the test monster is")
+    genericDungeonRoom = Room("This is the place where a test monster is")
     Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
-    questBeast = Monster("Questbeast", 1, genericDungeonRoom,200)
+
 
     # a = Room("You are in room 1")
     # b = Room("You are in room 2")

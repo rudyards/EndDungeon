@@ -2,28 +2,38 @@ import random
 import updater
 
 class Monster:
-    def __init__(self, name, health, room,xp):
+    def __init__(self, name, type=None, health, regeneration = 0, room, level):
         self.name = name
         self.health = health
+        self.maxHealth = health
         self.room = room
         room.addMonster(self)
         updater.register(self)
         self.damage = 0
         self.defense = 0
-        self.xpBounty = xp
+        self.level = level
+        self.regeneration = regeneration
+        self.type = type
 
     def update(self):
         if random.random() < .5:
             self.moveTo(self.room.randomNeighbor())
+        if self.health < self.maxHealth:
+            if self.health + self.regeneration < self.maxHealth:
+                self.health += self.regeneration
+            elif self.health < self.maxHealth:
+                self.health = self.maxHealth
 
     def moveTo(self, room):
         self.room.removeMonster(self)
         self.room = room
         room.addMonster(self)
 
-    def die(self):
+    def die(self,player):
         self.room.removeMonster(self)
         updater.deregister(self)
+        player.xp += mon.level * 50
+        #Currently, monsters give 50 xp per level, regardless of what level that player is
 
     def attackPlayer(self,player):
         attackDamage = random.randint(1,10) + self.damage

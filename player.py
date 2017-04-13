@@ -43,8 +43,11 @@ class Player:
    
 
     def update(self):
-        if (self.health < self.maxhealth):
-            self.health += self.regen
+        if self.health < self.maxHealth:
+            if self.health + self.regen < self.maxHealth:
+                self.health += self.regen
+            else:
+                self.health = self.maxHealth
         self.checkXP()
 
 
@@ -171,8 +174,7 @@ class Player:
         mon.health -= attackDamage
         print(mon.name + "'s health is " + str(mon.health) + ".")
         if(mon.health <= 0):
-            mon.die()
-            self.xp += mon.xpBounty
+            mon.die(self)
         else:
             mon.attackPlayer(self)
 
