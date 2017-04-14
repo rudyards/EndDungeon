@@ -133,3 +133,4 @@ class Velociraptor(Monster):
     self.level = 2
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
+
