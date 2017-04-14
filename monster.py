@@ -5,7 +5,7 @@ import updater
 
 
 class Monster:
-    def __init__(self, name, type=None, health, regeneration = 0, room):
+    def __init__(self, name, health, room, regeneration=0):
         self.name = name
         self.health = health
         self.maxHealth = health
@@ -22,13 +22,13 @@ class Monster:
         self.defense = 0
         self.level = 1
         self.regeneration = regeneration
-        self.type = type
+        self.monsterType = monsterType
 
     def update(self):
         if player.room != self.room:
             if random.random() < .5:
                 self.moveTo(self.room.randomNeighbor())
-                if self.type == "Velociraptor":
+                if self.monsterType == "Velociraptor":
                     self.moveTo(self.room.randomNeighbor())
                 #Velociraptor moves 2 rooms each turn instead of 1
             #Monsters only move if the player is not in their room
@@ -72,11 +72,11 @@ class Monster:
 
 
     def poison(self,player):
-        if self.type == "Spider":
+        if self.monsterType == "Spider":
             #The poison damage of the spider increases by 1/2 of the spiders level
             player.poisonRegenLoss = 1 + self.level//2
             player.poisonTimeLeft = 4
-        # elif self.type == devil:
+        # elif self.monsterType == devil:
         #     self.poisonRegenLoss = 1
         #     self.poisonTimeLeft = 3
 
@@ -95,41 +95,51 @@ class Monster:
 #Players don't default to having any defense
 
 class Troll(Monster):
-    self.type = "Troll"
-    self.health = 20
-    self.regeneration = 2
-    self.damage = 3
-    self.damageRange = 3
-    self.level = 2
+    def __init__():
+        self.monsterType = "Troll"
+        self.health = 20
+        self.regeneration = 2
+        self.damage = 3
+        self.damageRange = 3
+        self.level = 2
+        Monster.init(self, name, health, room, regeneration=0)
+    
     #Trolls deal 4-6 damage each hit, dealing aproximately 5 damage
     #Trolls are unique because they regenerate each turn, heavily punishing low damage players
 
 
 class GiantRat(Monster):
-    self.type = "Rat"
-    self.health = 15
-    self.damage = 0
-    self.damageRange = 4
-    self.level = 1
+    def __init__():
+        self.monsterType = "Rat"
+        self.health = 15
+        self.damage = 0
+        self.damageRange = 4
+        self.level = 1
+        Monster.init(self, name, health, room, regeneration=0)
+
     #Rats deal 1-4 damage each hit, dealing 2.5 damage each hit
     #Rats are unique because they're cute
 
 
 class Spider(Monster):
-    self.type = "Spider"
-    self.health = 10
-    self.damage = 0
-    self.damageRange = 4
-    self.level = 1
+    def __init__():
+        self.monsterType = "Spider"
+        self.health = 10
+        self.damage = 0
+        self.damageRange = 4
+        self.level = 1
+        Monster.init(self, name, health, room, regeneration=0)
     #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
     #Spiders are unique because they poison the player
 
 class Velociraptor(Monster):
-    self.type = "Velociraptor"
-    self.health = 13
-    self.damage = 4
-    self.damageRange = 6
-    self.defense = 1
-    self.level = 2
+    def __init__():
+        self.monsterType = "Velociraptor"
+        self.health = 13
+        self.damage = 4
+        self.damageRange = 6
+        self.defense = 1
+        self.level = 2
+        Monster.init(self, name, health, room, regeneration=0)
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
