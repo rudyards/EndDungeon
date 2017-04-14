@@ -6,49 +6,9 @@ from maps import *
 import os
 import updater
 
-player = Player()
 
-def describer():
-    description = ""
-    keyword = ""
-    roll=random.randint(1,4)
-    if roll == 1:
-        secondroll =random.randint(1,2)
-        if secondroll == 1:
-            keyword = "a thin mist that covers the ground"
-        if secondroll == 2:
-            keyword = "an unshakeable feeling of dread"
-        description = "This room is filled with "+keyword
-
-
-    elif roll == 2:
-        secondroll =random.randint(1,2)
-        if secondroll == 1:
-            keyword = "was slept in, judging by the dust covered cots"
-        if secondroll == 2:
-            keyword = "was used as storage, but it has since been looted"
-        description = "This room once "+keyword
-
-
-    elif roll == 3:
-        secondroll =random.randint(1,2)
-        if secondroll == 1:
-            keyword = "and the floor has a strange red mark on it"
-        if secondroll == 2:
-            keyword = "and there are concerning scratchmarks on the ceiling"
-        description = "Thick cobwebs clutter the corners of the room "+keyword
-
-    else:
-        secondroll =random.randint(1,2)
-        if secondroll == 1:
-            keyword = "ancient things and mildew"
-        if secondroll == 2:
-            keyword = "the unmistakable iron scent of blood"
-        description = "The room smells of "+keyword
-
-    return description
-
-
+name = input("What's your name?")
+player = Player(name)
 
 
 def createWorld():
