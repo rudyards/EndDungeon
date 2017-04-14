@@ -5,7 +5,7 @@ import updater
 
 
 class Monster:
-    def __init__(self, name, type=None, health, regeneration = 0, room, level):
+    def __init__(self, name, type=None, health, regeneration = 0, room):
         self.name = name
         self.health = health
         self.maxHealth = health
@@ -20,7 +20,7 @@ class Monster:
         #The damage dice a monster uses
 
         self.defense = 0
-        self.level = level
+        self.level = 1
         self.regeneration = regeneration
         self.type = type
 
@@ -73,11 +73,18 @@ class Monster:
 
     def poison(self,player):
         if self.type == "Spider":
-            player.poisonRegenLoss = 1
+            #The poison damage of the spider increases by 1/2 of the spiders level
+            player.poisonRegenLoss = 1 + self.level//2
             player.poisonTimeLeft = 4
         # elif self.type == devil:
         #     self.poisonRegenLoss = 1
         #     self.poisonTimeLeft = 3
+
+    def levelUp(self):
+        #If levelUp is called, the monster's level (and xp bounty) increases, as does its health and base damage
+        self.level += 1
+        self.health += 5
+        self.damage += 1
 
 
 
@@ -89,10 +96,11 @@ class Monster:
 
 class Troll(Monster):
     self.type = "Troll"
-    self.health = 15
+    self.health = 20
     self.regeneration = 2
     self.damage = 3
     self.damageRange = 3
+    self.level = 2
     #Trolls deal 4-6 damage each hit, dealing aproximately 5 damage
     #Trolls are unique because they regenerate each turn, heavily punishing low damage players
 
@@ -102,6 +110,7 @@ class GiantRat(Monster):
     self.health = 15
     self.damage = 0
     self.damageRange = 4
+    self.level = 1
     #Rats deal 1-4 damage each hit, dealing 2.5 damage each hit
     #Rats are unique because they're cute
 
@@ -111,6 +120,7 @@ class Spider(Monster):
     self.health = 10
     self.damage = 0
     self.damageRange = 4
+    self.level = 1
     #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
     #Spiders are unique because they poison the player
 
@@ -120,5 +130,6 @@ class Velociraptor(Monster):
     self.damage = 4
     self.damageRange = 6
     self.defense = 1
+    self.level = 2
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
