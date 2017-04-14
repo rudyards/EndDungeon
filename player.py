@@ -27,7 +27,7 @@ class Player:
 
         #Vitality stuff
         self.maxhealth = 50 + 4*self.constitution
-        self.health = maxhealth
+        self.health = self.maxhealth
         self.alive = True
         self.regen = self.constitution//5
 
