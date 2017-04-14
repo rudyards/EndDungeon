@@ -45,6 +45,7 @@ class Player:
 
     def update(self):
         if (self.health < self.maxhealth):
+            #Notable problem: poison only does things if you are at less than max health
             if self.poisonTimeLeft > 0:
                 self.health += (self.regen-self.poisonRegenLoss)
                 self.poisonTimeLeft -= 1
