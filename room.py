@@ -6,6 +6,7 @@ class Room:
         self.monsters = []
         self.exits = []
         self.items = []
+        updater.register(self)
         self.x = x
         self.y = y
 
@@ -52,3 +53,7 @@ class Room:
             if i.name.lower() == name.lower():
                 return i
         return False
+<<<<<<< HEAD
+    def randomNeighbor(self):
+        return random.choice(self.exits)[1]
+
