@@ -35,7 +35,6 @@ class Player:
         self.damage = 0 + self.strength//2
         self.bonusDamage = 0
         self.defense = 0 + self.dexterity//2
-        self.poisoned = False
         self.poisonRegenLoss = 0
         self.poisonTimeLeft = 0
         #Character Advancement things
@@ -46,13 +45,12 @@ class Player:
 
     def update(self):
         if (self.health < self.maxhealth):
-                if self.poisoned == True:
-                    self.health += (self.regen-self.poisonRegenLoss)
-                    self.poisonTimeLeft -= 1
-                    if self.poisonTimeLeft = 0:
-                        self.poisoned = False
-                else:
-                    self.health += self.regen
+            if self.poisonTimeLeft > 0:
+                self.health += (self.regen-self.poisonRegenLoss)
+                self.poisonTimeLeft -= 1
+                print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
+            else:
+                self.health += self.regen
         self.checkXP()
 
 
@@ -178,9 +176,11 @@ class Player:
             attackDamage = 0
         mon.health -= attackDamage
         print(mon.name + "'s health is " + str(mon.health) + ".")
+        if(mon.regeneration > 0):
+            print("The monster is regenerating!")
+
         if(mon.health <= 0):
-            mon.die()
-            self.xp += mon.xpBounty
+            mon.die(self)
         else:
             mon.attackPlayer(self)
 
