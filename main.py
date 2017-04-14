@@ -2,27 +2,86 @@ from room import *
 from player import *
 from item import *
 from monster import *
+from maps import *
 import os
 import updater
 
 player = Player()
 
-def createWorld():
-    entrance = Room("You are in the entrance of The Dungeon of the End")
-    player.location = entrance
-    longsword.putInRoom(entrance)
-    hideArmor.putInRoom(entrance)
-    rock1.putInRoom(entrance)
-    rock2.putInRoom(entrance)
-    rock3.putInRoom(entrance)
-    rock4.putInRoom(entrance)
-    rock5.putInRoom(entrance)
-    rock6.putInRoom(entrance)
-    rock7.putInRoom(entrance)
-    rock8.putInRoom(entrance)
+def describer():
+    description = ""
+    keyword = ""
+    roll=random.randint(1,4)
+    if roll == 1:
+        secondroll =random.randint(1,2)
+        if secondroll == 1:
+            keyword = "a thin mist that covers the ground"
+        if secondroll == 2:
+            keyword = "an unshakeable feeling of dread"
+        description = "This room is filled with "+keyword
 
-    genericDungeonRoom = Room("This is the place where a test monster is")
-    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
+
+    elif roll == 2:
+        secondroll =random.randint(1,2)
+        if secondroll == 1:
+            keyword = "was slept in, judging by the dust covered cots"
+        if secondroll == 2:
+            keyword = "was used as storage, but it has since been looted"
+        description = "This room once "+keyword
+
+
+    elif roll == 3:
+        secondroll =random.randint(1,2)
+        if secondroll == 1:
+            keyword = "and the floor has a strange red mark on it"
+        if secondroll == 2:
+            keyword = "and there are concerning scratchmarks on the ceiling"
+        description = "Thick cobwebs clutter the corners of the room "+keyword
+
+    else:
+        secondroll =random.randint(1,2)
+        if secondroll == 1:
+            keyword = "ancient things and mildew"
+        if secondroll == 2:
+            keyword = "the unmistakable iron scent of blood"
+        description = "The room smells of "+keyword
+
+    return description
+
+
+
+
+def createWorld():
+
+    startingRoom = Room("The entrance to the great dungeon",2,6)
+    secondRoom = Room((describer()),2,5)
+    Room.connectRooms(startingRoom, "north", secondRoom, "south")
+    thirdRoom = Room((describer()),2,4)
+    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
+    fourthRoom = Room((describer()),2,3)
+    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
+    fifthRoom = Room((describer()),3,3)
+    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
+    sixthRoom = Room((describer()),4,3)
+    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
+    seventhRoom = Room((describer()),5,3)
+    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
+    eigthRoom = Room((describer()),5,4)
+    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
+    ninthRoom = Room((describer()),6,4)
+    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
+    tenthRoom = Room((describer()),7,4)
+    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
+
+    player.location = startingRoom
+
+#    entrance = Room("You are in the entrance of The Dungeon of the End")
+#    player.location = entrance
+#    longsword.putInRoom(entrance)
+#    hideArmor.putInRoom(entrance)
+
+#    genericDungeonRoom = Room("This is the place where a test monster is")
+#    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
 
 
     # a = Room("You are in room 1")
@@ -89,7 +148,7 @@ while playing and player.alive:
             else:
                 for value in range(commandLength):
                     if command[value] == entry[value]:
-                    matchedLetters += 1
+                        matchedLetters += 1
                 if matchedLetters == len(entry):
                     return True
 

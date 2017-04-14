@@ -1,25 +1,36 @@
 import random
 
 class Room:
-    def __init__(self, description):
+    def __init__(self, description, x, y):
         self.desc = description
         self.monsters = []
         self.exits = []
         self.items = []
         updater.register(self)
+        self.x = x
+        self.y = y
 
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
+
     def getDestination(self, direction):
         for e in self.exits:
             if e[0] == direction:
                 return e[1]
+
     def connectRooms(room1, dir1, room2, dir2):
         #creates "dir1" exit from room1 to room2 and vice versa
         room1.addExit(dir1, room2)
         room2.addExit(dir2, room1)
+
     def exitNames(self):
         return [x[0] for x in self.exits]
+
+
+    def randomNeighbor(self):
+        return random.choice(self.exits)[1]
+        
+
     def addItem(self, item):
         self.items.append(item)
     def removeItem(self, item):
@@ -42,7 +53,7 @@ class Room:
             if i.name.lower() == name.lower():
                 return i
         return False
+<<<<<<< HEAD
     def randomNeighbor(self):
         return random.choice(self.exits)[1]
 
-    
