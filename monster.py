@@ -24,6 +24,8 @@ class Monster:
         self.regeneration = regeneration
         self.monsterType = monsterType
 
+
+
     def update(self):
         if player.room != self.room:
             if random.random() < .5:
@@ -47,7 +49,7 @@ class Monster:
     def die(self,player):
         self.room.removeMonster(self)
         updater.deregister(self)
-        player.xp += mon.level * 50
+        player.xp += self.level * 50
         #Currently, monsters give 50 xp per level, regardless of what level that player is
 
     def attackPlayer(self,player):

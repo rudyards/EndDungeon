@@ -6,8 +6,9 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 class Player:
-    def __init__(self):
+    def __init__(self, name):
         self.location = None
+        self.name = name
 
         #Stats
         self.strength = random.randint(-1,1) #Each 2 points in str gives you +1 damage
@@ -23,19 +24,20 @@ class Player:
         self.hasArmor = False
         self.items = []
         self.equipped = []
-        self.carryingCapacity = 6+self.strength
+        self.carryingCapacity = 6+self.strength #Players can carry a max of 6 items that aren't equipped. This goes up with str
 
         #Vitality stuff
         self.maxhealth = 50 + 4*self.constitution
         self.health = self.maxhealth
         self.alive = True
-        self.regen = self.constitution//5
+        self.regen = self.constitution//5 #Regeneration is hard to acquire, but if you've leveled up a bit and gotten lucky, you should have some
 
         #Combat stuff
         self.damage = 0 + self.strength//2
-        self.bonusDamage = 0
+        self.bonusDamage = 0 #Damage is seperated from bonus damage, since bonus damage is something that you get from equipment
         self.defense = 0 + self.dexterity//2
-        self.poisonRegenLoss = 0
+
+        self.poisonRegenLoss = 0 #Players don't edit this, typically, this is more of a monster thing.
         self.poisonTimeLeft = 0
         #Character Advancement things
         self.xp = 0
@@ -45,14 +47,18 @@ class Player:
 
     def update(self):
         if (self.health < self.maxhealth):
-            #Notable problem: poison only does things if you are at less than max health
-            if self.poisonTimeLeft > 0:
-                self.health += (self.regen-self.poisonRegenLoss)
-                self.poisonTimeLeft -= 1
-                print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
-            else:
-                self.health += self.regen
+            self.health += self.regen
+            if self.health > self.maxhealth:
+                self.health = self.maxhealth
+
+        if self.poisonTimeLeft > 0:
+            self.health -= self.poisonRegenLoss
+            self.poisonTimeLeft -= 1
+            print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
+
         self.checkXP()
+
+        
 
 
 
@@ -79,6 +85,7 @@ class Player:
         self.location.removeItem(item)
 
     def equip(self,item):
+        #You can only equip weapons and armor that are in your inventory. You need to pick up somethng to equip it
         #Weapons increase your bonus damage. You can only have 1 weapon equipped at once
         if item.type == "weapon":
             if (self.hasWeapon == False):
@@ -97,6 +104,7 @@ class Player:
                 print("You already have a weapon equipped")
 
     def drop(self, item):
+        #You can't drop items that are currently equipped, you need to unequip them first
         self.items.remove(item)
         item.loc = self.location
         self.location.addItem(item)
@@ -140,6 +148,7 @@ class Player:
         return False
 
     def checkXP(self):
+        #Every 200 XP, you level up, and each of your stats are randomly increased by 0 or 1
         if self.xp >= self.level*200:
             self.level +=1
             print("You leveled up!")
@@ -151,7 +160,7 @@ class Player:
             self.charisma+=random.randint(0,1)
             print("Your stats have randomly increased.")
 
-
+            #Once your stats increase, it quickly updates the carrying capacity and such.
             self.carryingCapacity = 6+self.strength
             self.damage = 0 + self.strength//2
             self.defense = 0 + self.dexterity//2
@@ -185,14 +194,6 @@ class Player:
         else:
             mon.attackPlayer(self)
 
-        #Old way of doing combat, which isn't the way we want to
-        # if self.health > mon.health:
-        #     self.health -= mon.health
-        #     print("You win. Your health is now " + str(self.health) + ".")
-        #     mon.die()
-        # else:
-        #     print("You lose.")
-        #     self.alive = False
         print()
         input("Press enter to continue...")
 
