@@ -123,8 +123,16 @@ class Player:
         clear()
         print("You are currently carrying:")
         print()
-        for i in self.items:
-            print(i.name)
+        items = self.items[:]
+        while len(items) != 0:
+            currentItem = items[0].name
+            del items[0]
+            counter = 1
+            for item in items:
+                if item.name == currentItem:
+                    counter += 1
+                    item.remove(item)
+            print(a.name+"x"+str(counter))
         print()
 
     def showEquipped(self):
@@ -197,3 +205,12 @@ class Player:
         print()
         input("Press enter to continue...")
 
+def buy(self,character,item):
+    self.inventory.append(item)
+    self.gp -= item.buyValue
+    character.items.remove(item)
+
+def sell(self,character,item):
+    self.inventory.remove(item)
+    player.gp += item.sellValue
+    character.items.append(item)
