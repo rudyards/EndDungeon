@@ -7,30 +7,30 @@ import os
 import updater
 
 
-name = input("What's your name?")
+name = input("What's your name?\n")
 player = Player(name)
 
 
 def createWorld():
 
     startingRoom = Room("The entrance to the great dungeon",2,6)
-    secondRoom = Room((describer()),2,5)
+    secondRoom = Room(roomdescriber(),2,5)
     Room.connectRooms(startingRoom, "north", secondRoom, "south")
-    thirdRoom = Room((describer()),2,4)
+    thirdRoom = Room(roomdescriber(),2,4)
     Room.connectRooms(secondRoom, "north", thirdRoom, "south")
-    fourthRoom = Room((describer()),2,3)
+    fourthRoom = Room(roomdescriber(),2,3)
     Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
-    fifthRoom = Room((describer()),3,3)
+    fifthRoom = Room(roomdescriber(),3,3)
     Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
-    sixthRoom = Room((describer()),4,3)
+    sixthRoom = Room(roomdescriber(),4,3)
     Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
-    seventhRoom = Room((describer()),5,3)
+    seventhRoom = Room(roomdescriber(),5,3)
     Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
-    eigthRoom = Room((describer()),5,4)
+    eigthRoom = Room(roomdescriber(),5,4)
     Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
-    ninthRoom = Room((describer()),6,4)
+    ninthRoom = Room(roomdescriber(),6,4)
     Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
-    tenthRoom = Room((describer()),7,4)
+    tenthRoom = Room(roomdescriber(),7,4)
     Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
 
     player.location = startingRoom
