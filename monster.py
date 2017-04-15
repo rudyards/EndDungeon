@@ -133,6 +133,7 @@ class Spider(Monster):
         self.damageRange = 4
         self.level = 1
         Monster.init(self, name, health, room, regeneration=0)
+    
     #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
     #Spiders are unique because they poison the player
 
@@ -147,5 +148,3 @@ class Velociraptor(Monster):
         Monster.init(self, name, health, room, regeneration=0)
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
-
-

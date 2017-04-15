@@ -2,12 +2,13 @@ import random
 
 
 
-def describer():
+def roomdescriber():
     description = ""
     keyword = ""
     roll=random.randint(1,4)
+    secondroll =random.randint(1,2)
     if roll == 1:
-        secondroll =random.randint(1,2)
+        
         if secondroll == 1:
             keyword = "a thin mist that covers the ground"
         if secondroll == 2:
@@ -16,7 +17,7 @@ def describer():
 
 
     elif roll == 2:
-        secondroll =random.randint(1,2)
+        
         if secondroll == 1:
             keyword = "was slept in, judging by the dust covered cots"
         if secondroll == 2:
@@ -25,7 +26,7 @@ def describer():
 
 
     elif roll == 3:
-        secondroll =random.randint(1,2)
+        
         if secondroll == 1:
             keyword = "and the floor has a strange red mark on it"
         if secondroll == 2:
@@ -33,7 +34,7 @@ def describer():
         description = "Thick cobwebs clutter the corners of the room "+keyword
 
     else:
-        secondroll =random.randint(1,2)
+        
         if secondroll == 1:
             keyword = "ancient things and mildew"
         if secondroll == 2:

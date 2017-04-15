@@ -1,3 +1,4 @@
+import updater
 import random
 
 class Room:
@@ -6,7 +7,7 @@ class Room:
         self.monsters = []
         self.exits = []
         self.items = []
-        updater.register(self)
+        #updater.register(self)
         self.x = x
         self.y = y
 
