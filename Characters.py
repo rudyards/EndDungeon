@@ -6,7 +6,14 @@ class Character:
         self.items = []
 
 class Merchant(Character):
-    self.items.append()
+    merchantListNumber = random.randint(1,3)
+    if merchantListNumber = 1:
+    elif merchantListNumber = 2:
+    else:
 
+class Blacksmith(Character):
+    blacksmithListNumber = random.randint(1,3)
+    if blacksmithListNumber = 1:
+    elif blacksmithListNumber = 2:
+    else:
 
-        
