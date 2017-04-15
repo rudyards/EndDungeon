@@ -5,8 +5,10 @@ import updater
 
 
 class Monster:
+    monsterCounter = 0
     def __init__(self, name, health, room, regeneration=0):
-        self.name = name
+        self.name = name + str(monsterCounter)
+        Monster.monsterCounter += 1
         self.health = health
         self.maxHealth = health
         self.room = room
@@ -145,4 +147,5 @@ class Velociraptor(Monster):
         Monster.init(self, name, health, room, regeneration=0)
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
+
 
