@@ -48,3 +48,4 @@ hideArmor = Armor("Hide Armor", "Made of baloth leather, this should keep you sa
 chainShirt = Armor("Chain Shirt", "A shirt made of interwoven rings, crafted of the finest steel",30,10,2)
 chainmail = Armor("Chainmail", "Heavy rings of metal cover the upper body of this armor, reinforced with leather",45,20,3)
 platemail = Armor("Platemail", "The sturdiest armor in this dungeon. Moving is going to be a sturggle, but at least you'll never die.",60,30,4) 
+
