@@ -34,6 +34,7 @@ def createWorld():
     Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
 
     player.location = startingRoom
+    goldBar.putInRoom(startingRoom)
 
 #    entrance = Room("You are in the entrance of The Dungeon of the End")
 #    player.location = entrance
