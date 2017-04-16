@@ -63,11 +63,11 @@ class Room:
                 if monsterAddChance == 7:
                     monsterChoice = random.randint(1,5)
                     if monsterChoice = 1:
-                        newSpider = Spider("Spidey",5,self)
+                        newSpider = Spider("Spidey",self)
                     elif monsterChoice = 2:
-                        newTroll = Troll("Trolley",5,self)
+                        newTroll = Troll("Trolley",self)
                     elif monsterChoice = 3:
-                        newGiantRat = GiantRat("Nippy",5,self)
+                        newGiantRat = GiantRat("Nippy",self)
                     elif monsterChoice = 4:
-                        newVelociraptor = Velociraptor("Rapty",5,self)
+                        newVelociraptor = Velociraptor("Rapty",self)
                     

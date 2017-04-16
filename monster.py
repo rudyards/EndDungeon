@@ -99,52 +99,47 @@ class Monster:
 #Players don't default to having any defense
 
 class Troll(Monster):
-    def __init__():
+    def __init__(self, name, room):
+        Monster.init(self, name, 20, room, 2)
         self.monsterType = "Troll"
-        self.health = 20
-        self.regeneration = 2
         self.damage = 3
         self.damageRange = 3
         self.level = 2
-        Monster.init(self, name, health, room, regeneration=0)
     
     #Trolls deal 4-6 damage each hit, dealing aproximately 5 damage
     #Trolls are unique because they regenerate each turn, heavily punishing low damage players
 
 
 class GiantRat(Monster):
-    def __init__():
+    def __init__(self, name, room):
+        Monster.init(self, name, 15, room, 0)
         self.monsterType = "Rat"
-        self.health = 15
         self.damage = 0
         self.damageRange = 4
         self.level = 1
-        Monster.init(self, name, health, room, regeneration=0)
 
     #Rats deal 1-4 damage each hit, dealing 2.5 damage each hit
     #Rats are unique because they're cute
 
 
 class Spider(Monster):
-    def __init__():
+    def __init__(self, name, room):
+        Monster.init(self, name, 10, room, 0)
         self.monsterType = "Spider"
-        self.health = 10
         self.damage = 0
         self.damageRange = 4
         self.level = 1
-        Monster.init(self, name, health, room, regeneration=0)
     
     #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
     #Spiders are unique because they poison the player
 
 class Velociraptor(Monster):
-    def __init__():
+    def __init__(self, name, room):
+        Monster.init(self, name, 13, room, 0)
         self.monsterType = "Velociraptor"
-        self.health = 13
         self.damage = 4
         self.damageRange = 6
         self.defense = 1
         self.level = 2
-        Monster.init(self, name, health, room, regeneration=0)
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement

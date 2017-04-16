@@ -54,3 +54,4 @@ merchantList3 = [chainShirt,chainmail,dagger]
 blacksmithList1 = [gauntlet,lognsword,warhammer,dagger]
 blacksmithList2 = [dagger,greatsword,warhammer,gauntlet]
 blacksmithList3 = [greatsword, warhammer,gauntlet,dagger,longsword]
+
