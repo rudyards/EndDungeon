@@ -1,8 +1,12 @@
+import random
+from item import *
+
 class Character:
-    characterCounter = 0
+    #characterCounter = 0
     def __init__(self,name):
-        self.type = name + str(charcterCounter)
-        Character.characterCounter += 1
+        #self.type = name + str(charcterCounter)
+        #Character.characterCounter += 1
+        self.name = name
         self.items = []
         self.location = None
 
@@ -10,29 +14,44 @@ class Character:
         self.loc = room
         room.addCharacter(self)
 
-    def GetItemFromInventory(self,item):
+    def getItemFromInventory(self,item):
         for thing in self.items:
             if thing.name.lower() == item.lower():
                 return thing
         return False
 
 class Merchant(Character):
-    self.tagLine = "Good day. I am a Merchant. You can buy items from my selection of wares or sell me your own."
-    merchantListNumber = random.randint(1,3)
-    if merchantListNumber = 1:
-        self.items = Item.merchantList1[:]
-    elif merchantListNumber = 2:
-        self.items = Item.merchantList2[:]
-    else:
-        self.items = Item.merchantList3[:]
+    def __init__(self,name,items=[]):
+        Character.__init__(self,name)
+        self.tagLine = "Good day. I am a Merchant. You can buy items from my selection of wares or sell me your own."
+        merchantListNumber = random.randint(1,3)
+        if merchantListNumber == 1:
+            for item in merchantList1:
+                thing = makeItem(item)
+                self.items.append(thing)
+        elif merchantListNumber == 2:
+            for item in merchantList2:
+                thing = makeItem(item)
+                self.items.append(thing)
+        else:
+            for item in merchantList3:
+                thing = makeItem(item)
+                self.items.append(thing)
 
 class Blacksmith(Character):
-    self.tagLine = "Good day. I am a Blacksmith. You can buy items from my selection of wares or sell me your own."
-    blacksmithListNumber = random.randint(1,3)
-    if blacksmithListNumber = 1:
-        self.items = Item.blacksmithList1[:]
-    elif blacksmithListNumber = 2:
-        self.items = Item.blacksmithList2[:]
-    else:
-        self.items = Item.blacksmithList3[:]
-
+    def __init__(self,name,items=[]):
+        Character.__init__(self,name)
+        self.tagLine = "Good day. I am a Blacksmith. You can buy items from my selection of wares or sell me your own."
+        blacksmithListNumber = random.randint(1,3)
+        if blacksmithListNumber == 1:
+            for item in blacksmithList1:
+                thing = makeItem(item)
+                self.items.append(thing)
+        elif blacksmithListNumber == 2:
+            for item in blacksmithList2:
+                thing = makeItem(item)
+                self.items.append(thing)
+        else:
+            for item in blacksmithList3:
+                thing = makeItem(item)
+                self.items.append(thing)

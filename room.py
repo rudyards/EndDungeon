@@ -54,7 +54,7 @@ class Room:
         return False
     def hasCharacters(self):
         return self.characters != []
-    def getCharacterbyName(self, name):
+    def getCharacterByName(self, name):
         for i in self.characters:
             if i.name.lower() == name.lower():
                 return i

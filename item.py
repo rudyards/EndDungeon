@@ -8,6 +8,8 @@ class Item:
         self.name = name
         self.desc = desc
         self.loc = None
+        self.buyValue = buyValue
+        self.sellValue = sellValue
     def describe(self):
         clear()
         print(self.desc)
@@ -32,8 +34,6 @@ class Armor(Item):
         self.defense = defense
         self.type = "armor"
 
-
-<<<<<<< HEAD
 goldBar = Item("Gold Bar", "While blovered, this brick of gold will sell for a pretty penny",200,150)
 brokenSword = Item("Broken Sword", "This sword hilt likely once served an adventurer well,at least until they died. Horribly.",5,1)
 
@@ -48,7 +48,6 @@ chainShirt = Armor("Chain Shirt", "A shirt made of interwoven rings, crafted of 
 chainmail = Armor("Chainmail", "Heavy rings of metal cover the upper body of this armor, reinforced with leather",45,20,3)
 platemail = Armor("Platemail", "The sturdiest armor in this dungeon. Moving is going to be a sturggle, but at least you'll never die.",60,30,4) 
 
-=======
 def makeItem(kind):
     if kind == "goldBar":
         return Item("Gold Bar", "While blovered, this brick of gold will sell for a pretty penny",200,150)
@@ -82,4 +81,4 @@ blacksmithList2 = ["dagger","greatsword","warhammer","gauntlet"]
 blacksmithList3 = ["greatsword", "warhammer","gauntlet","dagger","longsword"]
 
 totalItemList = ["goldBar","brokenSword","gauntlet","dagger","longsword","warhammer","greatsword","hideArmor","chainmail","chainShirt","platemail"]
->>>>>>> origin/master
+
