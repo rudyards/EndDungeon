@@ -48,13 +48,6 @@ chainShirt = Armor("Chain Shirt", "A shirt made of interwoven rings, crafted of 
 chainmail = Armor("Chainmail", "Heavy rings of metal cover the upper body of this armor, reinforced with leather",45,20,3)
 platemail = Armor("Platemail", "The sturdiest armor in this dungeon. Moving is going to be a sturggle, but at least you'll never die.",60,30,4) 
 
-merchantList1 = [hideArmor,chainShirt,platemail]
-merchantList2 = [chaimail,hideArmor,platemail,dagger]
-merchantList3 = [chainShirt,chainmail,dagger]
-
-blacksmithList1 = [gauntlet,lognsword,warhammer,dagger]
-blacksmithList2 = [dagger,greatsword,warhammer,gauntlet]
-blacksmithList3 = [greatsword, warhammer,gauntlet,dagger,longsword]
 =======
 def makeItem(kind):
     if kind == "goldBar":
