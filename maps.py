@@ -1,12 +1,10 @@
 import random
 
-
-
 def roomdescriber():
     description = ""
     keyword = ""
     roll=random.randint(1,4)
-    secondroll =random.randint(1,2)
+    secondroll = random.randint(1,2)
     if roll == 1:
         
         if secondroll == 1:
