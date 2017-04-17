@@ -131,8 +131,8 @@ class Player:
             for item in items:
                 if item.name == currentItem:
                     counter += 1
-                    item.remove(item)
-            print(a.name+"x"+str(counter))
+                    items.remove(item)
+                print(item.name+" x"+str(counter))
         print()
 
     def showEquipped(self):

@@ -42,7 +42,8 @@ def createWorld():
 #    entrance = Room("You are in the entrance of The Dungeon of the End")
 #    player.location = entrance
     #longsword.putInRoom(startingRoom)
-    #hideArmor.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
 
 #    genericDungeonRoom = Room("This is the place where a test monster is")
 #    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
