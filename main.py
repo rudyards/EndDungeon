@@ -3,6 +3,7 @@ from player import *
 from item import *
 from monster import *
 from maps import *
+from Characters import *
 import os
 import updater
 
@@ -34,12 +35,14 @@ def createWorld():
     Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
 
     player.location = startingRoom
-    goldBar.putInRoom(startingRoom)
+    #merchant1 = Merchant("merchant1")
+    #merchant1.putInRoom(startingRoom)
+
 
 #    entrance = Room("You are in the entrance of The Dungeon of the End")
 #    player.location = entrance
-#    longsword.putInRoom(entrance)
-#    hideArmor.putInRoom(entrance)
+    #longsword.putInRoom(startingRoom)
+    #hideArmor.putInRoom(startingRoom)
 
 #    genericDungeonRoom = Room("This is the place where a test monster is")
 #    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
@@ -65,8 +68,8 @@ def printSituation():
         print("This room contains the following monsters:")
         for m in player.location.monsters:
             print(m.name)
-        print()
-        if player.location.hasCharacters():
+            print()
+    if player.location.hasCharacters():
         print("This room contains the following characters:")
         for i in player.location.characters:
             print(i.name)
@@ -105,20 +108,33 @@ while playing and player.alive:
         command = input("What now? ")
         commandWords = command.split()
         
-        def checkCommand(entry, command): #Idk if this is the best place to put this function, might make the code prettier elsewhere
-            commandLength = len(entry)
-            matchedLetters = 0
-            if entry == "i" or entry == "in":
-                print("did you mean inspect or inventory?")
+        def checkAmbiguity(entry):
+             if entry == "i" or entry == "in":
+                return True
                 commandSuccess = False
-            else:
-                for value in range(commandLength):
-                    if command[value] == entry[value]:
-                        matchedLetters += 1
-                if matchedLetters == len(entry):
-                    return True
 
-        if checkCommand(commandWords[0].lower(),"go"):   #cannot handle multi-word directions
+        def checkCommand(entry, command): #Idk if this is the best place to put this function, might make the code prettier elsewhere
+            matchedLetters = 0
+            if len(entry)>len(command):
+                return False
+            for letter in range(0,len(entry)):
+                #print("checking " + entry[letter] + " == " + command[letter])
+                if entry[letter] == command[letter]:
+                    matchedLetters += 1
+            if matchedLetters == len(entry):
+                #print("checking " + str(matchedLetters) + " == " + str(len(entry)))
+                return True
+            else:
+                return False
+        #def checkCommand(entry,command):
+        #    if entry == command:
+        #        return True
+
+        if checkAmbiguity(commandWords[0].lower()):
+            print("did you mean inspect or inventory?")
+            commandSuccess = False
+
+        elif checkCommand(commandWords[0].lower(),"go"):   #cannot handle multi-word directions
             player.goDirection(commandWords[1]) 
             timePasses = True
 
@@ -221,7 +237,7 @@ while playing and player.alive:
             characterName = commandWords[2].lower()
             character = player.location.getCharacterByName(characterName)
             if character != False:
-                print(character.tagline)
+                print(character.tagLine)
             else:
                 print("That character is not in the room")
             commandSuccess = False
@@ -230,9 +246,10 @@ while playing and player.alive:
             characterName = commandWords[1].lower()
             character = player.location.getCharacterByName(characterName)
             if character != False:
-                print(character.items)
+                for item in character.items:
+                    print(item.name)
             else:
-                print(str(characterName)+ "is not in this room")
+                print(str(characterName)+ " is not in this room")
             commandSuccess = False
 
         elif checkCommand(commandWords[0].lower(),"buy"):
@@ -240,13 +257,13 @@ while playing and player.alive:
             characterName = commandWords[3].lower()
             character = player.location.getCharacterByName(characterName)
             if character != False:
-                item = character.getItemfromInventory(itemName)
+                item = character.getItemFromInventory(itemName)
                 if item != False:
                     player.buy(character,item) 
                 else:
-                    print(str(characterName)+ "does not have that item")
+                    print(str(characterName)+ " does not have that item")
             else:
-                print(str(characterName)+"is not in this room")
+                print(str(characterName)+" is not in this room")
             commandSuccess = False
 
         elif checkCommand(commandWords[0].lower(),"sell"):
@@ -258,9 +275,9 @@ while playing and player.alive:
                 if item != False:
                     player.sell(character,item) 
                 else:
-                    print(str(characterName)+ "does not have that item")
+                    print(str(characterName)+ " does not have that item")
             else:
-                print(str(characterName)+"is not in this room")
+                print(str(characterName)+" is not in this room")
             commandSuccess = False
 
         else:
