@@ -209,8 +209,15 @@ def buy(self,character,item):
     self.inventory.append(item)
     self.gp -= item.buyValue
     character.items.remove(item)
+    print("You bought"+str(item.name))
 
 def sell(self,character,item):
     self.inventory.remove(item)
     player.gp += item.sellValue
     character.items.append(item)
+    print("You sold"+str(item.name))
+
+def ViewCharacterItems(self,character):
+    print("These items are for sale:")
+    for item in character.items:
+        print(item)

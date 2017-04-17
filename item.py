@@ -40,7 +40,7 @@ gauntlet = Weapon("Spiked Gauntlet","This fits over your hand, preventing you fr
 dagger = Weapon("Dagger", "Small, sharp, slipping between ribs with grace",5,2, 1)
 longsword = Weapon("Longsword", "A basic weapon, sharp and effective",15,7, 2)
 warhammer = Weapon("Warhammer", "Massive crushing force delivered with an overhead swing!",20,10, 3)
-greatsword = Weapon("Greatsword", "This weapon is increadibly heavy, easily capable of  cleaving skulls in half",35,15, 4)
+greatsword = Weapon("Greatsword", "This weapon is incredibly heavy, easily capable of  cleaving skulls in half",35,15, 4)
 
 hideArmor = Armor("Hide Armor", "Made of baloth leather, this should keep you safer",15,6, 1)
 chainShirt = Armor("Chain Shirt", "A shirt made of interwoven rings, crafted of the finest steel",30,10,2)

@@ -65,6 +65,11 @@ def printSituation():
         for m in player.location.monsters:
             print(m.name)
         print()
+        if player.location.hasCharacters():
+        print("This room contains the following characters:")
+        for i in player.location.characters:
+            print(i.name)
+        print()
     if player.location.hasItems():
         print("This room contains the following items:")
         for i in player.location.items:
@@ -209,6 +214,52 @@ while playing and player.alive:
                             descriptionGiven = True 
             if not descriptionGiven: 
                     print("You do not have that item")
+            commandSuccess = False
+
+        elif checkCommand(commandWords[0].lower(),"talk"):
+            characterName = commandWords[2].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                print(character.tagline)
+            else:
+                print("That character is not in the room")
+            commandSuccess = False
+
+        elif checkCommand(commandWords[0].lower(),"view"):
+            characterName = commandWords[1].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                print(character.items)
+            else:
+                print(str(characterName)+ "is not in this room")
+            commandSuccess = False
+
+        elif checkCommand(commandWords[0].lower(),"buy"):
+            itemName = commandWords[1].lower()
+            characterName = commandWords[3].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                item = character.getItemfromInventory(itemName)
+                if item != False:
+                    player.buy(character,item) 
+                else:
+                    print(str(characterName)+ "does not have that item")
+            else:
+                print(str(characterName)+"is not in this room")
+            commandSuccess = False
+
+        elif checkCommand(commandWords[0].lower(),"sell"):
+            itemName = commandWords[1].lower()
+            characterName = commandWords[3].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                item = character.getItemfromInventory(itemName)
+                if item != False:
+                    player.sell(character,item) 
+                else:
+                    print(str(characterName)+ "does not have that item")
+            else:
+                print(str(characterName)+"is not in this room")
             commandSuccess = False
 
         else:
