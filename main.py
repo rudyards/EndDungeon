@@ -35,15 +35,16 @@ def createWorld():
     Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
 
     player.location = startingRoom
-    #merchant1 = Merchant("merchant1")
-    #merchant1.putInRoom(startingRoom)
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(startingRoom)
 
 
 #    entrance = Room("You are in the entrance of The Dungeon of the End")
 #    player.location = entrance
-    #longsword.putInRoom(startingRoom)
+    longsword.putInRoom(startingRoom)
     hideArmor.putInRoom(startingRoom)
     hideArmor.putInRoom(startingRoom)
+    monster1 = Troll("bob",secondRoom)
 
 #    genericDungeonRoom = Room("This is the place where a test monster is")
 #    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
@@ -141,7 +142,7 @@ while playing and player.alive:
 
 
         elif checkCommand(commandWords[0].lower(),"pickup"):  #can handle multi-word objects
-            targetName = command[7:]
+            targetName = command[int(len(commandWords[0])+1):]
             target = player.location.getItemByName(targetName)
             if target != False:
                 if (len(player.equipped)+len(player.items)<player.carryingCapacity):

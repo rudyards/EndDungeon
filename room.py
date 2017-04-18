@@ -69,17 +69,17 @@ class Room:
     def randomNeighbor(self):
         return random.choice(self.exits)[1]
 
-    def update(self):
-        if player.location != self:
-            monsterAddChance = random.randint(1,100)
-            if monsterAddChance == 7:
-                monsterChoice = random.randint(1,5)
-                if monsterChoice == 1:
-                    newSpider = Spider("Spidey",self)
-                elif monsterChoice == 2:
-                    newTroll = Troll("Trolley",self)
-                elif monsterChoice == 3:
-                    newGiantRat = GiantRat("Nippy",self)
-                elif monsterChoice == 4:
-                    newVelociraptor = Velociraptor("Rapty",self)
+    # def update(self):
+    #     if player.location != self:
+    #         monsterAddChance = random.randint(1,100)
+    #         if monsterAddChance == 7:
+    #             monsterChoice = random.randint(1,5)
+    #             if monsterChoice == 1:
+    #                 newSpider = Spider("Spidey",self)
+    #             elif monsterChoice == 2:
+    #                 newTroll = Troll("Trolley",self)
+    #             elif monsterChoice == 3:
+    #                 newGiantRat = GiantRat("Nippy",self)
+    #             elif monsterChoice == 4:
+    #                 newVelociraptor = Velociraptor("Rapty",self)
                     
