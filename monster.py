@@ -1,6 +1,6 @@
 import random
 import updater
-
+from player import *
 
 
 
@@ -13,6 +13,8 @@ class Monster:
         self.health = health
         self.maxHealth = health
         self.room = room
+        self.damaged = False
+        #This is a variable that tracks if the monster was damaged last turn
         room.addMonster(self)
         updater.register(self)
 
@@ -30,9 +32,9 @@ class Monster:
 
 
     def update(self):
-        if self.room != :
-            if random.random() < .5:
-                self.moveTo(self.room.randomNeighbor())
+        # if self.room != player.location:
+        if random.random() < .5 and self.damaged == False:
+            self.moveTo(self.room.randomNeighbor())
                 #if self.monsterType == "Velociraptor":
                     #self.moveTo(self.room.randomNeighbor())
                 #Velociraptor moves 2 rooms each turn instead of 1
@@ -44,6 +46,8 @@ class Monster:
             elif self.health < self.maxHealth:
                 self.health = self.maxHealth
 
+        self.damaged = False
+
     def moveTo(self, room):
         self.room.removeMonster(self)
         self.room = room
@@ -53,6 +57,8 @@ class Monster:
         self.room.removeMonster(self)
         updater.deregister(self)
         player.xp += self.level * 50
+        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp.")
+        print("You are now "+str((player.level*200)-player.xp)+" xp from leveling up")
         #Currently, monsters give 50 xp per level, regardless of what level that player is
 
     def attackPlayer(self,player):
@@ -64,7 +70,7 @@ class Monster:
             attackDamage = 0
         player.health-=attackDamage
       
-        self.poison(player)
+        # self.poison(player)
         if player.poisonTimeLeft > 0:
             print("The monster has poisoned you!")
         #If the monster can poison the player, they will do so on hit
