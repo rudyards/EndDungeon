@@ -7,6 +7,7 @@ class Room:
         self.monsters = []
         self.exits = []
         self.items = []
+        self.characters = []
         #updater.register(self)
         self.x = x
         self.y = y
@@ -36,6 +37,10 @@ class Room:
         self.items.append(item)
     def removeItem(self, item):
         self.items.remove(item)
+    def addCharacter(self,character):
+        self.characters.append(character)
+    def removeCharacter(self,character):
+        self.characters.remove(character)
     def addMonster(self, monster):
         self.monsters.append(monster)
     def removeMonster(self, monster):
@@ -44,6 +49,13 @@ class Room:
         return self.items != []
     def getItemByName(self, name):
         for i in self.items:
+            if i.name.lower() == name.lower():
+                return i
+        return False
+    def hasCharacters(self):
+        return self.characters != []
+    def getCharacterByName(self, name):
+        for i in self.characters:
             if i.name.lower() == name.lower():
                 return i
         return False
@@ -57,17 +69,17 @@ class Room:
     def randomNeighbor(self):
         return random.choice(self.exits)[1]
 
-    def update(self):
-        if player.location != self:
-            monsterAddChance = random.randint(1,100)
-            if monsterAddChance == 7:
-                monsterChoice = random.randint(1,5)
-                if monsterChoice == 1:
-                    newSpider = Spider("Spidey",self)
-                elif monsterChoice == 2:
-                    newTroll = Troll("Trolley",self)
-                elif monsterChoice == 3:
-                    newGiantRat = GiantRat("Nippy",self)
-                elif monsterChoice == 4:
-                    newVelociraptor = Velociraptor("Rapty",self)
+    # def update(self):
+    #     if player.location != self:
+    #         monsterAddChance = random.randint(1,100)
+    #         if monsterAddChance == 7:
+    #             monsterChoice = random.randint(1,5)
+    #             if monsterChoice == 1:
+    #                 newSpider = Spider("Spidey",self)
+    #             elif monsterChoice == 2:
+    #                 newTroll = Troll("Trolley",self)
+    #             elif monsterChoice == 3:
+    #                 newGiantRat = GiantRat("Nippy",self)
+    #             elif monsterChoice == 4:
+    #                 newVelociraptor = Velociraptor("Rapty",self)
                     

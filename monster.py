@@ -5,10 +5,11 @@ import updater
 
 
 class Monster:
-    monsterCounter = 0
+    #monsterCounter = 0
     def __init__(self, name, health, room, regeneration=0):
-        self.name = name + str(monsterCounter)
-        Monster.monsterCounter += 1
+        self.name = name #+ 
+        #str(monsterCounter)
+        #Monster.monsterCounter += 1
         self.health = health
         self.maxHealth = health
         self.room = room
@@ -24,16 +25,16 @@ class Monster:
         self.defense = 0
         self.level = 1
         self.regeneration = regeneration
-        self.monsterType = monsterType
+        #self.monsterType = monsterType
 
 
 
     def update(self):
-        if player.room != self.room:
+        if self.room != :
             if random.random() < .5:
                 self.moveTo(self.room.randomNeighbor())
-                if self.monsterType == "Velociraptor":
-                    self.moveTo(self.room.randomNeighbor())
+                #if self.monsterType == "Velociraptor":
+                    #self.moveTo(self.room.randomNeighbor())
                 #Velociraptor moves 2 rooms each turn instead of 1
             #Monsters only move if the player is not in their room
 
@@ -75,11 +76,11 @@ class Monster:
             player.alive = False
 
 
-    def poison(self,player):
-        if self.monsterType == "Spider":
-            #The poison damage of the spider increases by 1/2 of the spiders level
-            player.poisonRegenLoss = 1 + self.level//2
-            player.poisonTimeLeft = 4
+    # def poison(self,player):
+    #     if self.monsterType == "Spider":
+    #         #The poison damage of the spider increases by 1/2 of the spiders level
+    #         player.poisonRegenLoss = 1 + self.level//2
+    #         player.poisonTimeLeft = 4
         # elif self.monsterType == devil:
         #     self.poisonRegenLoss = 1
         #     self.poisonTimeLeft = 3
@@ -100,7 +101,7 @@ class Monster:
 
 class Troll(Monster):
     def __init__(self, name, room):
-        Monster.init(self, name, 20, room, 2)
+        Monster.__init__(self, name, 20, room, 2)
         self.monsterType = "Troll"
         self.damage = 3
         self.damageRange = 3
