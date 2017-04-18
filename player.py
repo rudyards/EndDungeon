@@ -46,6 +46,7 @@ class Player:
    
 
     def update(self):
+        self.checkXP()
         if (self.health < self.maxhealth):
             self.health += self.regen
             if self.health > self.maxhealth:
@@ -56,7 +57,6 @@ class Player:
             self.poisonTimeLeft -= 1
             print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
-        self.checkXP()
 
         
 

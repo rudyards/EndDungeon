@@ -58,6 +58,7 @@ class Monster:
         updater.deregister(self)
         player.xp += self.level * 50
         print("You killed "+self.name+". You gain "+str(self.level*50)+" xp.")
+        player.checkXP()
         print("You are now "+str((player.level*200)-player.xp)+" xp from leveling up")
         #Currently, monsters give 50 xp per level, regardless of what level that player is
 
@@ -119,7 +120,7 @@ class Troll(Monster):
 
 class GiantRat(Monster):
     def __init__(self, name, room):
-        Monster.init(self, name, 15, room, 0)
+        Monster.__init__(self, name, 15, room, 0)
         self.monsterType = "Rat"
         self.damage = 0
         self.damageRange = 4
@@ -131,7 +132,7 @@ class GiantRat(Monster):
 
 class Spider(Monster):
     def __init__(self, name, room):
-        Monster.init(self, name, 10, room, 0)
+        Monster.__init__(self, name, 10, room, 0)
         self.monsterType = "Spider"
         self.damage = 0
         self.damageRange = 4
@@ -142,7 +143,7 @@ class Spider(Monster):
 
 class Velociraptor(Monster):
     def __init__(self, name, room):
-        Monster.init(self, name, 13, room, 0)
+        Monster.__init__(self, name, 13, room, 0)
         self.monsterType = "Velociraptor"
         self.damage = 4
         self.damageRange = 6
