@@ -1,5 +1,8 @@
 import updater
 import random
+from monster import *
+from player import *
+
 
 class Room:
     def __init__(self, description, x, y):

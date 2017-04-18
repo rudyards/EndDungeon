@@ -45,6 +45,8 @@ def createWorld():
     hideArmor.putInRoom(startingRoom)
     hideArmor.putInRoom(startingRoom)
     monster1 = Troll("bob",secondRoom)
+    monster2 = Troll("ted",secondRoom)
+    monster3 = Troll("cindy",secondRoom)
 
 #    genericDungeonRoom = Room("This is the place where a test monster is")
 #    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
