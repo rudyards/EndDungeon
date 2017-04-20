@@ -1,5 +1,8 @@
 import updater
 import random
+from monster import *
+from player import *
+
 
 class Room:
     def __init__(self, description, x, y):
@@ -8,12 +11,30 @@ class Room:
         self.exits = []
         self.items = []
         self.characters = []
-        #updater.register(self)
+        updater.register(self)
         self.x = x
         self.y = y
 
+
+
+
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
+
+    def update(self):
+        # if player.location != self:
+        monsterAddChance = random.randint(1,21)
+        if monsterAddChance == 7:
+            monsterChoice = random.randint(1,5)
+            if monsterChoice == 1:
+                newSpider = Spider("Spidey",self)
+            elif monsterChoice == 2:
+                newTroll = Troll("Trolley",self)
+            elif monsterChoice == 3:
+                newGiantRat = GiantRat("Nippy",self)
+            elif monsterChoice == 4:
+                newVelociraptor = Velociraptor("Rapty",self)
+            print("Somewhere in the dungeon, a new monster appears")
 
     def getDestination(self, direction):
         for e in self.exits:
@@ -69,17 +90,4 @@ class Room:
     def randomNeighbor(self):
         return random.choice(self.exits)[1]
 
-    # def update(self):
-    #     if player.location != self:
-    #         monsterAddChance = random.randint(1,100)
-    #         if monsterAddChance == 7:
-    #             monsterChoice = random.randint(1,5)
-    #             if monsterChoice == 1:
-    #                 newSpider = Spider("Spidey",self)
-    #             elif monsterChoice == 2:
-    #                 newTroll = Troll("Trolley",self)
-    #             elif monsterChoice == 3:
-    #                 newGiantRat = GiantRat("Nippy",self)
-    #             elif monsterChoice == 4:
-    #                 newVelociraptor = Velociraptor("Rapty",self)
-                    
+                

@@ -46,6 +46,7 @@ class Player:
    
 
     def update(self):
+        self.checkXP()
         if (self.health < self.maxhealth):
             self.health += self.regen
             if self.health > self.maxhealth:
@@ -56,7 +57,6 @@ class Player:
             self.poisonTimeLeft -= 1
             print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
-        self.checkXP()
 
         
 
@@ -97,7 +97,7 @@ class Player:
         #Armor increases your defense. You can only have 1 piece of armor at once
         if item.type == "armor":
             if (self.hasArmor == False):
-                self.armor += item.armor
+                self.defense += item.defense
                 self.equipped.append(item)
                 self.items.remove(item)
             else:
@@ -115,7 +115,7 @@ class Player:
             self.equipped.remove(item)
             self.items.append(item)
         if item.type == "armor":
-            self.armor -= item.armor
+            self.defense -= item.defense
             self.equipped.remove(item)
             self.items.append(item)
 
@@ -194,12 +194,13 @@ class Player:
             attackDamage = 0
         mon.health -= attackDamage
         print(mon.name + "'s health is " + str(mon.health) + ".")
-        if(mon.regeneration > 0):
+        if(mon.regeneration > 0 and mon.health > 0):
             print("The monster is regenerating!")
 
         if(mon.health <= 0):
             mon.die(self)
         else:
+            mon.damaged = True
             mon.attackPlayer(self)
 
         print()
