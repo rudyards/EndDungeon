@@ -5,10 +5,13 @@ import random
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+currentPlayers = []
+
 class Player:
     def __init__(self, name):
         self.location = None
         self.name = name
+        currentPlayers.append(self)
 
         #Stats
         self.strength = random.randint(-1,1) #Each 2 points in str gives you +1 damage
