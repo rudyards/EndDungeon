@@ -17,7 +17,6 @@ if option == "resume":
     game = input("Which game would you like to resume?\n")
     with open(game,"rb") as file:
         currentRooms = pickle.load(file)
-        roomConnections = pickle.load(file)
         currentMonsters = pickle.load(file)
         currentCharacters = pickle.load(file)
         currentPlayers = pickle.load(file)
@@ -307,7 +306,6 @@ while playing and player.alive:
             saveFile = commandWords[2].lower()
             with open(saveFile+".sav","wb") as f:
                 pickle.dump(currentRooms,f)
-                pickle.dump(roomConnections,f)
                 pickle.dump(currentMonsters,f)
                 pickle.dump(currentCharacters,f)
                 pickle.dump(currentPlayers,f)
