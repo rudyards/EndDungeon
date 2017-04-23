@@ -14,52 +14,9 @@ player = Player(name)
 print("")
 def createWorld():
 
-    startingRoom = Room("The entrance to the great dungeon",2,6)
-    secondRoom = Room(roomdescriber(),2,5)
-    Room.connectRooms(startingRoom, "north", secondRoom, "south")
-    thirdRoom = Room(roomdescriber(),2,4)
-    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
-    fourthRoom = Room(roomdescriber(),2,3)
-    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
-    fifthRoom = Room(roomdescriber(),3,3)
-    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
-    sixthRoom = Room(roomdescriber(),4,3)
-    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
-    seventhRoom = Room(roomdescriber(),5,3)
-    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
-    eigthRoom = Room(roomdescriber(),5,4)
-    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
-    ninthRoom = Room(roomdescriber(),6,4)
-    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
-    tenthRoom = Room(roomdescriber(),7,4)
-    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
-
-    player.location = startingRoom
-    merchant1 = Merchant("merchant1")
-    merchant1.putInRoom(startingRoom)
+    generateBaseMap()
 
 
-#    entrance = Room("You are in the entrance of The Dungeon of the End")
-#    player.location = entrance
-    longsword.putInRoom(startingRoom)
-    hideArmor.putInRoom(startingRoom)
-    hideArmor.putInRoom(startingRoom)
-    monster1 = Troll("bob",secondRoom)
-    monster2 = Troll("ted",secondRoom)
-    monster3 = Troll("cindy",secondRoom)
-
-#    genericDungeonRoom = Room("This is the place where a test monster is")
-#    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
-
-
-    # a = Room("You are in room 1")
-    # b = Room("You are in room 2")
-    # c = Room("You are in room 3")
-    # d = Room("You are in room 4")
-    # Room.connectRooms(a, "east", b, "west")
-    # Room.connectRooms(c, "east", d, "west")
-    # Room.connectRooms(a, "north", c, "south")
-    # Room.connectRooms(b, "north", d, "south")
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -519,5 +476,34 @@ while playing and player.alive:
     #     updater.updateAll()
 
     
+def generateBaseMap():
+    startingRoom = Room("The entrance to the great dungeon",2,6)
+    secondRoom = Room(roomdescriber(),2,5)
+    Room.connectRooms(startingRoom, "north", secondRoom, "south")
+    thirdRoom = Room(roomdescriber(),2,4)
+    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
+    fourthRoom = Room(roomdescriber(),2,3)
+    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
+    fifthRoom = Room(roomdescriber(),3,3)
+    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
+    sixthRoom = Room(roomdescriber(),4,3)
+    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
+    seventhRoom = Room(roomdescriber(),5,3)
+    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
+    eigthRoom = Room(roomdescriber(),5,4)
+    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
+    ninthRoom = Room(roomdescriber(),6,4)
+    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
+    tenthRoom = Room(roomdescriber(),7,4)
+    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
 
+
+    player.location = startingRoom
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(startingRoom)
+    longsword.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    monster1 = Troll("bob",secondRoom)
+    monster2 = Troll("ted",secondRoom)
+    monster3 = Troll("cindy",secondRoom)
 
