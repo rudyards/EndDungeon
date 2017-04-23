@@ -3,6 +3,8 @@ import random
 from monster import *
 from player import *
 
+currentRooms = []
+roomConnections = []
 
 class Room:
     def __init__(self, description, x, y):
@@ -14,9 +16,7 @@ class Room:
         updater.register(self)
         self.x = x
         self.y = y
-
-
-
+        currentRooms.append(self)
 
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
@@ -42,9 +42,15 @@ class Room:
                 return e[1]
 
     def connectRooms(room1, dir1, room2, dir2):
+        connection = []
         #creates "dir1" exit from room1 to room2 and vice versa
         room1.addExit(dir1, room2)
         room2.addExit(dir2, room1)
+        connection.append(room1)
+        connection.append(dir1)
+        connection.append(room2)
+        connection.append(dir2)
+        roomConnections.append(connection)
 
     def exitNames(self):
         return [x[0] for x in self.exits]

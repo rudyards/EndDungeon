@@ -2,7 +2,7 @@ import random
 import updater
 from player import *
 
-
+currentMonsters = []
 
 class Monster:
     #monsterCounter = 0
@@ -14,6 +14,7 @@ class Monster:
         self.maxHealth = health
         self.room = room
         self.damaged = False
+        currentMonsters.append(self)
         #This is a variable that tracks if the monster was damaged last turn
         room.addMonster(self)
         updater.register(self)

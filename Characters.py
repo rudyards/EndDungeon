@@ -1,6 +1,8 @@
 import random
 from item import *
 
+currentCharacters = []
+
 class Character:
     #characterCounter = 0
     def __init__(self,name):
@@ -9,6 +11,7 @@ class Character:
         self.name = name
         self.items = []
         self.location = None
+        currentCharacters.append(self)
 
     def putInRoom(self, room):
         self.loc = room
