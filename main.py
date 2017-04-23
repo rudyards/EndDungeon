@@ -7,14 +7,72 @@ from Characters import *
 import os
 import updater
 from saveGame import *
+import pickle
+import glob
 
+option = input("newGame or resume?\n")
+if option == "resume":
+    directory = os.path.dirname(os.path.realpath(__file__))
+    print(glob.glob(os.path.basename((os.path.join(str(directory),"*.sav")))))
+    game = input("Which game would you like to resume?\n")
+    with open(game,"rb") as file:
+        currentRooms = pickle.load(file)
+        roomConnections = pickle.load(file)
+        currentMonsters = pickle.load(file)
+        currentCharacters = pickle.load(file)
+        currentPlayers = pickle.load(file)
+        player = currentPlayers[0]
 
-name = input("What's your name?\n")
-player = Player(name)
-print("")
 def createWorld():
 
+<<<<<<< HEAD
     generateBaseMap()
+=======
+<<<<<<< HEAD
+    name = input("What's your name?\n")
+    player = Player(name)
+    print("")
+
+    startingRoom = Room("The entrance to the great dungeon",2,6)
+    secondRoom = Room(roomdescriber(),2,5)
+    Room.connectRooms(startingRoom, "north", secondRoom, "south")
+    thirdRoom = Room(roomdescriber(),2,4)
+    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
+    fourthRoom = Room(roomdescriber(),2,3)
+    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
+    fifthRoom = Room(roomdescriber(),3,3)
+    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
+    sixthRoom = Room(roomdescriber(),4,3)
+    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
+    seventhRoom = Room(roomdescriber(),5,3)
+    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
+    eigthRoom = Room(roomdescriber(),5,4)
+    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
+    ninthRoom = Room(roomdescriber(),6,4)
+    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
+    tenthRoom = Room(roomdescriber(),7,4)
+    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
+
+    player.location = startingRoom
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(startingRoom)
+
+
+    #entrance = Room("You are in the entrance of The Dungeon of the End")
+    #player.location = entrance
+    longsword.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    monster1 = Troll("bob",secondRoom)
+    monster2 = Troll("ted",startingRoom)
+    monster3 = Troll("cindy",secondRoom)
+
+    #genericDungeonRoom = Room("This is the place where a test monster is")
+    #Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
+=======
+    generateBaseMap()
+>>>>>>> piperminiupdate
+>>>>>>> master
 
 
 
@@ -59,7 +117,10 @@ def showHelp():
 
 
 
-createWorld()
+if option == "newGame":
+    createWorld()
+    player = currentPlayers[0]
+
 playing = True
 while playing and player.alive:
     printSituation()
@@ -72,28 +133,16 @@ while playing and player.alive:
         commandWords = command.split()
         print(commandWords)
 
-        commands = ["attack","buy","drop","equip","exit","go","help","inspect","inventory","me","pickup","resume","save","sell","talk","unequip"]
+        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip"]
 
         entry = str(commandWords[0].lower())
         print(entry)
 
         commandList = []
         for word in commands:
-            print(word)
             if word.startswith(entry):
                 commandList.append(word)
-            print(commandList)
-            # i = 0
-            # while i<len(entry):
-            #     if entry[i] == word[i]:
-            #         print(word[i])
-            #         print(word)
-            #         i += 1
-            #     else:
-            #         break
-            #     commandList.append(word)
-            #     break
-            #     print(commandList)
+
         if len(commandList) == 0:
             print("That is not a valid command")
             commandSuccess = False
@@ -111,7 +160,7 @@ while playing and player.alive:
 
 
         elif Command == "pickup":  #can handle multi-word objects
-            targetName = commandWords[1] #int(len(commandWords[0])+1):]
+            targetName = commandWords[1]
             target = player.location.getItemByName(targetName)
             if target != False:
                 if (len(player.equipped)+len(player.items)<player.carryingCapacity):
@@ -190,18 +239,19 @@ while playing and player.alive:
                 
         elif Command == "inspect":
             descriptionGiven = False
-            while not descriptionGiven:
-                for item in player.items:
-                    if checkCommand(commandWords[1].lower(),item.name()):
-                        item.describe()
-                        descriptionGiven = True
-            while not descriptionGiven:
-                for item in player.location.items:
-                        if checkCommand(commandWords[1].lower(),item.name()):
-                            item.describe()
-                            descriptionGiven = True 
+            if commandWords[1] == None:
+                print("Please specify which object you want to inspect")
+            for item in player.items:
+                if checkCommand(commandWords[1].lower(),item.name()):
+                    item.describe()
+                    descriptionGiven = True
+            for item in player.location.items:
+                if checkCommand(commandWords[1].lower(),item.name()):
+                    item.describe()
+                    descriptionGiven = True 
             if not descriptionGiven: 
-                    print("You do not have that item")
+                print("You do not have that item")
+                descriptionGiven = True
             commandSuccess = False
 
         elif Command == "talk":
@@ -258,14 +308,14 @@ while playing and player.alive:
             commandSuccess = False
 
         elif Command == "save":
-            saveFile = str(commandWords[2].lower())
-            saveRooms(saveFile)
-            saveRoomConnections(saveFile)
-            saveMonsters(saveFile)
-            saveItems(saveFile)
-            saveCharacters(saveFile)
-            savePlayer(saveFile)
-            print("this game has been saved as "+str(saveFile))
+            saveFile = commandWords[2].lower()
+            with open(saveFile+".sav","wb") as f:
+                pickle.dump(currentRooms,f)
+                pickle.dump(roomConnections,f)
+                pickle.dump(currentMonsters,f)
+                pickle.dump(currentCharacters,f)
+                pickle.dump(currentPlayers,f)
+                commandSuccess = False
 
         elif Command == "resume":
             saveFile = commandWords[1].lower()
@@ -277,6 +327,9 @@ while playing and player.alive:
                 objects = splitByObject.split()
 
         if timePasses == True:
+<<<<<<< HEAD
+            updater.updateAll()
+=======
             updater.updateAll()
 
   
@@ -507,3 +560,7 @@ def generateBaseMap():
     monster2 = Troll("ted",secondRoom)
     monster3 = Troll("cindy",secondRoom)
 
+<<<<<<< HEAD
+=======
+>>>>>>> piperminiupdate
+>>>>>>> master

@@ -6,13 +6,28 @@ from player import *
 currentRooms = []
 roomConnections = []
 
+class RoomCounter:
+    def __init__(self,value):
+        self.value = value
+
+    def increment(self):
+        self.value += 1
+
+    def getValue(self):
+        return self.value
+
+counter = RoomCounter(1)
+
 class Room:
-    def __init__(self, description, x, y):
+    def __init__(self, description, x, y, id=None):
         self.desc = description
         self.monsters = []
         self.exits = []
         self.items = []
         self.characters = []
+        #if self.id == None:
+            #self.id = counter.getValue()
+            #counter.increment()
         updater.register(self)
         self.x = x
         self.y = y

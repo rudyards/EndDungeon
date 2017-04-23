@@ -5,6 +5,25 @@ from Characters import currentCharacters
 from item import currentItems
 from player import currentPlayers
 
+ # elif Command == "save2":
+        #     saveFile = str(commandWords[2].lower())
+        #     saveRooms(saveFile)
+        #     saveRoomConnections(saveFile)
+        #     saveMonsters(saveFile)
+        #     saveItems(saveFile)
+        #     saveCharacters(saveFile)
+        #     savePlayer(saveFile)
+        #     print("this game has been saved as "+str(saveFile))
+
+    # Non-pickle resume:
+#     file = game.read()
+#     listOfObjects = file.split('~')
+#     objects = file.split()
+#     for object in objects:
+#         if object[0] == "room":
+#             Room(object[1],object[2],object[3],object[4],object[5])
+#         elif object[0] == ""
+
 def saveRooms(infile):
     with open(infile,"a") as saveFile:
         for room in currentRooms:
@@ -18,9 +37,9 @@ def saveRoomConnections(infile):
     with open(infile,"a") as saveFile:
         for connection in roomConnections: #Make connections objects?
             saveFile.write("connection"+"\n")
-            saveFile.write(str(connection[0])+"\n")
+            saveFile.write(str(connection[0].id)+"\n")
             saveFile.write(connection[1]+"\n")
-            saveFile.write(str(connection[2])+"\n")
+            saveFile.write(str(connection[2].id)+"\n")
             saveFile.write(connection[3]+"\n")
             saveFile.write("~\n")
 
@@ -30,7 +49,7 @@ def saveMonsters(infile):
             saveFile.write("monster"+"\n")
             saveFile.write(monster.name+"\n")
             saveFile.write(str(monster.health)+"\n")
-            saveFile.write(str(monster.room)+"\n")
+            saveFile.write(str(monster.room.id)+"\n")
             saveFile.write(str(monster.damaged)+"\n")
             saveFile.write(str(monster.defense)+"\n")
             saveFile.write(str(monster.level)+"\n")
@@ -85,6 +104,9 @@ def savePlayer(infile):
                 saveFile.write("endOfEquipped\n")
             saveFile.write("~\n")
 
+def saveGameVariables(infile):
+    with open(infile,"a") as saveFile:
+        saveFile.write(str(counter.getValue()))
 
 
 
