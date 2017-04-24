@@ -5,17 +5,6 @@ from player import *
 
 currentRooms = []
 coreRooms = []
-roomConnections = []
-
-class RoomCounter:
-    def __init__(self,value):
-        self.value = value
-
-    def increment(self):
-        self.value += 1
-
-    def getValue(self):
-        return self.value
 
 class Room:
     def __init__(self, description, x, y):
@@ -32,20 +21,6 @@ class Room:
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
 
-    def update(self):
-        # if player.location != self:
-        monsterAddChance = random.randint(1,21)
-        if monsterAddChance == 7:
-            monsterChoice = random.randint(1,5)
-            if monsterChoice == 1:
-                newSpider = Spider("Spidey",self)
-            elif monsterChoice == 2:
-                newTroll = Troll("Trolley",self)
-            elif monsterChoice == 3:
-                newGiantRat = GiantRat("Nippy",self)
-            elif monsterChoice == 4:
-                newVelociraptor = Velociraptor("Rapty",self)
-            print("Somewhere in the dungeon, a new monster appears")
 
     def getDestination(self, direction):
         for e in self.exits:
@@ -53,15 +28,9 @@ class Room:
                 return e[1]
 
     def connectRooms(room1, dir1, room2, dir2):
-        connection = []
         #creates "dir1" exit from room1 to room2 and vice versa
         room1.addExit(dir1, room2)
         room2.addExit(dir2, room1)
-        connection.append(room1)
-        connection.append(dir1)
-        connection.append(room2)
-        connection.append(dir2)
-
 
     #An improved version of connecting rooms that utilizes the grid system we're using
     def simpleConnectRooms(room1,room2):
@@ -91,12 +60,36 @@ class Room:
             return None
         room1.addExit(dir1, room2)
         room2.addExit(dir2, room1)
-        connection.append(room1)
-        connection.append(dir1)
-        connection.append(room2)
-        connection.append(dir2)
-        roomConnections.append(connection)
 
+    def update(self):
+        # if player.location != self:
+        monsterAddChance = random.randint(1,21)
+        if monsterAddChance == 7:
+            monsterChoice = random.randint(1,5)
+            if monsterChoice == 1:
+                newSpider = Spider("Spidey",self)
+            elif monsterChoice == 2:
+                newTroll = Troll("Trolley",self)
+            elif monsterChoice == 3:
+                newGiantRat = GiantRat("Nippy",self)
+            elif monsterChoice == 4:
+                newVelociraptor = Velociraptor("Rapty",self)
+            print("Somewhere in the dungeon, a new monster appears")
+
+        eventAddChance = random.randint(1,40)
+        if eventAddChance == 6:
+            room1 = random.choice(currentRooms)
+            room2 = rnadom.choice(currentRooms)
+            connectRooms(room1,"cobwebby tunnel", room2, "cobwebby tunnel")
+            print("A secret passageway appears somewhere in the dungeon")
+        elif eventAddChance = 19:
+            player.health -= 5
+            print("You are attacked by a swarm of radioactive bees; you lose 5 health")
+        elif eventAddChance = 24:
+            player.health += 6
+            print("a healing mist descends; you gain 6 health")
+        #elif eventAddChance = 27:
+        #33
 
 
     def exitNames(self):
