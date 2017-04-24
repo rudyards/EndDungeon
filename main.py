@@ -37,9 +37,9 @@ def generateBaseMap():
     Room.simpleConnectRooms(seventhRoom, eigthRoom)
     ninthRoom = Room(roomdescriber(),6,4)
     Room.simpleConnectRooms(eigthRoom, ninthRoom)
-    tenthRoom = Room(roomdescriber(),7,4)
-    Room.simpleConnectRooms(ninthRoom, tenthRoom)
-    return [startingRoom,secondRoom,thirdRoom,fourthRoom,fifthRoom,sixthRoom,seventhRoom,eigthRoom,ninthRoom,tenthRoom]
+    EndRoom = Room(roomdescriber(),7,4)
+    Room.simpleConnectRooms(ninthRoom, EndRoom)
+    return [startingRoom,secondRoom,thirdRoom,fourthRoom,fifthRoom,sixthRoom,seventhRoom,eigthRoom,ninthRoom,EndRoom]
 
 def firstBaseExpansion(rooms):
     addedRooms = []
@@ -157,9 +157,16 @@ def showHelp():
     print("attack <monster> -- makes one attack against a monster")
     print("inventory -- opens your inventory")
     print("pickup <item> -- picks up the item")
+    print("drop <item> -- places item from inventory into room")
+    print("inspect <item> -- displays description of item")
     print("equip <item> -- equips an item you are carrying. only one weapon and one armor can be equipped at once")
     print("unequip <item> -- unequips an item you have equipped.")
     print("wait -- waits one turn")
+    print("talk to <character> -- say hi to a character")
+    print("view <character> wares -- displays character's items for sale")
+    print("buy <item> from <character> -- purchases item from a character")
+    print("sell <item> to <character> -- sells an item to a character")
+    print("save as <file name> -- saves current game progress to file")
     print("")
     input("Press enter to continue...")
 
