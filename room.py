@@ -5,10 +5,8 @@ from player import *
 
 currentRooms = []
 
-counter = RoomCounter(1)
-
 class Room:
-    def __init__(self, description, x, y, id=None):
+    def __init__(self, description, x, y):
         self.desc = description
         self.monsters = []
         self.exits = []
@@ -51,7 +49,6 @@ class Room:
         connection.append(dir1)
         connection.append(room2)
         connection.append(dir2)
-        roomConnections.append(connection)
 
     def exitNames(self):
         return [x[0] for x in self.exits]
