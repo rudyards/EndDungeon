@@ -17,10 +17,8 @@ class RoomCounter:
     def getValue(self):
         return self.value
 
-counter = RoomCounter(1)
-
 class Room:
-    def __init__(self, description, x, y, id=None):
+    def __init__(self, description, x, y):
         self.desc = description
         self.monsters = []
         self.exits = []
@@ -63,7 +61,6 @@ class Room:
         connection.append(dir1)
         connection.append(room2)
         connection.append(dir2)
-        roomConnections.append(connection)
 
 
     #An improved version of connecting rooms that utilizes the grid system we're using
