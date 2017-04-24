@@ -4,6 +4,7 @@ from monster import *
 from player import *
 
 currentRooms = []
+coreRooms = []
 roomConnections = []
 
 class RoomCounter:
@@ -66,6 +67,37 @@ class Room:
         connection.append(room2)
         connection.append(dir2)
         roomConnections.append(connection)
+
+
+    #An improved version of connecting rooms that utilizes the grid system we're using
+    def simpleConnectRooms(room1,room2):
+        connection = []
+        if(room1.x == room2.x):
+            if(room1.y > room2.y):
+                dir1 = "north"
+                dir2 = "south"
+            else:
+                dir1 = "south"
+                dir2 = "north"
+        elif(room1.y == room2.y):
+            if(room1.x > room2.x):
+                dir1 = "west"
+                dir2 = "east"
+            else:
+                dir1 = "east"
+                dir2 = "west"
+        else:
+            print("Rooms not adjacent")
+            return None
+        room1.addExit(dir1, room2)
+        room2.addExit(dir2, room1)
+        connection.append(room1)
+        connection.append(dir1)
+        connection.append(room2)
+        connection.append(dir2)
+        roomConnections.append(connection)
+
+
 
     def exitNames(self):
         return [x[0] for x in self.exits]
