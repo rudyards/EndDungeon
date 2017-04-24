@@ -124,14 +124,11 @@ while playing and player.alive:
     while not commandSuccess:
         commandSuccess = True
         command = input("What now? ")
-        print(command)
         commandWords = command.split()
-        print(commandWords)
 
         commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip"]
 
         entry = str(commandWords[0].lower())
-        print(entry)
 
         commandList = []
         for word in commands:
