@@ -42,45 +42,64 @@ def generateBaseMap():
     return [startingRoom,secondRoom,thirdRoom,fourthRoom,fifthRoom,sixthRoom,seventhRoom,eigthRoom,ninthRoom,tenthRoom]
 
 def firstBaseExpansion(rooms):
+    addedRooms = []
     if coinFlip():
         firstBonusRoom = Room(roomdescriber(),3,6)
         Room.simpleConnectRooms(rooms[0], firstBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(firstBonusRoom)
     if coinFlip():
         secondBonusRoom = Room(roomdescriber(),3,5)
         Room.simpleConnectRooms(rooms[1], secondBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(secondBonusRoom)
+        if firstBonusRoom in addedRooms:
+            if coinFlip():
+                Room.simpleConnectRooms(firstBonusRoom, secondBonusRoom)
     if coinFlip():
         thirdBonusRoom = Room(roomdescriber(),3,4)
         Room.simpleConnectRooms(rooms[2], thirdBonusRoom)
         Room.simpleConnectRooms(rooms[4], thirdBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(thirdBonusRoom)
+        if secondBonusRoom in addedRooms:
+            if coinFlip():
+                Room.simpleConnectRooms(secondBonusRoom,thirdBonusRoom)
     if coinFlip():
         fourthBonusRoom = Room(roomdescriber(),4,4)
         Room.simpleConnectRooms(rooms[5], fourthBonusRoom)
         Room.simpleConnectRooms(rooms[7], fourthBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(fourthBonusRoom)
+        if thirdBonusRoom in addedRooms:
+            if coinFlip():
+                Room.simpleConnectRooms(thirdBonusRoom,fourthBonusRoom)
     if coinFlip():
         fifthBonusRoom = Room(roomdescriber(),5,5)
         Room.simpleConnectRooms(rooms[7], fifthBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(fifthBonusRoom)
     if coinFlip():
         sixthBonusRoom = Room(roomdescriber(),6,5)
         Room.simpleConnectRooms(rooms[8], sixthBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(sixthBonusRoom)
+        if fifthBonusRoom in addedRooms:
+            if coinFlip():
+                Room.simpleConnectRooms(fifthBonusRoom,sixthRoom)
     if coinFlip():
         seventhBonusRoom = Room(roomdescriber(),7,5)
         Room.simpleConnectRooms(rooms[9],seventhBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(seventhBonusRoom)
+        if sixthBonusRoom in addedRooms:
+            if coinFlip():
+                Room.simpleConnectRooms(sixthBonusRoom,seventhBonusRoom)
     if coinFlip():
         eigthBonusRoom = Room(roomdescriber(),6,3)
         Room.simpleConnectRooms(rooms[8],eigthBonusRoom)
         Room.simpleConnectRooms(rooms[6],eigthBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(eigthBonusRoom)
     if coinFlip():
         ninthBonusRoom = Room(roomdescriber(),7,3)
         Room.simpleConnectRooms(rooms[9],ninthBonusRoom)
-        print("Randomly generated!")
+        addedRooms.append(ninthBonusRoom)
+
+
+
 
 
 

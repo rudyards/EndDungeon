@@ -70,19 +70,25 @@ class Room:
     def simpleConnectRooms(room1,room2):
         connection = []
         if(room1.x == room2.x):
-            if(room1.y > room2.y):
+            if(room1.y -1 == room2.y):
                 dir1 = "north"
                 dir2 = "south"
-            else:
+            elif(room1.y +1 == room2.y):
                 dir1 = "south"
                 dir2 = "north"
+            else:
+                print("Rooms not adjacent")
+                return None
         elif(room1.y == room2.y):
-            if(room1.x > room2.x):
+            if(room1.x -1 == room2.x):
                 dir1 = "west"
                 dir2 = "east"
-            else:
+            elif(room1.x +1 == room2.x):
                 dir1 = "east"
                 dir2 = "west"
+            else:
+                print("Rooms not adjacent")
+                return None
         else:
             print("Rooms not adjacent")
             return None
