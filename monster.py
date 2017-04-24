@@ -56,6 +56,7 @@ class Monster:
 
     def die(self,player):
         self.room.removeMonster(self)
+        currentMonsters.remove(monster)
         updater.deregister(self)
         player.xp += self.level * 50
         print("You killed "+self.name+". You gain "+str(self.level*50)+" xp.")
@@ -152,3 +153,24 @@ class Velociraptor(Monster):
         self.level = 2
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
+
+class Dragon(Monster):
+    def __init__(self,name, room):
+        Monster__init__(self, name, 20, Endroom, 0)
+        self.monsterType = "Dragon"
+        self.damage = 6
+        self.damageRange = 8
+        self.defense = 3
+        self.level = 2
+
+    def die(self, player):
+        self.room.removeMonster(self)
+        currentMonsters.remove(monster)
+        updater.deregister(self)
+        player.xp += self.level * 50
+        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp.")
+        print("Congratulations, you won!!!")
+        print("you made it to level "+str(player.level)+"and earned "+str(player.xp)+"xp.")
+        print("Thanks for playing!")
+        input("Press any key to continue...")
+        playing = False
