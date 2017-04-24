@@ -2,7 +2,7 @@ import random
 import updater
 from player import *
 
-
+currentMonsters = []
 
 class Monster:
     #monsterCounter = 0
@@ -14,6 +14,7 @@ class Monster:
         self.maxHealth = health
         self.room = room
         self.damaged = False
+        currentMonsters.append(self)
         #This is a variable that tracks if the monster was damaged last turn
         room.addMonster(self)
         updater.register(self)
@@ -35,8 +36,8 @@ class Monster:
         # if self.room != player.location:
         if random.random() < .5 and self.damaged == False:
             self.moveTo(self.room.randomNeighbor())
-                #if self.monsterType == "Velociraptor":
-                    #self.moveTo(self.room.randomNeighbor())
+            if self.monsterType == "Velociraptor":
+                self.moveTo(self.room.randomNeighbor())
                 #Velociraptor moves 2 rooms each turn instead of 1
             #Monsters only move if the player is not in their room
 
@@ -83,11 +84,11 @@ class Monster:
             player.alive = False
 
 
-    # def poison(self,player):
-    #     if self.monsterType == "Spider":
-    #         #The poison damage of the spider increases by 1/2 of the spiders level
-    #         player.poisonRegenLoss = 1 + self.level//2
-    #         player.poisonTimeLeft = 4
+    def poison(self,player):
+        if self.monsterType == "Spider":
+            # The poison damage of the spider increases by 1/2 of the spiders level
+            player.poisonRegenLoss = 1 + self.level//2
+            player.poisonTimeLeft = 4
         # elif self.monsterType == devil:
         #     self.poisonRegenLoss = 1
         #     self.poisonTimeLeft = 3

@@ -1,4 +1,11 @@
 import random
+from room import *
+from player import *
+from item import *
+from monster import *
+from maps import *
+from Characters import *
+
 
 def roomdescriber():
     description = ""
@@ -40,3 +47,35 @@ def roomdescriber():
         description = "The room smells of "+keyword
 
     return description
+
+
+def generateBaseMap():
+    startingRoom = Room("The entrance to the great dungeon",2,6)
+    secondRoom = Room(roomdescriber(),2,5)
+    Room.connectRooms(startingRoom, "north", secondRoom, "south")
+    thirdRoom = Room(roomdescriber(),2,4)
+    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
+    fourthRoom = Room(roomdescriber(),2,3)
+    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
+    fifthRoom = Room(roomdescriber(),3,3)
+    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
+    sixthRoom = Room(roomdescriber(),4,3)
+    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
+    seventhRoom = Room(roomdescriber(),5,3)
+    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
+    eigthRoom = Room(roomdescriber(),5,4)
+    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
+    ninthRoom = Room(roomdescriber(),6,4)
+    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
+    tenthRoom = Room(roomdescriber(),7,4)
+    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
+
+
+    player.location = startingRoom
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(startingRoom)
+    longsword.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    monster1 = Troll("bob",secondRoom)
+    monster2 = Troll("ted",secondRoom)
+    monster3 = Troll("cindy",secondRoom)
