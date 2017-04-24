@@ -26,9 +26,6 @@ class Room:
         self.exits = []
         self.items = []
         self.characters = []
-        #if self.id == None:
-            #self.id = counter.getValue()
-            #counter.increment()
         updater.register(self)
         self.x = x
         self.y = y

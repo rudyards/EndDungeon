@@ -351,7 +351,6 @@ while playing and player.alive:
             saveFile = commandWords[2].lower()
             with open(saveFile+".sav","wb") as f:
                 pickle.dump(currentRooms,f)
-                pickle.dump(roomConnections,f)
                 pickle.dump(currentMonsters,f)
                 pickle.dump(currentCharacters,f)
                 pickle.dump(currentPlayers,f)
