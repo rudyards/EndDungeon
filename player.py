@@ -5,9 +5,13 @@ import random
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+currentPlayers = []
+
 class Player:
-    def __init__(self):
+    def __init__(self, name):
         self.location = None
+        self.name = name
+        currentPlayers.append(self)
 
         #Stats
         self.strength = random.randint(-1,1) #Each 2 points in str gives you +1 damage
@@ -23,20 +27,20 @@ class Player:
         self.hasArmor = False
         self.items = []
         self.equipped = []
-        self.carryingCapacity = 6+self.strength
+        self.carryingCapacity = 6+self.strength #Players can carry a max of 6 items that aren't equipped. This goes up with str
 
         #Vitality stuff
         self.maxhealth = 50 + 4*self.constitution
-        self.health = maxhealth
+        self.health = self.maxhealth
         self.alive = True
-        self.regen = self.constitution//5
+        self.regen = self.constitution//5 #Regeneration is hard to acquire, but if you've leveled up a bit and gotten lucky, you should have some
 
         #Combat stuff
         self.damage = 0 + self.strength//2
-        self.bonusDamage = 0
+        self.bonusDamage = 0 #Damage is seperated from bonus damage, since bonus damage is something that you get from equipment
         self.defense = 0 + self.dexterity//2
-        self.poisoned = False
-        self.poisonRegenLoss = 0
+
+        self.poisonRegenLoss = 0 #Players don't edit this, typically, this is more of a monster thing.
         self.poisonTimeLeft = 0
         #Character Advancement things
         self.xp = 0
@@ -45,23 +49,19 @@ class Player:
    
 
     def update(self):
-<<<<<<< HEAD
-        if (self.health < self.maxhealth):
-                if self.poisoned == True:
-                    self.health += (self.regen-self.poisonRegenLoss)
-                    self.poisonTimeLeft -= 1
-                    if self.poisonTimeLeft = 0:
-                        self.poisoned = False
-                else:
-                    self.health += self.regen
-=======
-        if self.health < self.maxHealth:
-            if self.health + self.regen < self.maxHealth:
-                self.health += self.regen
-            else:
-                self.health = self.maxHealth
->>>>>>> refs/remotes/origin/piperminiupdate
         self.checkXP()
+        if (self.health < self.maxhealth):
+            self.health += self.regen
+            if self.health > self.maxhealth:
+                self.health = self.maxhealth
+
+        if self.poisonTimeLeft > 0:
+            self.health -= self.poisonRegenLoss
+            self.poisonTimeLeft -= 1
+            print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
+
+
+        
 
 
 
@@ -88,6 +88,7 @@ class Player:
         self.location.removeItem(item)
 
     def equip(self,item):
+        #You can only equip weapons and armor that are in your inventory. You need to pick up somethng to equip it
         #Weapons increase your bonus damage. You can only have 1 weapon equipped at once
         if item.type == "weapon":
             if (self.hasWeapon == False):
@@ -99,13 +100,14 @@ class Player:
         #Armor increases your defense. You can only have 1 piece of armor at once
         if item.type == "armor":
             if (self.hasArmor == False):
-                self.armor += item.armor
+                self.defense += item.defense
                 self.equipped.append(item)
                 self.items.remove(item)
             else:
                 print("You already have a weapon equipped")
 
     def drop(self, item):
+        #You can't drop items that are currently equipped, you need to unequip them first
         self.items.remove(item)
         item.loc = self.location
         self.location.addItem(item)
@@ -116,7 +118,7 @@ class Player:
             self.equipped.remove(item)
             self.items.append(item)
         if item.type == "armor":
-            self.armor -= item.armor
+            self.defense -= item.defense
             self.equipped.remove(item)
             self.items.append(item)
 
@@ -124,8 +126,16 @@ class Player:
         clear()
         print("You are currently carrying:")
         print()
-        for i in self.items:
-            print(i.name)
+        items = self.items[:]
+        while len(items) != 0:
+            currentItem = items[0].name
+            del items[0]
+            counter = 1
+            for item in items:
+                if item.name == currentItem:
+                    counter += 1
+                    items.remove(item)
+                print(item.name+" x"+str(counter))
         print()
 
     def showEquipped(self):
@@ -149,6 +159,7 @@ class Player:
         return False
 
     def checkXP(self):
+        #Every 200 XP, you level up, and each of your stats are randomly increased by 0 or 1
         if self.xp >= self.level*200:
             self.level +=1
             print("You leveled up!")
@@ -160,7 +171,7 @@ class Player:
             self.charisma+=random.randint(0,1)
             print("Your stats have randomly increased.")
 
-
+            #Once your stats increase, it quickly updates the carrying capacity and such.
             self.carryingCapacity = 6+self.strength
             self.damage = 0 + self.strength//2
             self.defense = 0 + self.dexterity//2
@@ -186,22 +197,31 @@ class Player:
             attackDamage = 0
         mon.health -= attackDamage
         print(mon.name + "'s health is " + str(mon.health) + ".")
-        if(mon.regeneration > 0):
+        if(mon.regeneration > 0 and mon.health > 0):
             print("The monster is regenerating!")
 
         if(mon.health <= 0):
             mon.die(self)
         else:
+            mon.damaged = True
             mon.attackPlayer(self)
 
-        #Old way of doing combat, which isn't the way we want to
-        # if self.health > mon.health:
-        #     self.health -= mon.health
-        #     print("You win. Your health is now " + str(self.health) + ".")
-        #     mon.die()
-        # else:
-        #     print("You lose.")
-        #     self.alive = False
         print()
         input("Press enter to continue...")
 
+    def buy(self,character,item):
+        self.items.append(item)
+        self.gp -= item.buyValue
+        character.items.remove(item)
+        print("You bought "+str(item.name))
+
+    def sell(self,character,item):
+        self.items.remove(item)
+        player.gp += item.sellValue
+        character.items.append(item)
+        print("You sold"+str(item.name))
+
+    def ViewCharacterItems(self,character):
+        print("These items are for sale:")
+        for item in character.items:
+            print(item)

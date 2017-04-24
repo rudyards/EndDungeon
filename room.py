@@ -1,27 +1,71 @@
+import updater
 import random
+from monster import *
+from player import *
+
+currentRooms = []
 
 class Room:
-    def __init__(self, description):
+    def __init__(self, description, x, y):
         self.desc = description
         self.monsters = []
         self.exits = []
         self.items = []
+        self.characters = []
+        updater.register(self)
+        self.x = x
+        self.y = y
+        currentRooms.append(self)
+
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
+
+    def update(self):
+        # if player.location != self:
+        monsterAddChance = random.randint(1,21)
+        if monsterAddChance == 7:
+            monsterChoice = random.randint(1,5)
+            if monsterChoice == 1:
+                newSpider = Spider("Spidey",self)
+            elif monsterChoice == 2:
+                newTroll = Troll("Trolley",self)
+            elif monsterChoice == 3:
+                newGiantRat = GiantRat("Nippy",self)
+            elif monsterChoice == 4:
+                newVelociraptor = Velociraptor("Rapty",self)
+            print("Somewhere in the dungeon, a new monster appears")
+
     def getDestination(self, direction):
         for e in self.exits:
             if e[0] == direction:
                 return e[1]
+
     def connectRooms(room1, dir1, room2, dir2):
+        connection = []
         #creates "dir1" exit from room1 to room2 and vice versa
         room1.addExit(dir1, room2)
         room2.addExit(dir2, room1)
+        connection.append(room1)
+        connection.append(dir1)
+        connection.append(room2)
+        connection.append(dir2)
+
     def exitNames(self):
         return [x[0] for x in self.exits]
+
+
+    def randomNeighbor(self):
+        return random.choice(self.exits)[1]
+        
+
     def addItem(self, item):
         self.items.append(item)
     def removeItem(self, item):
         self.items.remove(item)
+    def addCharacter(self,character):
+        self.characters.append(character)
+    def removeCharacter(self,character):
+        self.characters.remove(character)
     def addMonster(self, monster):
         self.monsters.append(monster)
     def removeMonster(self, monster):
@@ -30,6 +74,13 @@ class Room:
         return self.items != []
     def getItemByName(self, name):
         for i in self.items:
+            if i.name.lower() == name.lower():
+                return i
+        return False
+    def hasCharacters(self):
+        return self.characters != []
+    def getCharacterByName(self, name):
+        for i in self.characters:
             if i.name.lower() == name.lower():
                 return i
         return False
@@ -42,3 +93,5 @@ class Room:
         return False
     def randomNeighbor(self):
         return random.choice(self.exits)[1]
+
+                

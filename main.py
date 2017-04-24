@@ -2,37 +2,74 @@ from room import *
 from player import *
 from item import *
 from monster import *
+from maps import *
+from Characters import *
 import os
 import updater
+from saveGame import *
+import pickle
+import glob
 
-player = Player()
+option = input("newGame or resume?\n")
+if option == "resume":
+    directory = os.path.dirname(os.path.realpath(__file__))
+    print(glob.glob(os.path.basename((os.path.join(str(directory),"*.sav")))))
+    game = input("Which game would you like to resume?\n")
+    with open(game,"rb") as file:
+        currentRooms = pickle.load(file)
+        currentMonsters = pickle.load(file)
+        currentCharacters = pickle.load(file)
+        currentPlayers = pickle.load(file)
+        player = currentPlayers[0]
 
 def createWorld():
-    entrance = Room("You are in the entrance of The Dungeon of the End")
-    player.location = entrance
-    longsword.putInRoom(entrance)
-    hideArmor.putInRoom(entrance)
-    rock1.putInRoom(entrance)
-    rock2.putInRoom(entrance)
-    rock3.putInRoom(entrance)
-    rock4.putInRoom(entrance)
-    rock5.putInRoom(entrance)
-    rock6.putInRoom(entrance)
-    rock7.putInRoom(entrance)
-    rock8.putInRoom(entrance)
 
-    genericDungeonRoom = Room("This is the place where a test monster is")
-    Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
+<<<<<<< HEAD
+    name = input("What's your name?\n")
+    player = Player(name)
+    print("")
+
+    startingRoom = Room("The entrance to the great dungeon",2,6)
+    secondRoom = Room(roomdescriber(),2,5)
+    Room.connectRooms(startingRoom, "north", secondRoom, "south")
+    thirdRoom = Room(roomdescriber(),2,4)
+    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
+    fourthRoom = Room(roomdescriber(),2,3)
+    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
+    fifthRoom = Room(roomdescriber(),3,3)
+    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
+    sixthRoom = Room(roomdescriber(),4,3)
+    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
+    seventhRoom = Room(roomdescriber(),5,3)
+    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
+    eigthRoom = Room(roomdescriber(),5,4)
+    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
+    ninthRoom = Room(roomdescriber(),6,4)
+    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
+    tenthRoom = Room(roomdescriber(),7,4)
+    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
+
+    player.location = startingRoom
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(startingRoom)
 
 
-    # a = Room("You are in room 1")
-    # b = Room("You are in room 2")
-    # c = Room("You are in room 3")
-    # d = Room("You are in room 4")
-    # Room.connectRooms(a, "east", b, "west")
-    # Room.connectRooms(c, "east", d, "west")
-    # Room.connectRooms(a, "north", c, "south")
-    # Room.connectRooms(b, "north", d, "south")
+    #entrance = Room("You are in the entrance of The Dungeon of the End")
+    #player.location = entrance
+    longsword.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    monster1 = Troll("bob",secondRoom)
+    monster2 = Troll("ted",startingRoom)
+    monster3 = Troll("cindy",secondRoom)
+
+    #genericDungeonRoom = Room("This is the place where a test monster is")
+    #Room.connectRooms(entrance, "south", genericDungeonRoom, "north")
+=======
+    generateBaseMap()
+>>>>>>> piperminiupdate
+
+
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -45,6 +82,11 @@ def printSituation():
         print("This room contains the following monsters:")
         for m in player.location.monsters:
             print(m.name)
+            print()
+    if player.location.hasCharacters():
+        print("This room contains the following characters:")
+        for i in player.location.characters:
+            print(i.name)
         print()
     if player.location.hasItems():
         print("This room contains the following items:")
@@ -65,11 +107,15 @@ def showHelp():
     print("equip <item> -- equips an item you are carrying. only one weapon and one armor can be equipped at once")
     print("unequip <item> -- unequips an item you have equipped.")
     print("wait -- waits one turn")
+    print("")
     input("Press enter to continue...")
 
 
 
-createWorld()
+if option == "newGame":
+    createWorld()
+    player = currentPlayers[0]
+
 playing = True
 while playing and player.alive:
     printSituation()
@@ -79,27 +125,34 @@ while playing and player.alive:
         commandSuccess = True
         command = input("What now? ")
         commandWords = command.split()
-        
-        def checkCommand(entry, command): #Idk if this is the best place to put this function, might make the code prettier elsewhere
-            commandLength = len(entry)
-            matchedLetters = 0
-            if entry == "i" or entry == "in":
-                print("did you mean inspect or inventory?")
-                commandSuccess = False
-            else:
-                for value in range(commandLength):
-                    if command[value] == entry[value]:
-                    matchedLetters += 1
-                if matchedLetters == len(entry):
-                    return True
 
-        if checkCommand(commandWords[0].lower(),"go"):   #cannot handle multi-word directions
+        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip"]
+
+        entry = str(commandWords[0].lower())
+
+        commandList = []
+        for word in commands:
+            if word.startswith(entry):
+                commandList.append(word)
+
+        if len(commandList) == 0:
+            print("That is not a valid command")
+            commandSuccess = False
+            Command = None
+        elif len(commandList) == 2:
+            print("did you mean "+commandList[0]+ " or "+commandList[1]+"?")
+            commandSuccess = False
+            Command = None
+        else:
+            Command = str(commandList[0])
+
+        if Command == "go":   #cannot handle multi-word directions
             player.goDirection(commandWords[1]) 
             timePasses = True
 
 
-        elif checkCommand(commandWords[0].lower(),"pickup"):  #can handle multi-word objects
-            targetName = command[7:]
+        elif Command == "pickup":  #can handle multi-word objects
+            targetName = commandWords[1]
             target = player.location.getItemByName(targetName)
             if target != False:
                 if (len(player.equipped)+len(player.items)<player.carryingCapacity):
@@ -111,7 +164,7 @@ while playing and player.alive:
                 print("No such item.")
                 commandSuccess = False
 
-        elif checkCommand(commandWords[0].lower(),"drop"):
+        elif Command == "drop":
             targetName = command[5:]
             target = player.isInInventory(targetName)
             if target != False:
@@ -124,20 +177,20 @@ while playing and player.alive:
                     print()
                 commandSuccess = False
 
-        elif checkCommand(commandWords[0].lower(),"inventory"):
+        elif Command == "inventory":
             player.showInventory()        
             player.showEquipped()
 
 
-        elif checkCommand(commandWords[0].lower(),"help"):
+        elif Command == "help":
             showHelp()
 
 
-        elif checkCommand(commandWords[0].lower(),"exit"):
+        elif Command == "exit":
             playing = False
 
 
-        elif checkCommand(commandWords[0].lower(),"attack"):
+        elif Command == "attack":
             targetName = command[7:]
             target = player.location.getMonsterByName(targetName)
             if target != False:
@@ -148,15 +201,15 @@ while playing and player.alive:
                 commandSuccess = False
 
 
-        elif checkCommand(commandWords[0].lower(),"wait"):
+        elif Command == "wait":
             timePasses = True
         
 
-        elif checkCommand(commandWords[0].lower(),"me"):
+        elif Command == "me":
             player.showStats()
 
 
-        elif checkCommand(commandWords[0].lower(),"equip"):
+        elif Command == "equip":
             equipChoice = command[6:]
             equipitem = player.isInInventory(equipChoice)
             if equipitem != False:
@@ -167,7 +220,7 @@ while playing and player.alive:
                 commandSuccess = False
 
 
-        elif checkCommand(commandWords[0].lower(),"unequip"):
+        elif Command == "unequip":
             equipChoice = command[8:]
             equipitem = player.isEquipped(equipChoice)
             if equipitem != False:
@@ -176,28 +229,326 @@ while playing and player.alive:
                 print("That isn't currently equipped.")
                 commandSuccess = False
                 
-        elif checkCommand(commandWords[0].lower(),"inspect"):
+        elif Command == "inspect":
             descriptionGiven = False
-            while not descriptionGiven:
-                for item in player.items:
-                    if checkCommand(commandWords[1].lower(),item.name()):
-                        item.describe()
-                        descriptionGiven = True
-            while not descriptionGiven:
-                for item in player.location.items:
-                        if checkCommand(commandWords[1].lower(),item.name()):
-                            item.describe()
-                            descriptionGiven = True 
+            if commandWords[1] == None:
+                print("Please specify which object you want to inspect")
+            for item in player.items:
+                if checkCommand(commandWords[1].lower(),item.name()):
+                    item.describe()
+                    descriptionGiven = True
+            for item in player.location.items:
+                if checkCommand(commandWords[1].lower(),item.name()):
+                    item.describe()
+                    descriptionGiven = True 
             if not descriptionGiven: 
-                    print("You do not have that item")
+                print("You do not have that item")
+                descriptionGiven = True
             commandSuccess = False
 
-        else:
-            print("Not a valid command")
+        elif Command == "talk":
+            characterName = commandWords[2].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                print(character.tagLine)
+            else:
+                print("That character is not in the room")
             commandSuccess = False
-    if timePasses == True:
-        updater.updateAll()
+
+        elif Command == "view":
+            characterName = commandWords[1].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                for item in character.items:
+                    print(item.name)
+            else:
+                print(str(characterName)+ " is not in this room")
+            commandSuccess = False
+
+        elif Command == "buy":
+            itemName = commandWords[1].lower()
+            if itemName == None:
+                print("Please specify whom you want to buy from")
+                commandSuccess = False
+            characterName = commandWords[3].lower()
+            if characterName == None:
+                print("Please specify what item you want to buy")
+                commandSuccess = False
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                item = character.getItemFromInventory(itemName)
+                if item != False:
+                    player.buy(character,item) 
+                else:
+                    print(str(characterName)+ " does not have that item")
+            else:
+                print(str(characterName)+" is not in this room")
+            commandSuccess = False
+
+        elif Command == "sell":
+            itemName = commandWords[1].lower()
+            characterName = commandWords[3].lower()
+            character = player.location.getCharacterByName(characterName)
+            if character != False:
+                item = character.getItemfromInventory(itemName)
+                if item != False:
+                    player.sell(character,item) 
+                else:
+                    print(str(characterName)+ " does not have that item")
+            else:
+                print(str(characterName)+" is not in this room")
+            commandSuccess = False
+
+        elif Command == "save":
+            saveFile = commandWords[2].lower()
+            with open(saveFile+".sav","wb") as f:
+                pickle.dump(currentRooms,f)
+                pickle.dump(currentMonsters,f)
+                pickle.dump(currentCharacters,f)
+                pickle.dump(currentPlayers,f)
+                commandSuccess = False
+
+        elif Command == "resume":
+            saveFile = commandWords[1].lower()
+            if saveFile == None:
+                print("Please specify name of saved game")
+            with open(saveFile, "r"):
+                file = saveFile.read()
+                splitByObject = file.split("~")
+                objects = splitByObject.split()
+
+        if timePasses == True:
+<<<<<<< HEAD
+            updater.updateAll()
+=======
+            updater.updateAll()
+
+  
+        
+    #     def checkAmbiguity(entry):
+    #          if entry == "i" or entry == "in":
+    #             return True
+    #             commandSuccess = False
+
+    #     def checkCommand(entry, command): #Idk if this is the best place to put this function, might make the code prettier elsewhere
+    #         matchedLetters = 0
+    #         if len(entry)>len(command):
+    #             return False
+    #         for letter in range(0,len(entry)):
+    #             #print("checking " + entry[letter] + " == " + command[letter])
+    #             if entry[letter] == command[letter]:
+    #                 matchedLetters += 1
+    #         if matchedLetters == len(entry):
+    #             #print("checking " + str(matchedLetters) + " == " + str(len(entry)))
+    #             return True
+    #         else:
+    #             return False
+    #     #def checkCommand(entry,command):
+    #     #    if entry == command:
+    #     #        return True
+
+    #     firstWord = commandWords[0].lower()
+
+    #     if checkAmbiguity(firstWord):
+    #         print("did you mean inspect or inventory?")
+    #         commandSuccess = False
+
+    #     elif checkCommand(firstWord,"go"):   #cannot handle multi-word directions
+    #         player.goDirection(commandWords[1]) 
+    #         timePasses = True
+
+
+    #     elif checkCommand(firstWord,"pickup"):  #can handle multi-word objects
+    #         targetName = command[int(len(commandWords[0])+1):]
+    #         target = player.location.getItemByName(targetName)
+    #         if target != False:
+    #             if (len(player.equipped)+len(player.items)<player.carryingCapacity):
+    #                 player.pickup(target)
+    #             else:
+    #                 print("You're carrying too much. Try dropping some items first.")
+    #                 commandSuccess = False
+    #         else:
+    #             print("No such item.")
+    #             commandSuccess = False
+
+    #     elif checkCommand(firstWord,"drop"):
+    #         targetName = command[5:]
+    #         target = player.isInInventory(targetName)
+    #         if target != False:
+    #             player.drop(target)
+    #         else:
+    #             print("That item is not currently in your inventory.")
+    #             newtarget = player.isEquipped(targetName)
+    #             if newtarget != False:
+    #                 print("Make sure to unequip it first")
+    #                 print()
+    #             commandSuccess = False
+
+    #     elif checkCommand(firstWord,"inventory"):
+    #         player.showInventory()        
+    #         player.showEquipped()
+
+
+    #     elif checkCommand(firstWord,"help"):
+    #         showHelp()
+
+
+    #     elif checkCommand(firstWord,"exit"):
+    #         playing = False
+
+
+    #     elif checkCommand(firstWord,"attack"):
+    #         targetName = command[7:]
+    #         target = player.location.getMonsterByName(targetName)
+    #         if target != False:
+    #             player.attackMonster(target)
+    #             timePasses = True
+    #         else:
+    #             print("No such monster.")
+    #             commandSuccess = False
+
+
+    #     elif checkCommand(firstWord,"wait"):
+    #         timePasses = True
+        
+
+    #     elif checkCommand(firstWord,"me"):
+    #         player.showStats()
+
+
+    #     elif checkCommand(firstWord,"equip"):
+    #         equipChoice = command[6:]
+    #         equipitem = player.isInInventory(equipChoice)
+    #         if equipitem != False:
+    #             player.equip(equipitem)
+    #             #Bug: A player can equip any number of items
+    #         else:
+    #             print("You aren't currently carrying that.")
+    #             commandSuccess = False
+
+
+    #     elif checkCommand(firstWord,"unequip"):
+    #         equipChoice = command[8:]
+    #         equipitem = player.isEquipped(equipChoice)
+    #         if equipitem != False:
+    #             player.unequip(equipitem)
+    #         else:
+    #             print("That isn't currently equipped.")
+    #             commandSuccess = False
+                
+    #     elif checkCommand(firstWord,"inspect"):
+    #         descriptionGiven = False
+    #         while not descriptionGiven:
+    #             for item in player.items:
+    #                 if checkCommand(commandWords[1].lower(),item.name()):
+    #                     item.describe()
+    #                     descriptionGiven = True
+    #         while not descriptionGiven:
+    #             for item in player.location.items:
+    #                     if checkCommand(commandWords[1].lower(),item.name()):
+    #                         item.describe()
+    #                         descriptionGiven = True 
+    #         if not descriptionGiven: 
+    #                 print("You do not have that item")
+    #         commandSuccess = False
+
+    #     elif checkCommand(firstWord,"talk"):
+    #         characterName = commandWords[2].lower()
+    #         character = player.location.getCharacterByName(characterName)
+    #         if character != False:
+    #             print(character.tagLine)
+    #         else:
+    #             print("That character is not in the room")
+    #         commandSuccess = False
+
+    #     elif checkCommand(firstWord,"view"):
+    #         characterName = commandWords[1].lower()
+    #         character = player.location.getCharacterByName(characterName)
+    #         if character != False:
+    #             for item in character.items:
+    #                 print(item.name)
+    #         else:
+    #             print(str(characterName)+ " is not in this room")
+    #         commandSuccess = False
+
+    #     elif checkCommand(firstWord,"buy"):
+    #         itemName = commandWords[1].lower()
+    #         characterName = commandWords[3].lower()
+    #         character = player.location.getCharacterByName(characterName)
+    #         if character != False:
+    #             item = character.getItemFromInventory(itemName)
+    #             if item != False:
+    #                 player.buy(character,item) 
+    #             else:
+    #                 print(str(characterName)+ " does not have that item")
+    #         else:
+    #             print(str(characterName)+" is not in this room")
+    #         commandSuccess = False
+
+    #     elif checkCommand(firstWord,"sell"):
+    #         itemName = commandWords[1].lower()
+    #         characterName = commandWords[3].lower()
+    #         character = player.location.getCharacterByName(characterName)
+    #         if character != False:
+    #             item = character.getItemfromInventory(itemName)
+    #             if item != False:
+    #                 player.sell(character,item) 
+    #             else:
+    #                 print(str(characterName)+ " does not have that item")
+    #         else:
+    #             print(str(characterName)+" is not in this room")
+    #         commandSuccess = False
+
+    #     elif checkCommand(firstWord, "save"):
+    #         saveFile = str(commandWords[2].lower())
+    #         saveRooms(saveFile)
+    #         saveRoomConnections(saveFile)
+    #         saveMonsters(saveFile)
+    #         saveItems(saveFile)
+    #         saveCharacters(saveFile)
+    #         savePlayer(saveFile)
+    #         print("this game has been saved as "+str(saveFile))
+
+    #     elif checkCommand(firstWord, "resume"):
+    #         saveFile = commandWords[1].lower()
+
+
+    #     else:
+    #         print("Not a valid command")
+    #         commandSuccess = False
+    # if timePasses == True:
+    #     updater.updateAll()
 
     
+def generateBaseMap():
+    startingRoom = Room("The entrance to the great dungeon",2,6)
+    secondRoom = Room(roomdescriber(),2,5)
+    Room.connectRooms(startingRoom, "north", secondRoom, "south")
+    thirdRoom = Room(roomdescriber(),2,4)
+    Room.connectRooms(secondRoom, "north", thirdRoom, "south")
+    fourthRoom = Room(roomdescriber(),2,3)
+    Room.connectRooms(thirdRoom, "north", fourthRoom, "south")
+    fifthRoom = Room(roomdescriber(),3,3)
+    Room.connectRooms(fourthRoom, "west", fifthRoom, "east")
+    sixthRoom = Room(roomdescriber(),4,3)
+    Room.connectRooms(fifthRoom, "west", sixthRoom, "east")
+    seventhRoom = Room(roomdescriber(),5,3)
+    Room.connectRooms(sixthRoom, "west", seventhRoom, "east")
+    eigthRoom = Room(roomdescriber(),5,4)
+    Room.connectRooms(seventhRoom, "south", eigthRoom, "north")
+    ninthRoom = Room(roomdescriber(),6,4)
+    Room.connectRooms(eigthRoom, "west", ninthRoom, "east")
+    tenthRoom = Room(roomdescriber(),7,4)
+    Room.connectRooms(ninthRoom, "west", tenthRoom, "east")
 
 
+    player.location = startingRoom
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(startingRoom)
+    longsword.putInRoom(startingRoom)
+    hideArmor.putInRoom(startingRoom)
+    monster1 = Troll("bob",secondRoom)
+    monster2 = Troll("ted",secondRoom)
+    monster3 = Troll("cindy",secondRoom)
+
+>>>>>>> piperminiupdate
