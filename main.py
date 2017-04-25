@@ -53,7 +53,7 @@ def firstBaseExpansion(rooms):
     eigthBonusRoom = None
     ninthBonusRoom = None
 
-    
+
     if coinFlip():
         firstBonusRoom = Room(roomdescriber(),3,6)
         Room.simpleConnectRooms(rooms[0], firstBonusRoom)
@@ -131,6 +131,7 @@ def createWorld():
     merchant1.putInRoom(player.location)
     longsword.putInRoom(player.location)
     hideArmor.putInRoom(player.location)
+    rock.putInRoom(player.location)
 
 
 
@@ -211,7 +212,10 @@ while playing and player.alive:
 
         commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
 
-        entry = str(commandWords[0].lower())
+        if (len(commandWords) > 0):
+            entry = str(commandWords[0].lower())
+        else:
+            entry = " "
 
         commandList = []
         for word in commands:
