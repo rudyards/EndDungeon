@@ -4,7 +4,15 @@ from monster import currentMonsters
 from Characters import currentCharacters
 from item import currentItems
 from player import currentPlayers
-
+   # elif Command == "resume":
+   #          saveFile = commandWords[1].lower()
+   #          if saveFile == None:
+   #              print("Please specify name of saved game")
+   #          with open(saveFile, "r"):
+   #              file = saveFile.read()
+   #              splitByObject = file.split("~")
+   #              objects = splitByObject.split()
+                
  # elif Command == "save2":
         #     saveFile = str(commandWords[2].lower())
         #     saveRooms(saveFile)
