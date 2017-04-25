@@ -39,7 +39,7 @@ class Armor(Item):
 
 goldBar = Item("GoldBar", "While blovered, this brick of gold will sell for a pretty penny",200,150)
 brokenSword = Item("BrokenSword", "This sword hilt likely once served an adventurer well,at least until they died. Horribly.",5,1)
-
+healingAmulet = Item("HealingAmulet", "This amulet replenishes health",80,20)
 gauntlet = Weapon("SpikedGauntlet","This fits over your hand, preventing you from wieldingother weapons. But it can smash faces, so that's a plus.",10,5,1)
 dagger = Weapon("Dagger", "Small, sharp, slipping between ribs with grace",5,2, 1)
 longsword = Weapon("Longsword", "A basic weapon, sharp and effective",15,7, 2)
@@ -56,6 +56,8 @@ def makeItem(kind):
         return Item("Gold Bar", "While blovered, this brick of gold will sell for a pretty penny",200,150)
     if kind == "brokenSword":
         return Item("Broken Sword", "This sword hilt likely once served an adventurer well, at least until they died. Horribly.",5,1)
+    if kind == "healingAmulet":
+        return Item("HealingAmulet", "This amulet replenishes up to 10 points of health",80,20)
     if kind == "gauntlet":
         return Weapon("Spiked Gauntlet","This fits over your hand, preventing you from wielding other weapons. But it can smash faces, so that's a plus.",10,5,1)        
     if kind == "dagger":

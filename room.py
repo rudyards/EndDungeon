@@ -4,6 +4,7 @@ from monster import *
 from player import *
 
 currentRooms = []
+coreRooms = []
 
 class Room:
     def __init__(self, description, x, y):
@@ -20,6 +21,46 @@ class Room:
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
 
+
+    def getDestination(self, direction):
+        for e in self.exits:
+            if e[0] == direction:
+                return e[1]
+
+    def connectRooms(room1, dir1, room2, dir2):
+        #creates "dir1" exit from room1 to room2 and vice versa
+        room1.addExit(dir1, room2)
+        room2.addExit(dir2, room1)
+
+    #An improved version of connecting rooms that utilizes the grid system we're using
+    def simpleConnectRooms(room1,room2):
+        connection = []
+        if(room1.x == room2.x):
+            if(room1.y -1 == room2.y):
+                dir1 = "north"
+                dir2 = "south"
+            elif(room1.y +1 == room2.y):
+                dir1 = "south"
+                dir2 = "north"
+            else:
+                print("Rooms not adjacent")
+                return None
+        elif(room1.y == room2.y):
+            if(room1.x -1 == room2.x):
+                dir1 = "west"
+                dir2 = "east"
+            elif(room1.x +1 == room2.x):
+                dir1 = "east"
+                dir2 = "west"
+            else:
+                print("Rooms not adjacent")
+                return None
+        else:
+            print("Rooms not adjacent")
+            return None
+        room1.addExit(dir1, room2)
+        room2.addExit(dir2, room1)
+
     def update(self):
         # if player.location != self:
         monsterAddChance = random.randint(1,21)
@@ -35,20 +76,21 @@ class Room:
                 newVelociraptor = Velociraptor("Rapty",self)
             print("Somewhere in the dungeon, a new monster appears")
 
-    def getDestination(self, direction):
-        for e in self.exits:
-            if e[0] == direction:
-                return e[1]
+        eventAddChance = random.randint(1,40)
+        if eventAddChance == 6:
+            room1 = random.choice(currentRooms)
+            room2 = rnadom.choice(currentRooms)
+            connectRooms(room1,"cobwebby tunnel", room2, "cobwebby tunnel")
+            print("A secret passageway appears somewhere in the dungeon")
+        elif eventAddChance = 19:
+            player.health -= 5
+            print("You are attacked by a swarm of radioactive bees; you lose 5 health")
+        elif eventAddChance = 24:
+            player.health += 6
+            print("a healing mist descends; you gain 6 health")
+        #elif eventAddChance = 27:
+        #33
 
-    def connectRooms(room1, dir1, room2, dir2):
-        connection = []
-        #creates "dir1" exit from room1 to room2 and vice versa
-        room1.addExit(dir1, room2)
-        room2.addExit(dir2, room1)
-        connection.append(room1)
-        connection.append(dir1)
-        connection.append(room2)
-        connection.append(dir2)
 
     def exitNames(self):
         return [x[0] for x in self.exits]
