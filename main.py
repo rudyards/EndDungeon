@@ -315,6 +315,7 @@ while playing and player.alive:
             equipitem = player.isEquipped(equipChoice)
             if equipitem != False:
                 player.unequip(equipitem)
+                player.items.append(equipitem)
             else:
                 print("That isn't currently equipped.")
                 commandSuccess = False
