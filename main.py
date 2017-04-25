@@ -167,7 +167,7 @@ def showHelp():
     print("buy <item> from <character> -- purchases item from a character")
     print("sell <item> to <character> -- sells an item to a character")
     print("save as <file name> -- saves current game progress to file")
-    print("heal -- uses healingAmulet (if one is in inventory) to restore full health")
+    print("heal -- uses a healing potion (if one is in inventory) to regain health")
     print("")
     input("Press enter to continue...")
 
@@ -238,13 +238,20 @@ while playing and player.alive:
 
         elif Command == "heal":
             for item in player.items:
-                if item.name == "healingAmulet":
-                    healthGain = (50-player.health)
-                    player.health += healthGain
-                    player.items.remove(item)
+                if item.name == "HealingPotion":
+                    if player.maxhealth-15 < player.health:
+                        healthGain = player.maxhealth - player.health
+                        if healthGain < 1:
+                            healthGain = 0
+                    else:
+                        healthGain = 15
+                    player.health += 15
+                    if player.health > player.maxhealth:
+                        player.health = player.maxhealth
                     print("You gained "+str(healthGain))
+                    player.health = player.maxhealth
                     break
-                print("You do not have a healingAmulet in your inventory")
+                print("You do not have a HealingPotion in your inventory")
             commandSuccess = False
 
         elif Command == "drop":
