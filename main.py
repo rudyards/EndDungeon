@@ -210,7 +210,7 @@ while playing and player.alive:
         command = input("What now? ")
         commandWords = command.split()
 
-        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip"]
+        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
 
         if (len(commandWords) > 0):
             entry = str(commandWords[0].lower())
@@ -330,6 +330,7 @@ while playing and player.alive:
             equipitem = player.isEquipped(equipChoice)
             if equipitem != False:
                 player.unequip(equipitem)
+                player.items.append(equipitem)
             else:
                 print("That isn't currently equipped.")
                 commandSuccess = False
