@@ -43,6 +43,17 @@ def generateBaseMap():
 
 def firstBaseExpansion(rooms):
     addedRooms = []
+    firstBonusRoom = None
+    secondBonusRoom = None
+    thirdBonusRoom = None
+    fourthBonusRoom = None
+    fifthBonusRoom = None
+    sixthBonusRoom = None
+    seventhBonusRoom = None
+    eigthBonusRoom = None
+    ninthBonusRoom = None
+
+    
     if coinFlip():
         firstBonusRoom = Room(roomdescriber(),3,6)
         Room.simpleConnectRooms(rooms[0], firstBonusRoom)

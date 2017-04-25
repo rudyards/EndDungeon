@@ -1,6 +1,7 @@
 import random
 import updater
 from player import *
+from item import *
 
 currentMonsters = []
 
@@ -56,20 +57,20 @@ class Monster:
 
     def die(self,player):
         self.room.removeMonster(self)
-        currentMonsters.remove(monster)
+        currentMonsters.remove(self)
         updater.deregister(self)
         goldGain = random.randint(1,self.level+3)*15
         player.xp += self.level * 50
         player.gp += goldGain
-        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp and "+str(goldGain)".")
+        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp and "+str(goldGain)+".")
         player.checkXP()
         print("You are now "+str((player.level*200)-player.xp)+" xp from leveling up")
 
         if random.randint(1,3) == 2:
             monsterLoot = random.choice(totalItemList)
-        print("The monster drops a "+str(monsterLoot))
-        monsterLoot = makeItem(monsterLoot)
-        self.room.addItem(monsterLoot)
+            print("The monster drops a "+str(monsterLoot))
+            monsterLoot = makeItem(monsterLoot)
+            self.room.addItem(monsterLoot)
         #Currently, monsters give 50 xp per level, regardless of what level that player is
 
     def attackPlayer(self,player):
