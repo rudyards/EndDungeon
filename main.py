@@ -167,6 +167,7 @@ def showHelp():
     print("buy <item> from <character> -- purchases item from a character")
     print("sell <item> to <character> -- sells an item to a character")
     print("save as <file name> -- saves current game progress to file")
+    print("heal -- uses healingAmulet (if one is in inventory) to restore full health")
     print("")
     input("Press enter to continue...")
 
@@ -207,7 +208,7 @@ while playing and player.alive:
                 commandList.append(word)
 
         if len(commandList) == 0:
-            print("That is not a valid command")
+            print("That is not a valid command. Enter 'help' to see command options")
             commandSuccess = False
             Command = None
         elif len(commandList) == 2:
@@ -234,6 +235,17 @@ while playing and player.alive:
             else:
                 print("No such item.")
                 commandSuccess = False
+
+        elif Command == "heal":
+            for item in player.items:
+                if item.name == "healingAmulet":
+                    healthGain = (50-player.health)
+                    player.health += healthGain
+                    player.items.remove(item)
+                    print("You gained "+str(healthGain))
+                    break
+                print("You do not have a healingAmulet in your inventory")
+            commandSuccess = False
 
         elif Command == "drop":
             targetName = command[5:]
@@ -378,15 +390,6 @@ while playing and player.alive:
                 pickle.dump(currentCharacters,f)
                 pickle.dump(currentPlayers,f)
                 commandSuccess = False
-
-        elif Command == "resume":
-            saveFile = commandWords[1].lower()
-            if saveFile == None:
-                print("Please specify name of saved game")
-            with open(saveFile, "r"):
-                file = saveFile.read()
-                splitByObject = file.split("~")
-                objects = splitByObject.split()
 
         if timePasses == True:
             updater.updateAll()
