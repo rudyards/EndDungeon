@@ -209,7 +209,7 @@ while playing and player.alive:
         command = input("What now? ")
         commandWords = command.split()
 
-        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip"]
+        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
 
         entry = str(commandWords[0].lower())
 
