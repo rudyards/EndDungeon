@@ -42,6 +42,17 @@ def generateBaseMap():
 
 def firstBaseExpansion(rooms):
     addedRooms = []
+    firstBonusRoom = None
+    secondBonusRoom = None
+    thirdBonusRoom = None
+    fourthBonusRoom = None
+    fifthBonusRoom = None
+    sixthBonusRoom = None
+    seventhBonusRoom = None
+    eigthBonusRoom = None
+    ninthBonusRoom = None
+
+    
     if coinFlip():
         firstBonusRoom = Room(roomdescriber(),3,6)
         Room.simpleConnectRooms(rooms[0], firstBonusRoom)
@@ -178,7 +189,11 @@ def showHelp():
     print("buy <item> from <character> -- purchases item from a character")
     print("sell <item> to <character> -- sells an item to a character")
     print("save as <file name> -- saves current game progress to file")
+<<<<<<< HEAD
     print("heal -- uses healingPotion (if one is in inventory) to restore full health")
+=======
+    print("heal -- uses a healing potion (if one is in inventory) to regain health")
+>>>>>>> refs/remotes/origin/master
     print("")
     input("Press enter to continue...")
 
@@ -209,7 +224,7 @@ while playing and player.alive:
         command = input("What now? ")
         commandWords = command.split()
 
-        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip"]
+        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
 
         entry = str(commandWords[0].lower())
 
@@ -249,13 +264,20 @@ while playing and player.alive:
 
         elif Command == "heal":
             for item in player.items:
-                if item.name == "healingAmulet":
-                    healthGain = (50-player.health)
-                    player.health += healthGain
-                    player.items.remove(item)
+                if item.name == "HealingPotion":
+                    if player.maxhealth-15 < player.health:
+                        healthGain = player.maxhealth - player.health
+                        if healthGain < 1:
+                            healthGain = 0
+                    else:
+                        healthGain = 15
+                    player.health += 15
+                    if player.health > player.maxhealth:
+                        player.health = player.maxhealth
                     print("You gained "+str(healthGain))
+                    player.health = player.maxhealth
                     break
-                print("You do not have a healingAmulet in your inventory")
+                print("You do not have a HealingPotion in your inventory")
             commandSuccess = False
 
         elif Command == "drop":
@@ -319,6 +341,7 @@ while playing and player.alive:
             equipitem = player.isEquipped(equipChoice)
             if equipitem != False:
                 player.unequip(equipitem)
+                player.items.append(equipitem)
             else:
                 print("That isn't currently equipped.")
                 commandSuccess = False

@@ -44,7 +44,7 @@ class Player:
         self.poisonTimeLeft = 0
         #Character Advancement things
         self.xp = 0
-        self.gp = 100
+        self.gp = 0
         self.level = 1
    
 

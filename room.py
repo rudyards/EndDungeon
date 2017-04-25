@@ -76,6 +76,7 @@ class Room:
                 newVelociraptor = Velociraptor("Rapty",self)
             print("Somewhere in the dungeon, a new monster appears")
 
+<<<<<<< HEAD
         eventAddChance = random.randint(1,40)
         if eventAddChance == 6:
             room1 = random.choice(currentRooms)
@@ -91,6 +92,26 @@ class Room:
         elif eventAddChance == 27:
             newItem = random.choice(totalItemList)
             makeItem(newItem)
+=======
+        eventAddChance = random.randint(1,80)
+        #This is broken, the player.location ends up None....not great
+        # if eventAddChance == 6:
+        #     room1 = random.choice(currentRooms)
+        #     room2 = random.choice(currentRooms)
+        #     Room.connectRooms(room1,"cobwebby tunnel", room2, "cobwebby tunnel")
+        #     print("A secret passageway appears somewhere in the dungeon")
+
+        #This is currently broken since the rooms don't know anything about the player
+        # elif eventAddChance == 19:
+        #     player.health -= 5
+        #     print("You are attacked by a swarm of radioactive bees; you lose 5 health")
+        # elif eventAddChance == 24:
+        #     player.health += 6
+        #     print("a healing mist descends; you gain 6 health")
+
+
+        #elif eventAddChance = 27:
+>>>>>>> refs/remotes/origin/master
         #33
 
 
