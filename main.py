@@ -167,7 +167,7 @@ def showHelp():
     print("buy <item> from <character> -- purchases item from a character")
     print("sell <item> to <character> -- sells an item to a character")
     print("save as <file name> -- saves current game progress to file")
-    print("heal -- uses healingAmulet (if one is in inventory) to restore full health")
+    print("heal -- uses healingPotion (if one is in inventory) to restore full health")
     print("")
     input("Press enter to continue...")
 
