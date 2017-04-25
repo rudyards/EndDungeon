@@ -6,7 +6,6 @@ from maps import *
 from Characters import *
 import os
 import updater
-from saveGame import *
 import pickle
 import glob
 import random
@@ -116,8 +115,20 @@ def createWorld():
     coreRooms = generateBaseMap()
     player.location = coreRooms[0]
     firstBaseExpansion(coreRooms)
-    merchant1 = Merchant("merchant1")
-    merchant1.putInRoom(player.location)
+    Merchant = Merchant("Merchant")
+    Blacksmith = Blacksmith("Blacksmith")
+    character1Choice = random.randint(1,2)
+    Character2RoomChoice = random.choice(currentRooms)
+    if characterChoice == 1:
+        Merchant.putInRoom(player.location)
+        Blacksmith.putinRoom(Character2RoomChoice)
+    else:
+        Blacksmith.putInRoom(player.location)
+        Merchant.putInRoom(Character2RoomChoice)
+    TrolleyTheTroll = Troll("TrolleyTheTroll", random.choice(currentRooms))
+    SpideyTheSpider = Spider("SpideyTheSpider", random.choice(currentRooms))
+    NippyTheGiantRat = Spider("NippyTheGiantRat", random.choice(currentRooms))
+    RaptyTheVelociraptor = Velociraptor("RaptyTheVelociraptor",random.choice(currentRooms))
     longsword.putInRoom(player.location)
     hideArmor.putInRoom(player.location)
 
