@@ -1,5 +1,4 @@
 from room import currentRooms
-from room import roomConnections
 from monster import currentMonsters
 from Characters import currentCharacters
 from item import currentItems
