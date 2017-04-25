@@ -58,10 +58,18 @@ class Monster:
         self.room.removeMonster(self)
         currentMonsters.remove(monster)
         updater.deregister(self)
+        goldGain = random.randint(1,self.level+3)*15
         player.xp += self.level * 50
-        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp.")
+        player.gp += goldGain
+        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp and "+str(goldGain)".")
         player.checkXP()
         print("You are now "+str((player.level*200)-player.xp)+" xp from leveling up")
+
+        if random.randint(1,3) == 2:
+            monsterLoot = random.choice(totalItemList)
+        print("The monster drops a "+str(monsterLoot))
+        monsterLoot = makeItem(monsterLoot)
+        self.room.addItem(monsterLoot)
         #Currently, monsters give 50 xp per level, regardless of what level that player is
 
     def attackPlayer(self,player):
@@ -73,7 +81,7 @@ class Monster:
             attackDamage = 0
         player.health-=attackDamage
       
-        # self.poison(player)
+        self.poison(player)
         if player.poisonTimeLeft > 0:
             print("The monster has poisoned you!")
         #If the monster can poison the player, they will do so on hit
@@ -86,10 +94,7 @@ class Monster:
 
 
     def poison(self,player):
-        if self.monsterType == "Spider":
-            # The poison damage of the spider increases by 1/2 of the spiders level
-            player.poisonRegenLoss = 1 + self.level//2
-            player.poisonTimeLeft = 4
+        return None
         # elif self.monsterType == devil:
         #     self.poisonRegenLoss = 1
         #     self.poisonTimeLeft = 3
@@ -139,7 +144,9 @@ class Spider(Monster):
         self.damage = 0
         self.damageRange = 4
         self.level = 1
-    
+    def poison(self,player):
+        player.poisonRegenLoss = 1 + self.level//2
+        player.poisonTimeLeft = 4
     #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
     #Spiders are unique because they poison the player
 
@@ -156,12 +163,12 @@ class Velociraptor(Monster):
 
 class Dragon(Monster):
     def __init__(self,name, room):
-        Monster__init__(self, name, 20, Endroom, 0)
+        Monster__init__(self, name, 30, Endroom, 1)
         self.monsterType = "Dragon"
         self.damage = 6
         self.damageRange = 8
-        self.defense = 3
-        self.level = 2
+        self.defense = 4
+        self.level = 5
 
     def die(self, player):
         self.room.removeMonster(self)
