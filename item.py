@@ -49,7 +49,7 @@ rock = Item("rock", "It's just a rock. Useful for testing your carrying capacity
 
 healingPotion = Item("healingPotion", "A glass bottle full of a curative, green liquid",80,20)
 
-gauntlet = Weapon("spikedGauntlet","This fits over your hand, preventing you from wieldingother weapons. But it can smash faces, so that's a plus.",10,5,1)
+gauntlet = Weapon("spikedGauntlet","This fits over your hand, preventing you from wielding other weapons. But it can smash faces, so that's a plus.",10,5,1)
 dagger = Weapon("dagger", "Small, sharp, slipping between ribs with grace",5,2, 1)
 longsword = Weapon("longsword", "A basic weapon, sharp and effective",15,7, 2)
 warhammer = Weapon("warhammer", "Massive crushing force delivered with an overhead swing!",20,10, 3)
