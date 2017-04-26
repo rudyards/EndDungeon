@@ -135,9 +135,18 @@ class Player:
                 if item.name == currentItem:
                     counter += 1
                     items.remove(item)
-                print(item.name+" x"+str(counter))
+            if counter == 1:
+                print(currentItem)
+            else:
+                print(currentItem+" x"+str(counter))
         print()
 
+    def getItemFromInventory(self,item):
+        for thing in self.items:
+            if thing.name.lower() == item.lower():
+                return thing
+        return False
+        
     def showEquipped(self):
         print("Currently you have equipped:")
         print()

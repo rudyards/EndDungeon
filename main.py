@@ -126,22 +126,22 @@ def createWorld():
     coreRooms = generateBaseMap()
     player.location = coreRooms[0]
     firstBaseExpansion(coreRooms)
-    Merchant = Merchant("Merchant")
-    Blacksmith = Blacksmith("Blacksmith")
+    merchant = Merchant("Merchant")
+    blacksmith = Blacksmith("Blacksmith")
     character1Choice = random.randint(1,2)
     Character2RoomChoice = random.choice(currentRooms)
-    if characterChoice == 1:
-        Merchant.putInRoom(player.location)
-        Blacksmith.putinRoom(Character2RoomChoice)
+    if character1Choice == 1:
+        merchant.putInRoom(coreRooms[0])
+        blacksmith.putInRoom(Character2RoomChoice)
     else:
-        Blacksmith.putInRoom(player.location)
-        Merchant.putInRoom(Character2RoomChoice)
+        blacksmith.putInRoom(coreRooms[0])
+        merchant.putInRoom(Character2RoomChoice)
     TrolleyTheTroll = Troll("TrolleyTheTroll", random.choice(currentRooms))
     SpideyTheSpider = Spider("SpideyTheSpider", random.choice(currentRooms))
     NippyTheGiantRat = Spider("NippyTheGiantRat", random.choice(currentRooms))
     RaptyTheVelociraptor = Velociraptor("RaptyTheVelociraptor",random.choice(currentRooms))
-    longsword.putInRoom(player.location)
-    hideArmor.putInRoom(player.location)
+    dagger.putInRoom(coreRooms[0])
+    hideArmor.putInRoom(coreRooms[0])
 
 
 
@@ -177,6 +177,7 @@ def showHelp():
     clear()
     print("go <direction> -- moves you in the given direction")
     print("attack <monster> -- makes one attack against a monster")
+    print("me -- shows your current stats, health, and gold")
     print("inventory -- opens your inventory")
     print("pickup <item> -- picks up the item")
     print("drop <item> -- places item from inventory into room")
@@ -189,11 +190,7 @@ def showHelp():
     print("buy <item> from <character> -- purchases item from a character")
     print("sell <item> to <character> -- sells an item to a character")
     print("save as <file name> -- saves current game progress to file")
-<<<<<<< HEAD
     print("heal -- uses healingPotion (if one is in inventory) to restore full health")
-=======
-    print("heal -- uses a healing potion (if one is in inventory) to regain health")
->>>>>>> refs/remotes/origin/master
     print("")
     input("Press enter to continue...")
 
@@ -226,7 +223,10 @@ while playing and player.alive:
 
         commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
 
-        entry = str(commandWords[0].lower())
+        if (len(commandWords) > 0):
+            entry = str(commandWords[0].lower())
+        else:
+            entry = " "
 
         commandList = []
         for word in commands:
@@ -245,9 +245,13 @@ while playing and player.alive:
             Command = str(commandList[0])
 
         if Command == "go":   #cannot handle multi-word directions
-            player.goDirection(commandWords[1]) 
-            timePasses = True
-
+            directions = ["north","south","east"]
+            if commandWords[1] in directions:
+                player.goDirection(commandWords[1]) 
+                timePasses = True
+            else:
+                print("That is not a valid direction")
+                commandSuccess = False
 
         elif Command == "pickup":  #can handle multi-word objects
             targetName = commandWords[1]
@@ -395,7 +399,10 @@ while playing and player.alive:
             if character != False:
                 item = character.getItemFromInventory(itemName)
                 if item != False:
-                    player.buy(character,item) 
+                    if player.gp >= item.buyValue:
+                        player.buy(character,item)
+                    else:
+                        print("You don't have enough gold to buy that item") 
                 else:
                     print(str(characterName)+ " does not have that item")
             else:
@@ -407,7 +414,10 @@ while playing and player.alive:
             characterName = commandWords[3].lower()
             character = player.location.getCharacterByName(characterName)
             if character != False:
-                item = character.getItemfromInventory(itemName)
+                if player.getItemFromInventory(itemName):
+                    item = player.getItemFromInventory(itemName)
+                else:
+                    print("You do not have that item")
                 if item != False:
                     player.sell(character,item) 
                 else:
