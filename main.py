@@ -19,6 +19,9 @@ def coinFlip():
         return False
 
 def generateBaseMap():
+    #This is the function that creates the base dungeon used in the game. The useful thing about doing the code this way is
+    #that it would be trivial to have additional functions for alternative maps and randomly decide between them
+    #The base map looks like this: http://grid-paint.com/images/details/4760687939158016
     startingRoom = Room("The entrance to the great dungeon",2,6)
     secondRoom = Room(roomdescriber(),2,5)
     Room.simpleConnectRooms(startingRoom, secondRoom)
@@ -38,6 +41,8 @@ def generateBaseMap():
     Room.simpleConnectRooms(eigthRoom, ninthRoom)
     EndRoom = Room(roomdescriber(),7,4)
     Room.simpleConnectRooms(ninthRoom, EndRoom)
+
+    #Once it has created all the rooms, this function returns a list which contains all of them
     return [startingRoom,secondRoom,thirdRoom,fourthRoom,fifthRoom,sixthRoom,seventhRoom,eigthRoom,ninthRoom,EndRoom]
 
 def firstBaseExpansion(rooms):
@@ -52,7 +57,10 @@ def firstBaseExpansion(rooms):
     eigthBonusRoom = None
     ninthBonusRoom = None
 
-    
+    #firstBaseExpansion is called after the map is made and is based a current version of the map. It is designed only for compatibility
+    #with baseMap. It goes through a series of rooms, and decides whether or not they'll be included in this iteration of the map.
+    #Once they've been generated, there is a chance whether or not they connect to other nearby bonus rooms.
+    #The full map, after the firstBaseExpansion, looks like: http://grid-paint.com/images/details/5914211465035776
     if coinFlip():
         firstBonusRoom = Room(roomdescriber(),3,6)
         Room.simpleConnectRooms(rooms[0], firstBonusRoom)
@@ -90,7 +98,7 @@ def firstBaseExpansion(rooms):
         addedRooms.append(sixthBonusRoom)
         if fifthBonusRoom in addedRooms:
             if coinFlip():
-                Room.simpleConnectRooms(fifthBonusRoom,sixthRoom)
+                Room.simpleConnectRooms(fifthBonusRoom,sixthBonusRoom)
     if coinFlip():
         seventhBonusRoom = Room(roomdescriber(),7,5)
         Room.simpleConnectRooms(rooms[9],seventhBonusRoom)
@@ -114,6 +122,8 @@ def firstBaseExpansion(rooms):
 
 
 def createWorld():
+    #The player's name isn't relevant to anything right now, but it's an opportunity for us to allow cheat codes
+    #If a player uses the name grader, they get a bunch of bonus levels to make testing easier.
     name = input("What's your name?\n")
     player = Player(name)
     if player.name == "grader":
@@ -123,9 +133,11 @@ def createWorld():
         print("You start 10 levels higher than normal!")
     print("")
 
+    #Then, we instantiate the base map, set the player's location to the first room of the map, and run our expansion code
     coreRooms = generateBaseMap()
     player.location = coreRooms[0]
     firstBaseExpansion(coreRooms)
+
     merchant = Merchant("Merchant")
     blacksmith = Blacksmith("Blacksmith")
     character1Choice = random.randint(1,2)
@@ -140,8 +152,16 @@ def createWorld():
     SpideyTheSpider = Spider("SpideyTheSpider", random.choice(currentRooms))
     NippyTheGiantRat = Spider("NippyTheGiantRat", random.choice(currentRooms))
     RaptyTheVelociraptor = Velociraptor("RaptyTheVelociraptor",random.choice(currentRooms))
-    dagger.putInRoom(coreRooms[0])
     hideArmor.putInRoom(coreRooms[0])
+    #We also establish a Merchant in the first room so the players can buy and sell items, as well as give them some starting items
+    merchant1 = Merchant("merchant1")
+    merchant1.putInRoom(player.location)
+    if coinFlip():
+        dagger.putInRoom(player.location)
+    else:
+        gauntlet.putInRoom(player.location)        
+    hideArmor.putInRoom(player.location)
+    rock.putInRoom(player.location)
 
 
 
@@ -184,6 +204,7 @@ def showHelp():
     print("inspect <item> -- displays description of item")
     print("equip <item> -- equips an item you are carrying. only one weapon and one armor can be equipped at once")
     print("unequip <item> -- unequips an item you have equipped.")
+    print("heal -- uses a healing potion (if one is in inventory) to regain health")
     print("wait -- waits one turn")
     print("talk to <character> -- say hi to a character")
     print("view <character> wares -- displays character's items for sale")
@@ -222,7 +243,7 @@ while playing and player.alive:
         commandWords = command.split()
 
         commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
-
+        #Buy command breaks if improperly syntaxed
         if (len(commandWords) > 0):
             entry = str(commandWords[0].lower())
         else:
@@ -439,9 +460,3 @@ while playing and player.alive:
             updater.updateAll()
 
   
-
-    
-
-
-
-

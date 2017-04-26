@@ -62,7 +62,7 @@ class Monster:
         goldGain = random.randint(1,self.level+3)*15
         player.xp += self.level * 50
         player.gp += goldGain
-        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp and "+str(goldGain)+".")
+        print("You killed "+self.name+". You gain "+str(self.level*50)+" xp and "+str(goldGain)+" gp.")
         player.checkXP()
         print("You are now "+str((player.level*200)-player.xp)+" xp from leveling up")
 
