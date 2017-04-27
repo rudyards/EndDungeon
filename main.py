@@ -300,17 +300,15 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "heal":
-            if player.isInInventory(healingPotion):
-                    if player.maxhealth-15 < player.health:
-                        healthGain = player.maxhealth - player.health
-                        if healthGain < 1:
-                            healthGain = 0
-                    else:
-                        healthGain = 15
-                    player.health += 15
-                    if player.health > player.maxhealth:
-                        player.health = player.maxhealth
-                    print("You gained "+str(healthGain))
+            if player.isInInventory("HealingPotion"):
+                if player.maxhealth-15 < player.health:
+                    healthGain = player.maxhealth - player.health
+                    if healthGain < 1:
+                        healthGain = 0
+                else:
+                    healthGain = 15
+                player.health += 15
+                if player.health > player.maxhealth:
                     player.health = player.maxhealth
                     player.items.remove(healingPotion)
             else:
@@ -472,6 +470,15 @@ while playing and player.alive:
             commandSuccess = False
 
         elif Command == "save":
+<<<<<<< HEAD
+            saveFile = commandWords[2].lower()
+            with open(saveFile+".sav","wb") as f:
+                pickle.dump(currentRooms,f)
+                pickle.dump(currentMonsters,f)
+                pickle.dump(currentCharacters,f)
+                pickle.dump(currentPlayers,f)
+
+=======
             try:
                 saveFile = commandWords[2].lower()
                 with open(saveFile+".sav","wb") as f:
@@ -483,6 +490,7 @@ while playing and player.alive:
             except IndexError:
                 print("Specify name of file to save to")
                 commandSuccess = False
+>>>>>>> origin/piperminiupdate
 
         if timePasses == True:
             updater.updateAll()
