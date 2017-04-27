@@ -144,8 +144,6 @@ def createWorld():
         gauntlet.putInRoom(player.location)        
     hideArmor.putInRoom(player.location)
     rock.putInRoom(player.location)
-    rapty = Velociraptor("Rapty",player.location)
-    rapty2 = Velociraptor("Rapty",player.location)
 
 
 
@@ -267,22 +265,21 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "heal":
-            for item in player.items:
-                if item.name == "HealingPotion":
-                    if player.maxhealth-15 < player.health:
-                        healthGain = player.maxhealth - player.health
-                        if healthGain < 1:
-                            healthGain = 0
-                    else:
-                        healthGain = 15
-                    player.health += 15
-                    if player.health > player.maxhealth:
-                        player.health = player.maxhealth
-                    print("You gained "+str(healthGain))
+            if player.isInInventory("HealingPotion")
+                if player.maxhealth-15 < player.health:
+                    healthGain = player.maxhealth - player.health
+                    if healthGain < 1:
+                        healthGain = 0
+                else:
+                    healthGain = 15
+                player.health += 15
+                if player.health > player.maxhealth:
                     player.health = player.maxhealth
-                    break
+                print("You gained "+str(healthGain))
+                player.health = player.maxhealth
+            else:
                 print("You do not have a HealingPotion in your inventory")
-            commandSuccess = False
+                commandSuccess = False
 
         elif Command == "drop":
             targetName = command[5:]
@@ -358,14 +355,18 @@ while playing and player.alive:
                 if checkCommand(commandWords[1].lower(),item.name()):
                     item.describe()
                     descriptionGiven = True
+            for item in player.equipped:
+                if checkCommand(commandWords[1].lower(),item.name()):
+                    item.describe()
+                    descriptionGiven = True
             for item in player.location.items:
                 if checkCommand(commandWords[1].lower(),item.name()):
                     item.describe()
-                    descriptionGiven = True 
+                    descriptionGiven = True
             if not descriptionGiven: 
                 print("You do not have that item")
                 descriptionGiven = True
-            commandSuccess = False
+                commandSuccess = False
 
         elif Command == "talk":
             characterName = commandWords[2].lower()
@@ -374,7 +375,7 @@ while playing and player.alive:
                 print(character.tagLine)
             else:
                 print("That character is not in the room")
-            commandSuccess = False
+                commandSuccess = False
 
         elif Command == "view":
             characterName = commandWords[1].lower()
@@ -384,7 +385,7 @@ while playing and player.alive:
                     print(item.name)
             else:
                 print(str(characterName)+ " is not in this room")
-            commandSuccess = False
+                commandSuccess = False
 
         elif Command == "buy":
             itemName = commandWords[1].lower()
@@ -402,9 +403,11 @@ while playing and player.alive:
                     player.buy(character,item) 
                 else:
                     print(str(characterName)+ " does not have that item")
+                    commandSuccess = False
             else:
                 print(str(characterName)+" is not in this room")
-            commandSuccess = False
+                commandSuccess = False
+            
 
         elif Command == "sell":
             itemName = commandWords[1].lower()
@@ -416,9 +419,11 @@ while playing and player.alive:
                     player.sell(character,item) 
                 else:
                     print(str(characterName)+ " does not have that item")
+                    commandSuccess = False
             else:
                 print(str(characterName)+" is not in this room")
-            commandSuccess = False
+                commandSuccess = False
+            
 
         elif Command == "save":
             saveFile = commandWords[2].lower()
@@ -427,7 +432,7 @@ while playing and player.alive:
                 pickle.dump(currentMonsters,f)
                 pickle.dump(currentCharacters,f)
                 pickle.dump(currentPlayers,f)
-                commandSuccess = False
+=
 
         if timePasses == True:
             updater.updateAll()
