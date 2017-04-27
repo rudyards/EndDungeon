@@ -119,9 +119,6 @@ def firstBaseExpansion(rooms):
 
 
 
-
-
-
 def createWorld():
     #The player's name isn't relevant to anything right now, but it's an opportunity for us to allow cheat codes
     #If a player uses the name grader, they get a bunch of bonus levels to make testing easier.
@@ -214,6 +211,8 @@ if option.lower() == "resume":
 else:
     createWorld()
     player = currentPlayers[0]
+
+
 
 playing = True
 while playing and player.alive:

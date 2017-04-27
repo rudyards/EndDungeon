@@ -80,6 +80,11 @@ class Player:
         input("Press enter to continue...")
 
     def goDirection(self, direction):
+        if(self.location.hasMonsters()):
+            print("As you leave, the monsters lash out.")
+            for monster in self.location.monsters:
+                monster.attackPlayer()
+
         self.location = self.location.getDestination(direction)
 
     def pickup(self, item):
