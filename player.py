@@ -18,7 +18,7 @@ class Player:
         self.dexterity = random.randint(-1,1) #Each 2 points in dex gives you +1 defense
         self.constitution = random.randint(-1,1) #Each point in con gives you +4 HP
         self.wisdom = random.randint(-1,1) #Wisdom gives you bonuses to resist mind control
-        self.intelligence = random.randint(-1,1) #Intelligence gives you bonuses for magic
+        self.intelligence = random.randint(-1,1) #Intelligence gives you 10% extra XP per point 
         self.charisma = random.randint(-1,1) #Charisma gives you bonuses in selling and buying
 
 
@@ -83,7 +83,8 @@ class Player:
         if(self.location.hasMonsters()):
             print("As you leave, the monsters lash out.")
             for monster in self.location.monsters:
-                monster.attackPlayer()
+                monster.attackPlayer(self)
+            input("Press any key to continue...")
 
         self.location = self.location.getDestination(direction)
 
