@@ -82,7 +82,7 @@ class Monster:
 
     def attackPlayer(self,player):
         attackDamage = random.randint(1,self.damageRange) + self.damage
-        print("The monster attacks you for "+str(attackDamage)+" damage.")
+        print(str(self.name)+" attacks you for "+str(attackDamage)+" damage.")
         print("Your defense reduces that damage by "+str(player.defense))
         attackDamage -= player.defense
         if(attackDamage < 0):
