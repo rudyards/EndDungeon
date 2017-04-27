@@ -162,6 +162,7 @@ def createWorld():
 
 
 
+
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -265,15 +266,20 @@ while playing and player.alive:
             Command = str(commandList[0])
 
         if Command == "go":   #cannot handle multi-word directions
-            directions = ["north","south","east","west"]
+            directions = []
+            for direction in player.location.exits:
+                directions.append((direction[0]))
             try:
                 direction = commandWords[1]
-                print(direction)
                 if direction in directions:
-                player.goDirection(commandWords[1]) 
-                timePasses = True
+                    player.goDirection(direction) 
+                    timePasses = True
+                else:
+                    print("That is not a valid direction")
+                    commandSuccess = False
             except (IndexError, NameError):
                 print("That is not a valid direction")
+                commandSuccess = False
 
         elif Command == "pickup":  #can handle multi-word objects
             try:
@@ -282,14 +288,15 @@ while playing and player.alive:
                 if target != False:
                     if (len(player.equipped)+len(player.items)<player.carryingCapacity):
                         player.pickup(target)
+                        print("You picked up "+target.name)
+                    else:
+                        print("You're carrying too much. Try dropping some items first.")
+                        commandSuccess = False
                 else:
-                    print("You're carrying too much. Try dropping some items first.")
+                    print("No such item.")
                     commandSuccess = False
             except (IndexError, NameError):
                 print("Specify item to pickup")
-                commandSuccess = False
-            else:
-                print("No such item.")
                 commandSuccess = False
 
         elif Command == "heal":
@@ -303,11 +310,10 @@ while playing and player.alive:
                 player.health += 15
                 if player.health > player.maxhealth:
                     player.health = player.maxhealth
-                print("You gained "+str(healthGain))
-                player.health = player.maxhealth
+                    player.items.remove(healingPotion)
             else:
-                print("You do not have a HealingPotion in your inventory")
-                commandSuccess = False
+                print("You do not have a Healing Potion in your inventory")
+            commandSuccess = False
 
         elif Command == "drop":
             targetName = command[5:]
@@ -384,14 +390,10 @@ while playing and player.alive:
                 if checkCommand(commandWords[1].lower(),item.name()):
                     item.describe()
                     descriptionGiven = True
-            for item in player.equipped:
-                if checkCommand(commandWords[1].lower(),item.name()):
-                    item.describe()
-                    descriptionGiven = True
             for item in player.location.items:
                 if checkCommand(commandWords[1].lower(),item.name()):
                     item.describe()
-                    descriptionGiven = True
+                    descriptionGiven = True 
             if not descriptionGiven: 
                 print("You do not have that item")
                 descriptionGiven = True
@@ -400,15 +402,16 @@ while playing and player.alive:
         elif Command == "talk":
             try:
                 characterName = commandWords[2].lower()
+                character = player.location.getCharacterByName(characterName)
+                if character != False:
+                    print(character.tagLine)
+                else:
+                    print("That character is not in the room")
+                    commandSuccess = False
             except:
                 print("Specify a character to talk to")
-            character = player.location.getCharacterByName(characterName)
-            if character != False:
-                print(character.tagLine)
-            else:
-                print("That character is not in the room")
                 commandSuccess = False
-
+            
         elif Command == "view":
             try:
                 characterName = commandWords[1].lower()
@@ -445,7 +448,6 @@ while playing and player.alive:
                 print(str(characterName)+" is not in this room")
                 commandSuccess = False
 
-
         elif Command == "sell":
             try:
                 itemName = commandWords[1].lower()
@@ -463,11 +465,9 @@ while playing and player.alive:
                     player.sell(character,item) 
                 else:
                     print(str(characterName)+ " does not have that item")
-                    commandSuccess = False
             else:
                 print(str(characterName)+" is not in this room")
-                commandSuccess = False
-            
+            commandSuccess = False
 
         elif Command == "save":
 <<<<<<< HEAD
