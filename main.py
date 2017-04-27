@@ -265,7 +265,7 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "heal":
-            if player.isInInventory("HealingPotion")
+            if player.isInInventory("HealingPotion"):
                 if player.maxhealth-15 < player.health:
                     healthGain = player.maxhealth - player.health
                     if healthGain < 1:
@@ -432,7 +432,7 @@ while playing and player.alive:
                 pickle.dump(currentMonsters,f)
                 pickle.dump(currentCharacters,f)
                 pickle.dump(currentPlayers,f)
-=
+
 
         if timePasses == True:
             updater.updateAll()
