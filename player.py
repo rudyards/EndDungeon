@@ -158,6 +158,12 @@ class Player:
                 return i
         return False
 
+    def getItemFromInventory(self,item):
+        for thing in self.items:
+            if thing.name.lower() == item.lower():
+                return thing
+        return False
+
     def isEquipped(self, name):
         for i in self.equipped:
             if i.name.lower() == name.lower():
@@ -223,9 +229,9 @@ class Player:
 
     def sell(self,character,item):
         self.items.remove(item)
-        player.gp += item.sellValue
+        self.gp += item.sellValue
         character.items.append(item)
-        print("You sold"+str(item.name))
+        print("You sold "+str(item.name))
 
     def ViewCharacterItems(self,character):
         print("These items are for sale:")
