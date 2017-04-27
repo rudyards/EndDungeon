@@ -47,7 +47,8 @@ class Monster:
                 self.health += self.regeneration
             elif self.health < self.maxHealth:
                 self.health = self.maxHealth
-
+            #If a monster has taken damage, they will regenerate (if they have regeneration)
+            #Monsters can't go over their maximum health, obviously
         self.damaged = False
 
     def moveTo(self, room):
@@ -59,19 +60,25 @@ class Monster:
         self.room.removeMonster(self)
         currentMonsters.remove(self)
         updater.deregister(self)
+
         goldGain = random.randint(1,self.level+3)*15
-        player.xp += self.level * 50
+        player.xp += (self.level * 50) * (1 + .1*player.intelligence)
+        #Monsters give 50 xp per level they are, and 15*(1 to 3+their level) gp
+        #Players get 10% more XP per point of int they have
+
+
         player.gp += goldGain
         print("You killed "+self.name+". You gain "+str(self.level*50)+" xp and "+str(goldGain)+" gp.")
         player.checkXP()
         print("You are now "+str((player.level*200)-player.xp)+" xp from leveling up")
 
+        #Monsters have a 1/3 chance of dropping a random item
         if random.randint(1,3) == 2:
             monsterLoot = random.choice(totalItemList)
             print("The monster drops a "+str(monsterLoot))
             monsterLoot = makeItem(monsterLoot)
             self.room.addItem(monsterLoot)
-        #Currently, monsters give 50 xp per level, regardless of what level that player is
+
 
     def attackPlayer(self,player):
         attackDamage = random.randint(1,self.damageRange) + self.damage
@@ -96,9 +103,7 @@ class Monster:
 
     def poison(self,player):
         return None
-        # elif self.monsterType == devil:
-        #     self.poisonRegenLoss = 1
-        #     self.poisonTimeLeft = 3
+        #Monsters don't by default have any poison, but some subclasses do
 
     def levelUp(self):
         #If levelUp is called, the monster's level (and xp bounty) increases, as does its health and base damage
