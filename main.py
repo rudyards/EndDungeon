@@ -417,15 +417,15 @@ while playing and player.alive:
         elif Command == "view":
             try:
                 characterName = commandWords[1].lower()
-            except:
+                character = player.location.getCharacterByName(characterName)
+                if character != False:
+                    for item in character.items:
+                        print(item.name)
+                else:
+                    print(str(characterName)+ " is not in this room")
+                    commandSuccess = False
+            except IndexError:
                 print("Specify a character to view their wares")
-            character = player.location.getCharacterByName(characterName)
-            if character != False:
-                for item in character.items:
-                    print(item.name)
-            else:
-                print(str(characterName)+ " is not in this room")
-                commandSuccess = False
 
         elif Command == "buy":
             try:
