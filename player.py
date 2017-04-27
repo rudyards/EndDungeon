@@ -83,7 +83,8 @@ class Player:
         if(self.location.hasMonsters()):
             print("As you leave, the monsters lash out.")
             for monster in self.location.monsters:
-                monster.attackPlayer()
+                monster.attackPlayer(self)
+            input("Press any key to continue...")
 
         self.location = self.location.getDestination(direction)
 

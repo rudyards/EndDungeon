@@ -144,7 +144,8 @@ def createWorld():
         gauntlet.putInRoom(player.location)        
     hideArmor.putInRoom(player.location)
     rock.putInRoom(player.location)
-
+    rapty = Velociraptor("Rapty",player.location)
+    rapty2 = Velociraptor("Rapty",player.location)
 
 
 
