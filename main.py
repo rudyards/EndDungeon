@@ -6,7 +6,6 @@ from maps import *
 from Characters import *
 import os
 import updater
-from saveGame import *
 import pickle
 import glob
 import random
@@ -135,6 +134,22 @@ def createWorld():
     coreRooms = generateBaseMap()
     player.location = coreRooms[0]
     firstBaseExpansion(coreRooms)
+
+    merchant = Merchant("merchant")
+    blacksmith = Blacksmith("blacksmith")
+    character1Choice = random.randint(1,2)
+    Character2RoomChoice = random.choice(currentRooms)
+    if character1Choice == 1:
+        merchant.putInRoom(coreRooms[0])
+        blacksmith.putInRoom(Character2RoomChoice)
+    else:
+        blacksmith.putInRoom(coreRooms[0])
+        merchant.putInRoom(Character2RoomChoice)
+    TrolleyTheTroll = Troll("TrolleyTheTroll", random.choice(currentRooms))
+    SpideyTheSpider = Spider("SpideyTheSpider", random.choice(currentRooms))
+    NippyTheGiantRat = Spider("NippyTheGiantRat", random.choice(currentRooms))
+    RaptyTheVelociraptor = Velociraptor("RaptyTheVelociraptor",random.choice(currentRooms))
+    hideArmor.putInRoom(coreRooms[0])
     #We also establish a Merchant in the first room so the players can buy and sell items, as well as give them some starting items
     merchant1 = Merchant("merchant1")
     merchant1.putInRoom(player.location)
@@ -177,6 +192,11 @@ def printSituation():
 def showHelp():
     clear()
     print("go <direction> -- moves you in the given direction")
+    print("me -- shows your current stats, health, and gold")
+    print("wait -- waits one turn")
+    print("save as <file name> -- saves current game progress to file")
+    print("exit -- quits the game")
+    print("help -- displays this help menu, obviously")
     print("attack <monster> -- makes one attack against a monster")
     print("inventory -- opens your inventory")
     print("pickup <item> -- picks up the item")
@@ -185,12 +205,10 @@ def showHelp():
     print("equip <item> -- equips an item you are carrying. only one weapon and one armor can be equipped at once")
     print("unequip <item> -- unequips an item you have equipped.")
     print("heal -- uses a healing potion (if one is in inventory) to regain health")
-    print("wait -- waits one turn")
     print("talk to <character> -- say hi to a character")
     print("view <character> wares -- displays character's items for sale")
     print("buy <item> from <character> -- purchases item from a character")
     print("sell <item> to <character> -- sells an item to a character")
-    print("save as <file name> -- saves current game progress to file")
     print("")
     input("Press enter to continue...")
 
@@ -220,10 +238,10 @@ while playing and player.alive:
     timePasses = False
     while not commandSuccess:
         commandSuccess = True
-        command = input("What now? ")
+        command = input("What now, "+str(player.name)+"? \n")
         commandWords = command.split()
 
-        commands = ["attack","buy","drop","equip", "exit","go","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view"]
+        commands = ["attack","buy","drop","equip", "exit","go","heal","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view", "wait"]
         #Buy command breaks if improperly syntaxed
         if (len(commandWords) > 0):
             entry = str(commandWords[0].lower())
@@ -247,19 +265,29 @@ while playing and player.alive:
             Command = str(commandList[0])
 
         if Command == "go":   #cannot handle multi-word directions
-            player.goDirection(commandWords[1]) 
-            timePasses = True
-
+            directions = ["north","south","east","west"]
+            try:
+                direction = commandWords[1]
+                print(direction)
+                if direction in directions:
+                player.goDirection(commandWords[1]) 
+                timePasses = True
+            except (IndexError, NameError):
+                print("That is not a valid direction")
 
         elif Command == "pickup":  #can handle multi-word objects
-            targetName = commandWords[1]
-            target = player.location.getItemByName(targetName)
-            if target != False:
-                if (len(player.equipped)+len(player.items)<player.carryingCapacity):
-                    player.pickup(target)
+            try:
+                targetName = commandWords[1]
+                target = player.location.getItemByName(targetName)
+                if target != False:
+                    if (len(player.equipped)+len(player.items)<player.carryingCapacity):
+                        player.pickup(target)
                 else:
                     print("You're carrying too much. Try dropping some items first.")
                     commandSuccess = False
+            except (IndexError, NameError):
+                print("Specify item to pickup")
+                commandSuccess = False
             else:
                 print("No such item.")
                 commandSuccess = False
@@ -351,6 +379,7 @@ while playing and player.alive:
             descriptionGiven = False
             if commandWords[1] == None:
                 print("Please specify which object you want to inspect")
+                commandSuccess = False
             for item in player.items:
                 if checkCommand(commandWords[1].lower(),item.name()):
                     item.describe()
@@ -369,7 +398,10 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "talk":
-            characterName = commandWords[2].lower()
+            try:
+                characterName = commandWords[2].lower()
+            except:
+                print("Specify a character to talk to")
             character = player.location.getCharacterByName(characterName)
             if character != False:
                 print(character.tagLine)
@@ -378,7 +410,10 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "view":
-            characterName = commandWords[1].lower()
+            try:
+                characterName = commandWords[1].lower()
+            except:
+                print("Specify a character to view their wares")
             character = player.location.getCharacterByName(characterName)
             if character != False:
                 for item in character.items:
@@ -388,33 +423,42 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "buy":
-            itemName = commandWords[1].lower()
-            if itemName == None:
-                print("Please specify whom you want to buy from")
-                commandSuccess = False
-            characterName = commandWords[3].lower()
-            if characterName == None:
-                print("Please specify what item you want to buy")
+            try:
+                itemName = commandWords[1].lower()
+                characterName = commandWords[3].lower()
+            except IndexError:
+                print("Specify both item and character for transaction")
                 commandSuccess = False
             character = player.location.getCharacterByName(characterName)
             if character != False:
                 item = character.getItemFromInventory(itemName)
                 if item != False:
-                    player.buy(character,item) 
+                    if player.gp >= item.buyValue:
+                        player.buy(character,item)
+                    else:
+                        print("You don't have enough gold to buy that item")
+                        commandSuccess = False 
                 else:
                     print(str(characterName)+ " does not have that item")
                     commandSuccess = False
             else:
                 print(str(characterName)+" is not in this room")
                 commandSuccess = False
-            
+
 
         elif Command == "sell":
-            itemName = commandWords[1].lower()
-            characterName = commandWords[3].lower()
+            try:
+                itemName = commandWords[1].lower()
+                characterName = commandWords[3].lower()
+            except IndexError:
+                print("Specify both item and character for transaction")
+                commandSuccess = False
             character = player.location.getCharacterByName(characterName)
             if character != False:
-                item = character.getItemfromInventory(itemName)
+                if player.getItemFromInventory(itemName):
+                    item = player.getItemFromInventory(itemName)
+                else:
+                    print("You do not have that item")
                 if item != False:
                     player.sell(character,item) 
                 else:
@@ -426,21 +470,19 @@ while playing and player.alive:
             
 
         elif Command == "save":
-            saveFile = commandWords[2].lower()
-            with open(saveFile+".sav","wb") as f:
-                pickle.dump(currentRooms,f)
-                pickle.dump(currentMonsters,f)
-                pickle.dump(currentCharacters,f)
-                pickle.dump(currentPlayers,f)
-=
+            try:
+                saveFile = commandWords[2].lower()
+                with open(saveFile+".sav","wb") as f:
+                    pickle.dump(currentRooms,f)
+                    pickle.dump(currentMonsters,f)
+                    pickle.dump(currentCharacters,f)
+                    pickle.dump(currentPlayers,f)
+                    commandSuccess = False
+            except IndexError:
+                print("Specify name of file to save to")
+                commandSuccess = False
 
         if timePasses == True:
             updater.updateAll()
 
   
-
-    
-
-
-
-
