@@ -265,15 +265,20 @@ while playing and player.alive:
             Command = str(commandList[0])
 
         if Command == "go":   #cannot handle multi-word directions
-            directions = ["north","south","east","west"]
+            directions = []
+            for direction in player.location.exits:
+                directions.append((direction[0]))
             try:
                 direction = commandWords[1]
-                print(direction)
                 if direction in directions:
-                player.goDirection(commandWords[1]) 
-                timePasses = True
+                    player.goDirection(direction) 
+                    timePasses = True
+                else:
+                    print("That is not a valid direction")
+                    commandSuccess = False
             except (IndexError, NameError):
                 print("That is not a valid direction")
+                commandSuccess = False
 
         elif Command == "pickup":  #can handle multi-word objects
             try:
