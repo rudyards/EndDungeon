@@ -80,6 +80,11 @@ class Player:
         input("Press enter to continue...")
 
     def goDirection(self, direction):
+        if(self.location.hasMonsters()):
+            print("As you leave, the monsters lash out.")
+            for monster in self.location.monsters:
+                monster.attackPlayer()
+
         self.location = self.location.getDestination(direction)
 
     def pickup(self, item):
@@ -135,18 +140,9 @@ class Player:
                 if item.name == currentItem:
                     counter += 1
                     items.remove(item)
-            if counter == 1:
-                print(currentItem)
-            else:
-                print(currentItem+" x"+str(counter))
+                print(item.name+" x"+str(counter))
         print()
 
-    def getItemFromInventory(self,item):
-        for thing in self.items:
-            if thing.name.lower() == item.lower():
-                return thing
-        return False
-        
     def showEquipped(self):
         print("Currently you have equipped:")
         print()
