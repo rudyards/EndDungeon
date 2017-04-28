@@ -39,7 +39,7 @@ def roomdescriber():
         if secondroll == 4:
             keyword = "well-furnished, and a dilapidated armchair remains"
         if secondroll == 5:
-            keyword = "once once used for torturing prisoners"
+            keyword = "used for torturing prisoners"
         description = "This room was once "+keyword
 
 

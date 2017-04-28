@@ -162,6 +162,9 @@ def createWorld():
         gauntlet.putInRoom(player.location)        
     hideArmor.putInRoom(player.location)
     rock.putInRoom(player.location)
+    print("You are an adventurer who has delved deep into a dungeon in order to find and slay the dragon that lies within.")
+    print("Be warned, the dragon is powerful, and you'll likely need to acquire powerful items and physical prowess before being capable of defeating it.")
+    input("Press enter to continue when you are ready.")
 
 
 def clear():
