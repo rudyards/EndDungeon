@@ -19,7 +19,7 @@ class Player:
         self.constitution = random.randint(-1,1) #Each point in con gives you +4 HP
         self.wisdom = random.randint(-1,1) #Doesn't do anything, unfortunately
         self.intelligence = random.randint(-1,1) #Intelligence gives you 10% extra XP per point 
-        self.charisma = random.randint(-1,1) #Charisma gives you bonuses in selling and buying
+        self.charisma = random.randint(-1,1) #Doesn't do anything, unfortunately
 
 
         #Equipment/inventory management
