@@ -74,7 +74,7 @@ class Player:
         print("Intelligence: "+str(self.intelligence))
         print("Charisma: "+str(self.charisma))
         print("")
-        print("You have "+str(self.xp)+" xp and "+str(self.gp)+" gold")
+        print("You have "+str(self.health)+" health, "+str(self.xp)+" xp, and "+str(self.gp)+" gold")
         print("You can carry a maximum of "+str(self.carryingCapacity)+" items")
         input("Press enter to continue...")
 
@@ -127,6 +127,10 @@ class Player:
             self.equipped.remove(item)
             self.items.append(item)
 
+    def unstackedInventory(self):
+        for item in self.items:
+            print(item.name)
+
     def showInventory(self):
         clear()
         print("You are currently carrying:")
@@ -140,7 +144,7 @@ class Player:
                 if item.name == currentItem:
                     counter += 1
                     items.remove(item)
-                print(item.name+" x"+str(counter))
+            print(currentItem+" x"+str(counter))
         print()
 
     def showEquipped(self):

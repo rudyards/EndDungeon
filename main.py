@@ -155,14 +155,13 @@ def createWorld():
     firstRaptor = Velociraptor(random.choice(raptorNames),random.choice(currentRooms))
 
     #We also establish a Merchant in the first room so the players can buy and sell items, as well as give them some starting items
-    merchant1 = Merchant("merchant1")
-    merchant1.putInRoom(player.location)
     if coinFlip():
         dagger.putInRoom(player.location)
     else:
         gauntlet.putInRoom(player.location)        
     hideArmor.putInRoom(player.location)
     rock.putInRoom(player.location)
+    healingPotion.putInRoom(player.location)
 
 
 
@@ -319,6 +318,7 @@ while playing and player.alive:
                 if player.health > player.maxhealth:
                     player.health = player.maxhealth
                     player.items.remove(healingPotion)
+                print("You healed "+str(healthGain)+" points. You now have "+str(player.health)+"health")
             else:
                 print("You do not have a Healing Potion in your inventory")
             commandSuccess = False
