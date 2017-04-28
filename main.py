@@ -198,6 +198,8 @@ def printSituation():
         print("You regenerate "+str(player.regen)+" health.")
     if player.poisonTimeLeft > 0:
         print("You are poisoned! You take "+str(player.poisonRegenLoss)+" damage. Poison time left: "+str(player.poisonTimeLeft))
+        if player.location.name == "Virulent Room":
+            print("The room is preventing your poison from healing.")
     print()
 
 def showHelp():

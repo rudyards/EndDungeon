@@ -56,7 +56,8 @@ class Player:
                 self.health = self.maxhealth
         if self.poisonTimeLeft > 0:
             self.health -= self.poisonRegenLoss
-            self.poisonTimeLeft -= 1
+            if self.location.name != "Virulent Room":
+                self.poisonTimeLeft -= 1
 
 
         
