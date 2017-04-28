@@ -178,7 +178,7 @@ def printSituation():
     if player.location.hasMonsters():
         print("This room contains the following monsters:")
         for m in player.location.monsters:
-            print(m.name + " (" +m.monsterType+")")
+            print(m.name + " (Level "+str(m.level)+" "+m.monsterType+")")
             print()
     if player.location.hasCharacters():
         print("This room contains the following characters:")
@@ -362,7 +362,7 @@ while playing and player.alive:
             else:
                 print("No such monster.")
                 if player.location.hasMonsters != False:
-                    print("Anything in parenthesis is the monsters type and not part of its name.")
+                    print("Anything in parenthesis is the monsters type and level, not part of its name.")
                 commandSuccess = False
 
 

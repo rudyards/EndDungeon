@@ -67,7 +67,7 @@ def roomdescriber():
             keyword = "fear"
         if secondroll == 4:
             keyword = "faintly of murder"
-        if seconroll == 5:
+        if secondroll == 5:
             keyword = "inexplicably of cinnamon"
         description = "The room smells "+keyword
 

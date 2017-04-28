@@ -76,16 +76,46 @@ class Room:
         monsterAddChance = random.randint(1,21)
         if self.name == "Monster Den":
             monsterAddChance = random.randint(1,10)
+
+
         if monsterAddChance == 7:
+            #Winning represents the current winstreak of leveling up
+            winning = True
+            #When a monster randomly spawns, it spawns at potentially a higher level
+
             monsterChoice = random.randint(1,5)
             if monsterChoice == 1:
                 newSpider = Spider(random.choice(spiderNames),self)
+                while winning:
+                    if coinFlip():
+                        winning = False
+                    else:
+                        newSpider.levelUp()
+
             elif monsterChoice == 2:
                 newTroll = Troll(random.choice(trollNames),self)
+                while winning:
+                    if coinFlip():
+                        winning = False
+                    else:
+                        newTroll.levelUp()
+
             elif monsterChoice == 3:
                 newGiantRat = GiantRat(random.choice(ratNames),self)
+                while winning:
+                    if coinFlip():
+                        winning = False
+                    else:
+                        newGiantRat.levelUp()
+
             elif monsterChoice == 4:
                 newVelociraptor = Velociraptor(random.choice(raptorNames),self)
+                while winning:
+                    if coinFlip():
+                        winning = False
+                    else:
+                        newVelociraptor.levelUp()
+
 
         eventAddChance = random.randint(1,80)
         #This is broken, the player.location ends up None....not great
@@ -151,3 +181,10 @@ class Room:
         return False
 
                 
+def coinFlip():
+    flip = random.randint(1,3)
+    #It's not an actual coin, it just has binary results. Skewed slightly to reduce high level monster spawn rate
+    if flip == 1:
+        return True
+    else:
+        return False
