@@ -3,8 +3,10 @@ import os
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+#list of current items (for pickling)
 currentItems = []
 
+#Item Class
 class Item:
     def __init__(self, name, desc, buyValue, sellValue):
         self.name = name
@@ -22,6 +24,7 @@ class Item:
         self.loc = room
         room.addItem(self)
 
+#weapons are a subtype that inherit from Item
 class Weapon(Item):
     #Weapons only have 1 new thing about them, damage (which is a bonus to their damage)
     def __init__(self, name, desc, buyValue, sellValue, damage):
@@ -29,7 +32,7 @@ class Weapon(Item):
         self.damage = damage
         self.type = "weapon"
 
-
+#armor is one as well
 class Armor(Item):
     #Weapons only have 1 new thing about them, damage (which is a bonus to their damage)
     def __init__(self, name, desc, buyValue, sellValue, defense):
