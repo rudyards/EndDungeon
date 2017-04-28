@@ -65,5 +65,5 @@ def roomnameChoice(array):
     return choice
 
 roomNames = ["Creepy Room", "Decrepit Room", "Stygian Room","Old Armory","Long Forgotten Room","Unremembered Room","Monster Den","Cramped Space",
-                "Unstable Room","Dusty Room","","","","","","","","","","",
-                "","","",""]
+                "Unstable Room","Dusty Room","Clamy Room","Unpleasant Room","Disturbing Room","Rotting Room","Liminal Space","Former Hideout",
+                "Ancient Room","Mystifying Room","Irrelevant Room","Unremarkable Room","Pointless Room","Strange Room","Unsettling Room","Virulent Room"]
