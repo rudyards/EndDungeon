@@ -151,8 +151,6 @@ def createWorld():
     RaptyTheVelociraptor = Velociraptor("RaptyTheVelociraptor",random.choice(currentRooms))
     hideArmor.putInRoom(coreRooms[0])
     #We also establish a Merchant in the first room so the players can buy and sell items, as well as give them some starting items
-    merchant1 = Merchant("merchant1")
-    merchant1.putInRoom(player.location)
     if coinFlip():
         dagger.putInRoom(player.location)
     else:
