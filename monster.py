@@ -51,11 +51,13 @@ class Monster:
             #Monsters can't go over their maximum health, obviously
         self.damaged = False
 
+    #moves to a new room
     def moveTo(self, room):
         self.room.removeMonster(self)
         self.room = room
         room.addMonster(self)
 
+    #if monster dies it is removed from the room and the monster list, and player gets gold (and sometimes can loot)
     def die(self,player):
         self.room.removeMonster(self)
         currentMonsters.remove(self)
@@ -79,7 +81,7 @@ class Monster:
             monsterLoot = makeItem(monsterLoot)
             self.room.addItem(monsterLoot)
 
-
+    #monsters can attack the player
     def attackPlayer(self,player):
         attackDamage = random.randint(1,self.damageRange) + self.damage
         print(str(self.name)+" attacks you for "+str(attackDamage)+" damage.")
@@ -118,6 +120,7 @@ class Monster:
 #Players have 50 HP + 4* their constitution
 #Players don't default to having any defense
 
+#Troll monster type
 class Troll(Monster):
     def __init__(self, name, room):
         Monster.__init__(self, name, 20, room, 2)
@@ -129,7 +132,7 @@ class Troll(Monster):
     #Trolls deal 4-6 damage each hit, dealing aproximately 5 damage
     #Trolls are unique because they regenerate each turn, heavily punishing low damage players
 
-
+#Giant Rat monster tpye
 class GiantRat(Monster):
     def __init__(self, name, room):
         Monster.__init__(self, name, 15, room, 0)
@@ -141,7 +144,7 @@ class GiantRat(Monster):
     #Rats deal 1-4 damage each hit, dealing 2.5 damage each hit
     #Rats are unique because they're cute
 
-
+#Spider monster type (can poison player)
 class Spider(Monster):
     def __init__(self, name, room):
         Monster.__init__(self, name, 10, room, 0)
@@ -155,6 +158,7 @@ class Spider(Monster):
     #Spider deal 1-4 damage each hit, dealing 2.5 damage each hit (+1 damage from poison, +3 after they die(poison lasts))
     #Spiders are unique because they poison the player
 
+#Velociraptor monster type (moves quickly through rooms)
 class Velociraptor(Monster):
     def __init__(self, name, room):
         Monster.__init__(self, name, 13, room, 0)
@@ -166,6 +170,7 @@ class Velociraptor(Monster):
     #Velociraptors deal 5-10 damage a hit, dealing an average of 5 damage a hit
     #Velociraptors are unique because they move 2 rooms per movement
 
+#Dragon monster type (Boss monster, beating it wins the game)
 class Dragon(Monster):
     def __init__(self,name, room):
         Monster__init__(self, name, 30, Endroom, 1)
@@ -175,6 +180,7 @@ class Dragon(Monster):
         self.defense = 4
         self.level = 5
 
+    #Causes player to win if dragon is defeated
     def die(self, player):
         self.room.removeMonster(self)
         currentMonsters.remove(monster)
@@ -187,7 +193,7 @@ class Dragon(Monster):
         input("Press any key to continue...")
         playing = False
 
-
+#lists of possible monster names
 trollNames = ["Karkat", "Olaf", "Scrag", "Grendel", "Ulik","Geirrodur","Shrek","Trantor", "Shine","Tethys"]
 ratNames = ["Vincent","Remy", "Templeton", "Ralph", "Stuart","Jerry","Splinter","Rizzo","Emile", "Nicodemus"]
 spiderNames = ["Arachnea", "Nerub", "Brood", "Skitter", "Khepri", "Weaver", "Arachnus","Ishkanah"]

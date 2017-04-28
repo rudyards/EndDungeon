@@ -162,9 +162,6 @@ def createWorld():
         gauntlet.putInRoom(player.location)        
     hideArmor.putInRoom(player.location)
     rock.putInRoom(player.location)
-    healingPotion.putInRoom(player.location)
-
-
 
 
 def clear():
