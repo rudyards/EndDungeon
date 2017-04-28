@@ -107,7 +107,7 @@ class Monster:
     def levelUp(self):
         #If levelUp is called, the monster's level (and xp bounty) increases, as does its health and base damage
         self.level += 1
-        self.health += 5
+        self.health += 3
         self.damage += 1
 
 
