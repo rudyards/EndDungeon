@@ -6,12 +6,13 @@ from monster import *
 from maps import *
 from Characters import *
 
-
-
+#randomly chooses descriptions for rooms
 def roomdescriber():
     description = ""
     keyword = ""
+    #first, we roll a die to decide how the room description starts
     roll=random.randint(1,4)
+    #then we roll a second die to choose the keyword to add to the generic description start
     secondroll = random.randint(1,2)
     if roll == 1:
         
@@ -26,7 +27,6 @@ def roomdescriber():
         if secondroll == 5:
             keyword = "ominous pools of ink (or is it ink?)"
         description = "This room is filled with "+keyword
-
 
     elif roll == 2:
         
@@ -74,7 +74,6 @@ def roomdescriber():
     return description
 
 #24 room names for random use
-
 def roomnameChoice(array):
     choice = random.choice(array)
     array.remove(choice)
