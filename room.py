@@ -68,6 +68,8 @@ class Room:
     def update(self):
         # if player.location != self:
         monsterAddChance = random.randint(1,21)
+        if self.name == "Monster Den":
+            monsterAddChance = random.randint(1,10)
         if monsterAddChance == 7:
             monsterChoice = random.randint(1,5)
             if monsterChoice == 1:
