@@ -49,5 +49,13 @@ def roomdescriber():
 
     return description
 
+#24 room names for random use
 
+def roomnameChoice(array):
+    choice = random.choice(array)
+    array.remove(choice)
+    return choice
 
+roomNames = ["Creepy Room", "Decrepit Room", "Stygian Room","Old Armory","Long Forgotten Room","Unremembered Room","Monster Den","Cramped Space",
+                "Unstable Room","Dusty Room","","","","","","","","","","",
+                "","","",""]

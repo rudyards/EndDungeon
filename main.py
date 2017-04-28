@@ -22,24 +22,24 @@ def generateBaseMap():
     #This is the function that creates the base dungeon used in the game. The useful thing about doing the code this way is
     #that it would be trivial to have additional functions for alternative maps and randomly decide between them
     #The base map looks like this: http://grid-paint.com/images/details/4760687939158016
-    startingRoom = Room("The entrance to the great dungeon",2,6)
-    secondRoom = Room(roomdescriber(),2,5)
+    startingRoom = Room("The Entrance","The entrance to the great dungeon",2,6)
+    secondRoom = Room(roomnameChoice(roomNames),roomdescriber(),2,5)
     Room.simpleConnectRooms(startingRoom, secondRoom)
-    thirdRoom = Room(roomdescriber(),2,4)
+    thirdRoom = Room(roomnameChoice(roomNames),roomdescriber(),2,4)
     Room.simpleConnectRooms(secondRoom, thirdRoom)
-    fourthRoom = Room(roomdescriber(),2,3)
+    fourthRoom = Room(roomnameChoice(roomNames),roomdescriber(),2,3)
     Room.simpleConnectRooms(thirdRoom, fourthRoom)
-    fifthRoom = Room(roomdescriber(),3,3)
+    fifthRoom = Room(roomnameChoice(roomNames),roomdescriber(),3,3)
     Room.simpleConnectRooms(fourthRoom, fifthRoom)
-    sixthRoom = Room(roomdescriber(),4,3)
+    sixthRoom = Room(roomnameChoice(roomNames),roomdescriber(),4,3)
     Room.simpleConnectRooms(fifthRoom, sixthRoom)
-    seventhRoom = Room(roomdescriber(),5,3)
+    seventhRoom = Room(roomnameChoice(roomNames),roomdescriber(),5,3)
     Room.simpleConnectRooms(sixthRoom, seventhRoom)
-    eighthRoom = Room(roomdescriber(),5,4)
+    eighthRoom = Room(roomnameChoice(roomNames),roomdescriber(),5,4)
     Room.simpleConnectRooms(seventhRoom, eighthRoom)
-    ninthRoom = Room(roomdescriber(),6,4)
+    ninthRoom = Room(roomnameChoice(roomNames),roomdescriber(),6,4)
     Room.simpleConnectRooms(eighthRoom, ninthRoom)
-    EndRoom = Room(roomdescriber(),7,4)
+    EndRoom = Room("The End","End of the line. Fight well and survive.",7,4)
     Room.simpleConnectRooms(ninthRoom, EndRoom)
 
     #Once it has created all the rooms, this function returns a list which contains all of them
@@ -63,18 +63,18 @@ def firstBaseExpansion(rooms):
     #Once they've been generated, there is a chance whether or not they connect to other nearby bonus rooms.
     #The full map, after the firstBaseExpansion, looks like: http://grid-paint.com/images/details/5914211465035776
     if coinFlip():
-        firstBonusRoom = Room(roomdescriber(),3,6)
+        firstBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),3,6)
         Room.simpleConnectRooms(rooms[0], firstBonusRoom)
         addedRooms.append(firstBonusRoom)
     if coinFlip():
-        secondBonusRoom = Room(roomdescriber(),3,5)
+        secondBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),3,5)
         Room.simpleConnectRooms(rooms[1], secondBonusRoom)
         addedRooms.append(secondBonusRoom)
         if firstBonusRoom in addedRooms:
             if coinFlip():
                 Room.simpleConnectRooms(firstBonusRoom, secondBonusRoom)
     if coinFlip():
-        thirdBonusRoom = Room(roomdescriber(),3,4)
+        thirdBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),3,4)
         Room.simpleConnectRooms(rooms[2], thirdBonusRoom)
         Room.simpleConnectRooms(rooms[4], thirdBonusRoom)
         addedRooms.append(thirdBonusRoom)
@@ -82,7 +82,7 @@ def firstBaseExpansion(rooms):
             if coinFlip():
                 Room.simpleConnectRooms(secondBonusRoom,thirdBonusRoom)
     if coinFlip():
-        fourthBonusRoom = Room(roomdescriber(),4,4)
+        fourthBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),4,4)
         Room.simpleConnectRooms(rooms[5], fourthBonusRoom)
         Room.simpleConnectRooms(rooms[7], fourthBonusRoom)
         addedRooms.append(fourthBonusRoom)
@@ -90,30 +90,30 @@ def firstBaseExpansion(rooms):
             if coinFlip():
                 Room.simpleConnectRooms(thirdBonusRoom,fourthBonusRoom)
     if coinFlip():
-        fifthBonusRoom = Room(roomdescriber(),5,5)
+        fifthBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),5,5)
         Room.simpleConnectRooms(rooms[7], fifthBonusRoom)
         addedRooms.append(fifthBonusRoom)
     if coinFlip():
-        sixthBonusRoom = Room(roomdescriber(),6,5)
+        sixthBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),6,5)
         Room.simpleConnectRooms(rooms[8], sixthBonusRoom)
         addedRooms.append(sixthBonusRoom)
         if fifthBonusRoom in addedRooms:
             if coinFlip():
                 Room.simpleConnectRooms(fifthBonusRoom,sixthBonusRoom)
     if coinFlip():
-        seventhBonusRoom = Room(roomdescriber(),7,5)
+        seventhBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),7,5)
         Room.simpleConnectRooms(rooms[9],seventhBonusRoom)
         addedRooms.append(seventhBonusRoom)
         if sixthBonusRoom in addedRooms:
             if coinFlip():
                 Room.simpleConnectRooms(sixthBonusRoom,seventhBonusRoom)
     if coinFlip():
-        eighthBonusRoom = Room(roomdescriber(),6,3)
+        eighthBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),6,3)
         Room.simpleConnectRooms(rooms[8],eighthBonusRoom)
         Room.simpleConnectRooms(rooms[6],eighthBonusRoom)
         addedRooms.append(eighthBonusRoom)
     if coinFlip():
-        ninthBonusRoom = Room(roomdescriber(),7,3)
+        ninthBonusRoom = Room(roomnameChoice(roomNames),roomdescriber(),7,3)
         Room.simpleConnectRooms(rooms[9],ninthBonusRoom)
         addedRooms.append(ninthBonusRoom)
 
@@ -172,6 +172,7 @@ def clear():
 
 def printSituation():
     clear()
+    print(player.location.name)
     print(player.location.desc)
     print()
     if player.location.hasMonsters():

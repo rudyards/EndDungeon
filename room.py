@@ -2,12 +2,14 @@ import updater
 import random
 from monster import *
 from player import *
+from item import *
 
 currentRooms = []
 coreRooms = []
 
 class Room:
-    def __init__(self, description, x, y):
+    def __init__(self, name, description, x, y):
+        self.name = name
         self.desc = description
         self.monsters = []
         self.exits = []
@@ -17,6 +19,8 @@ class Room:
         self.x = x
         self.y = y
         currentRooms.append(self)
+        if self.name == "Old Armory":
+            brokenSword.putInRoom(self)
 
     def addExit(self, exitName, destination):
         self.exits.append([exitName, destination])
