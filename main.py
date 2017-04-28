@@ -132,6 +132,7 @@ def createWorld():
             player.checkXP()
         print("You start 10 levels higher than normal!")
     print("")
+    updater.register(player)
 
     #Then, we instantiate the base map, set the player's location to the first room of the map, and run our expansion code
     coreRooms = generateBaseMap()
@@ -195,7 +196,7 @@ def printSituation():
     if player.health < player.maxhealth and player.regen > 0:
         print("You regenerate "+str(player.regen)+" health.")
     if player.poisonTimeLeft > 0:
-        print("You are poisoned! You take "+str(player.poisonRegenLoss)+" damage.")
+        print("You are poisoned! You take "+str(player.poisonRegenLoss)+" damage. Poison time left: "+str(player.poisonTimeLeft))
     print()
 
 def showHelp():
