@@ -67,14 +67,13 @@ class Room:
         if monsterAddChance == 7:
             monsterChoice = random.randint(1,5)
             if monsterChoice == 1:
-                newSpider = Spider("Spidey",self)
+                newSpider = Spider(random.choice(spiderNames),self)
             elif monsterChoice == 2:
-                newTroll = Troll("Trolley",self)
+                newTroll = Troll(random.choice(trollNames),self)
             elif monsterChoice == 3:
-                newGiantRat = GiantRat("Nippy",self)
+                newGiantRat = GiantRat(random.choice(ratNames),self)
             elif monsterChoice == 4:
-                newVelociraptor = Velociraptor("Rapty",self)
-            print("Somewhere in the dungeon, a new monster appears")
+                newVelociraptor = Velociraptor(random.choice(raptorNames),self)
 
         eventAddChance = random.randint(1,80)
         #This is broken, the player.location ends up None....not great

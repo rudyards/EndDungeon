@@ -54,7 +54,6 @@ class Player:
             self.health += self.regen
             if self.health > self.maxhealth:
                 self.health = self.maxhealth
-
         if self.poisonTimeLeft > 0:
             self.health -= self.poisonRegenLoss
             self.poisonTimeLeft -= 1
