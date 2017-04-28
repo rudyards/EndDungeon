@@ -58,7 +58,6 @@ class Player:
         if self.poisonTimeLeft > 0:
             self.health -= self.poisonRegenLoss
             self.poisonTimeLeft -= 1
-            print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
 
         
@@ -172,6 +171,7 @@ class Player:
 
     def checkXP(self):
         #Every 200 XP, you level up, and each of your stats are randomly increased by 0 or 1
+        self.xp = int(self.xp)
         if self.xp >= self.level*200:
             self.level +=1
             print("You leveled up!")

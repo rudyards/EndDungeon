@@ -35,15 +35,16 @@ def generateBaseMap():
     Room.simpleConnectRooms(fifthRoom, sixthRoom)
     seventhRoom = Room(roomdescriber(),5,3)
     Room.simpleConnectRooms(sixthRoom, seventhRoom)
-    eigthRoom = Room(roomdescriber(),5,4)
-    Room.simpleConnectRooms(seventhRoom, eigthRoom)
+    eighthRoom = Room(roomdescriber(),5,4)
+    Room.simpleConnectRooms(seventhRoom, eighthRoom)
     ninthRoom = Room(roomdescriber(),6,4)
-    Room.simpleConnectRooms(eigthRoom, ninthRoom)
+    Room.simpleConnectRooms(eighthRoom, ninthRoom)
     EndRoom = Room(roomdescriber(),7,4)
     Room.simpleConnectRooms(ninthRoom, EndRoom)
 
     #Once it has created all the rooms, this function returns a list which contains all of them
-    return [startingRoom,secondRoom,thirdRoom,fourthRoom,fifthRoom,sixthRoom,seventhRoom,eigthRoom,ninthRoom,EndRoom]
+    return [startingRoom,secondRoom,thirdRoom,fourthRoom,fifthRoom,sixthRoom,seventhRoom,eighthRoom,ninthRoom,EndRoom]
+
 
 def firstBaseExpansion(rooms):
     addedRooms = []
@@ -54,7 +55,7 @@ def firstBaseExpansion(rooms):
     fifthBonusRoom = None
     sixthBonusRoom = None
     seventhBonusRoom = None
-    eigthBonusRoom = None
+    eighthBonusRoom = None
     ninthBonusRoom = None
 
     #firstBaseExpansion is called after the map is made and is based a current version of the map. It is designed only for compatibility
@@ -107,10 +108,10 @@ def firstBaseExpansion(rooms):
             if coinFlip():
                 Room.simpleConnectRooms(sixthBonusRoom,seventhBonusRoom)
     if coinFlip():
-        eigthBonusRoom = Room(roomdescriber(),6,3)
-        Room.simpleConnectRooms(rooms[8],eigthBonusRoom)
-        Room.simpleConnectRooms(rooms[6],eigthBonusRoom)
-        addedRooms.append(eigthBonusRoom)
+        eighthBonusRoom = Room(roomdescriber(),6,3)
+        Room.simpleConnectRooms(rooms[8],eighthBonusRoom)
+        Room.simpleConnectRooms(rooms[6],eighthBonusRoom)
+        addedRooms.append(eighthBonusRoom)
     if coinFlip():
         ninthBonusRoom = Room(roomdescriber(),7,3)
         Room.simpleConnectRooms(rooms[9],ninthBonusRoom)
@@ -118,15 +119,17 @@ def firstBaseExpansion(rooms):
 
 
 
+
 def createWorld():
-    #The player's name isn't relevant to anything right now, but it's an opportunity for us to allow cheat codes
     #If a player uses the name grader, they get a bunch of bonus levels to make testing easier.
     name = input("What's your name?\n")
     player = Player(name)
     if player.name == "grader":
+        i = 0
         while i < 10:
             player.xp += 200
             i+=1
+            player.checkXP()
         print("You start 10 levels higher than normal!")
     print("")
 
@@ -145,11 +148,12 @@ def createWorld():
     else:
         blacksmith.putInRoom(coreRooms[0])
         merchant.putInRoom(Character2RoomChoice)
-    TrolleyTheTroll = Troll("TrolleyTheTroll", random.choice(currentRooms))
-    SpideyTheSpider = Spider("SpideyTheSpider", random.choice(currentRooms))
-    NippyTheGiantRat = Spider("NippyTheGiantRat", random.choice(currentRooms))
-    RaptyTheVelociraptor = Velociraptor("RaptyTheVelociraptor",random.choice(currentRooms))
-    hideArmor.putInRoom(coreRooms[0])
+
+    firstTroll = Troll(random.choice(trollNames), random.choice(currentRooms))
+    firstSpider = Spider(random.choice(spiderNames), random.choice(currentRooms))
+    firstRat = GiantRat(random.choice(ratNames), random.choice(currentRooms))
+    firstRaptor = Velociraptor(random.choice(raptorNames),random.choice(currentRooms))
+
     #We also establish a Merchant in the first room so the players can buy and sell items, as well as give them some starting items
     merchant1 = Merchant("merchant1")
     merchant1.putInRoom(player.location)
@@ -173,7 +177,7 @@ def printSituation():
     if player.location.hasMonsters():
         print("This room contains the following monsters:")
         for m in player.location.monsters:
-            print(m.name)
+            print(m.name + " (" +m.monsterType+")")
             print()
     if player.location.hasCharacters():
         print("This room contains the following characters:")
@@ -188,6 +192,11 @@ def printSituation():
     print("You can go in the following directions:")
     for e in player.location.exitNames():
         print(e)
+    print()
+    if player.health < player.maxhealth and player.regen > 0:
+        print("You regenerate "+str(player.regen)+" health.")
+    if player.poisonTimeLeft > 0:
+        print("You are poisoned! You take "+str(player.poisonRegenLoss)+" damage.")
     print()
 
 def showHelp():
@@ -242,8 +251,7 @@ while playing and player.alive:
         command = input("What now, "+str(player.name)+"? \n")
         commandWords = command.split()
 
-        commands = ["attack","buy","drop","equip", "exit","go","heal","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view", "wait"]
-        #Buy command breaks if improperly syntaxed
+        commands = ["attack","buy","drop","equip", "exit","go","heal","help","inventory", "inspect","me","pickup","save","sell","talk","unequip","view", "wait","xp"]
         if (len(commandWords) > 0):
             entry = str(commandWords[0].lower())
         else:
@@ -349,6 +357,8 @@ while playing and player.alive:
                 timePasses = True
             else:
                 print("No such monster.")
+                if player.location.hasMonsters != False:
+                    print("Anything in parenthesis is the monsters type and not part of its name.")
                 commandSuccess = False
 
 
@@ -470,15 +480,6 @@ while playing and player.alive:
             commandSuccess = False
 
         elif Command == "save":
-<<<<<<< HEAD
-            saveFile = commandWords[2].lower()
-            with open(saveFile+".sav","wb") as f:
-                pickle.dump(currentRooms,f)
-                pickle.dump(currentMonsters,f)
-                pickle.dump(currentCharacters,f)
-                pickle.dump(currentPlayers,f)
-
-=======
             try:
                 saveFile = commandWords[2].lower()
                 with open(saveFile+".sav","wb") as f:
@@ -490,7 +491,14 @@ while playing and player.alive:
             except IndexError:
                 print("Specify name of file to save to")
                 commandSuccess = False
->>>>>>> origin/piperminiupdate
+
+        elif Command == "xp":
+            xpGained = int(command[3:])
+            player.xp += xpGained
+            i = 0
+            while i < xpGained/200:
+                player.checkXP()
+                i+=1
 
         if timePasses == True:
             updater.updateAll()

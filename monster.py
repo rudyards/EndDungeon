@@ -62,7 +62,7 @@ class Monster:
         updater.deregister(self)
 
         goldGain = random.randint(1,self.level+3)*15
-        player.xp += (self.level * 50) * (1 + .1*player.intelligence)
+        player.xp += int((self.level * 50) * (1 + .1*player.intelligence))
         #Monsters give 50 xp per level they are, and 15*(1 to 3+their level) gp
         #Players get 10% more XP per point of int they have
 
@@ -88,7 +88,6 @@ class Monster:
         if(attackDamage < 0):
             attackDamage = 0
         player.health-=attackDamage
-      
         self.poison(player)
         if player.poisonTimeLeft > 0:
             print("The monster has poisoned you!")
@@ -182,8 +181,14 @@ class Dragon(Monster):
         updater.deregister(self)
         player.xp += self.level * 50
         print("You killed "+self.name+". You gain "+str(self.level*50)+" xp.")
-        print("Congratulations, you won!!!")
+        print("Congratulations, "+player.name+", you won!!!")
         print("you made it to level "+str(player.level)+"and earned "+str(player.xp)+"xp.")
         print("Thanks for playing!")
         input("Press any key to continue...")
         playing = False
+
+
+trollNames = ["Karkat", "Olaf", "Scrag", "Grendel", "Ulik","Geirrodur","Shrek","Trantor", "Shine","Tethys"]
+ratNames = ["Vincent","Remy", "Templeton", "Ralph", "Stuart","Jerry","Splinter","Rizzo","Emile", "Nicodemus"]
+spiderNames = ["Arachnea", "Nerub", "Brood", "Skitter", "Khepri", "Weaver", "Arachnus","Ishkanah"]
+raptorNames = ["Lacey", "Blue", "Charlie", "Delta", "Echo", "Owen", "Scraw", "Turner", "Norell"]
