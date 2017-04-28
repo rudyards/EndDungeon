@@ -62,8 +62,23 @@ class Player:
                 self.poisonTimeLeft -= 1
             print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
-
-        
+        #makes random events occur
+        eventAddChance = random.randint(1,50)
+        if eventAddChance == 12:
+            self.health -= 5
+            print("You are attacked by a swarm of radioactive bees; you lose 5 health.")
+        elif eventAddChance == 23:
+            self.health += 6
+            print("a healing mist descends; you gain 6 health")
+        elif eventAddChance == 34:
+            goldBar = item.makeItem("goldBar")
+            goldBar.putInRoom(self.location)
+            print("A small parachute descends from the ceiling. Attached is a brick of gold. Looks like you have a sponsor from the Capital.")
+        elif eventAddChance == 45:
+            rock = item.makeItem("rock")
+            rock.putInRoom(self.location)
+            self.health -= 2
+            print("You trip over a rock. You lose 2 health, klutz.")
 
 
 

@@ -15,11 +15,14 @@ class Item:
         self.buyValue = buyValue
         self.sellValue = sellValue
         currentItems.append(self)
+
+    #provides description of item
     def describe(self):
         clear()
         print(self.desc)
         print()
         input("Press enter to continue...")
+    #places item in room
     def putInRoom(self, room):
         self.loc = room
         room.addItem(self)
@@ -97,7 +100,7 @@ def makeItem(kind):
         return Armor("platemail", "The sturdiest armor in this dungeon. Moving is going to be a sturggle, but at least you'll never die.",60,30,4) 
 
 #Three random item lists for the merchants. They will have one of the following sets of wares
-merchantList1 = ["hideArmor","chainShirt","platemail"]
+merchantList1 = ["hideArmor","chainShirt","platemail","healingPotion"]
 merchantList2 = ["chainmail","hideArmor","platemail","dagger"]
 merchantList3 = ["chainShirt","chainmail","dagger", "healingPotion"]
 #Three random item lists but for blacksmiths. Blacksmiths only sell weapons

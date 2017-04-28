@@ -67,7 +67,7 @@ def roomdescriber():
             keyword = "fear"
         if secondroll == 4:
             keyword = "faintly of murder"
-        if seconroll == 5:
+        if secondroll == 5:
             keyword = "inexplicably of cinnamon"
         description = "The room smells "+keyword
 
@@ -80,5 +80,5 @@ def roomnameChoice(array):
     return choice
 
 roomNames = ["Creepy Room", "Decrepit Room", "Stygian Room","Old Armory","Long Forgotten Room","Unremembered Room","Monster Den","Cramped Space",
-                "Unstable Room","Dusty Room","Clamy Room","Unpleasant Room","Disturbing Room","Rotting Room","Liminal Space","Former Hideout",
+                "Unstable Room","Dusty Room","Clammy Room","Unpleasant Room","Disturbing Room","Rotting Room","Liminal Space","Former Hideout",
                 "Ancient Room","Mystifying Room","Irrelevant Room","Unremarkable Room","Pointless Room","Strange Room","Unsettling Room","Virulent Room"]
