@@ -157,6 +157,7 @@ def createWorld():
         gauntlet.putInRoom(player.location)        
     hideArmor.putInRoom(player.location)
     rock.putInRoom(player.location)
+    healingPotion.putInRoom(player.location)
 
 
 
@@ -309,6 +310,7 @@ while playing and player.alive:
                 if player.health > player.maxhealth:
                     player.health = player.maxhealth
                     player.items.remove(healingPotion)
+                print("You healed "+str(healthGain)+" points. You now have "+str(player.health)+"health")
             else:
                 print("You do not have a Healing Potion in your inventory")
             commandSuccess = False
@@ -468,15 +470,6 @@ while playing and player.alive:
             commandSuccess = False
 
         elif Command == "save":
-<<<<<<< HEAD
-            saveFile = commandWords[2].lower()
-            with open(saveFile+".sav","wb") as f:
-                pickle.dump(currentRooms,f)
-                pickle.dump(currentMonsters,f)
-                pickle.dump(currentCharacters,f)
-                pickle.dump(currentPlayers,f)
-
-=======
             try:
                 saveFile = commandWords[2].lower()
                 with open(saveFile+".sav","wb") as f:
@@ -488,7 +481,6 @@ while playing and player.alive:
             except IndexError:
                 print("Specify name of file to save to")
                 commandSuccess = False
->>>>>>> origin/piperminiupdate
 
         if timePasses == True:
             updater.updateAll()
