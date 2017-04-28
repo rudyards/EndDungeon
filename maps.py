@@ -7,6 +7,7 @@ from maps import *
 from Characters import *
 
 
+
 def roomdescriber():
     description = ""
     keyword = ""
