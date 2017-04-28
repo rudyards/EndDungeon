@@ -17,7 +17,7 @@ class Player:
         self.strength = random.randint(-1,1) #Each 2 points in str gives you +1 damage
         self.dexterity = random.randint(-1,1) #Each 2 points in dex gives you +1 defense
         self.constitution = random.randint(-1,1) #Each point in con gives you +4 HP
-        self.wisdom = random.randint(-1,1) #Wisdom gives you bonuses to resist mind control
+        self.wisdom = random.randint(-1,1) #Doesn't do anything, unfortunately
         self.intelligence = random.randint(-1,1) #Intelligence gives you 10% extra XP per point 
         self.charisma = random.randint(-1,1) #Charisma gives you bonuses in selling and buying
 
@@ -57,10 +57,8 @@ class Player:
 
         if self.poisonTimeLeft > 0:
             self.health -= self.poisonRegenLoss
-
             if self.location.name != "Virulent Room":
                 self.poisonTimeLeft -= 1
-            print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
         #makes random events occur
         eventAddChance = random.randint(1,50)
