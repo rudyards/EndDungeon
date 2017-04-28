@@ -2,6 +2,7 @@ import updater
 import random
 from monster import *
 from player import *
+from item import *
 
 #list of current Rooms (for pickling)
 currentRooms = []
@@ -10,7 +11,8 @@ coreRooms = []
 
 #Rooms!
 class Room:
-    def __init__(self, description, x, y):
+    def __init__(self, name, description, x, y):
+        self.name = name
         self.desc = description
         self.monsters = []
         self.exits = []
@@ -20,6 +22,8 @@ class Room:
         self.x = x
         self.y = y
         currentRooms.append(self)
+        if self.name == "Old Armory":
+            brokenSword.putInRoom(self)
 
     #Adds an exit to a room
     def addExit(self, exitName, destination):
