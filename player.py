@@ -54,10 +54,13 @@ class Player:
             self.health += self.regen
             if self.health > self.maxhealth:
                 self.health = self.maxhealth
+
         if self.poisonTimeLeft > 0:
             self.health -= self.poisonRegenLoss
+
             if self.location.name != "Virulent Room":
                 self.poisonTimeLeft -= 1
+            print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
 
         
@@ -127,10 +130,6 @@ class Player:
             self.equipped.remove(item)
             self.items.append(item)
 
-    def unstackedInventory(self):
-        for item in self.items:
-            print(item.name)
-
     def showInventory(self):
         clear()
         print("You are currently carrying:")
@@ -175,7 +174,6 @@ class Player:
 
     def checkXP(self):
         #Every 200 XP, you level up, and each of your stats are randomly increased by 0 or 1
-        self.xp = int(self.xp)
         if self.xp >= self.level*200:
             self.level +=1
             print("You leveled up!")
