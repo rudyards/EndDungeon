@@ -57,7 +57,9 @@ class Player:
 
         if self.poisonTimeLeft > 0:
             self.health -= self.poisonRegenLoss
-            self.poisonTimeLeft -= 1
+
+            if self.location.name != "Virulent Room":
+                self.poisonTimeLeft -= 1
             print("You are poisoned! You lose "+int(self.poisonRegenLoss)+" health.")
 
 
