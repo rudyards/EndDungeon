@@ -217,14 +217,17 @@ option = input("resume or newGame? (Just press enter to skip)\n")
 if option.lower() == "resume":
     directory = os.path.dirname(os.path.realpath(__file__))
     print(glob.glob(os.path.basename((os.path.join(str(directory),"*.sav")))))
-    game = input("Which game would you like to resume?\n")
-    with open(game,"rb") as file:
-        currentRooms = pickle.load(file)
-        roomConnections = pickle.load(file)
-        currentMonsters = pickle.load(file)
-        currentCharacters = pickle.load(file)
-        currentPlayers = pickle.load(file)
-        player = currentPlayers[0]
+    try:
+        game = input("Which game would you like to resume?\n")
+        with open(game,"rb") as file:
+            currentRooms = pickle.load(file)
+            roomConnections = pickle.load(file)
+            currentMonsters = pickle.load(file)
+            currentCharacters = pickle.load(file)
+            currentPlayers = pickle.load(file)
+            player = currentPlayers[0]
+    except:
+        print("Specify which game from the list you would like to resume (include '.sav')")
 else:
     createWorld()
     player = currentPlayers[0]
@@ -254,7 +257,7 @@ while playing and player.alive:
                 commandList.append(word)
 
         if len(commandList) == 0:
-            print("That is not a valid command. Enter 'help' to see command options")
+            print("That is not a valid command. Enter 'help' to see command options.")
             commandSuccess = False
             Command = None
         elif len(commandList) == 2:
@@ -265,6 +268,7 @@ while playing and player.alive:
             Command = str(commandList[0])
 
         if Command == "go":   #cannot handle multi-word directions
+        #moves player into whichever room is in the specified direction
             directions = []
             for direction in player.location.exits:
                 directions.append((direction[0]))
@@ -274,20 +278,21 @@ while playing and player.alive:
                     player.goDirection(direction) 
                     timePasses = True
                 else:
-                    print("That is not a valid direction")
+                    print("That is not a valid direction.")
                     commandSuccess = False
             except (IndexError, NameError):
-                print("That is not a valid direction")
+                print("That is not a valid direction.")
                 commandSuccess = False
 
         elif Command == "pickup":  #can handle multi-word objects
+        #picks up an item in the room and adds it inventory
             try:
                 targetName = commandWords[1]
                 target = player.location.getItemByName(targetName)
                 if target != False:
                     if (len(player.equipped)+len(player.items)<player.carryingCapacity):
                         player.pickup(target)
-                        print("You picked up "+target.name)
+                        print("You picked up "+target.name+".")
                     else:
                         print("You're carrying too much. Try dropping some items first.")
                         commandSuccess = False
@@ -299,104 +304,131 @@ while playing and player.alive:
                 commandSuccess = False
 
         elif Command == "heal":
+            #uses healing potion if one is in inventory
             if player.isInInventory("HealingPotion"):
+                #if the player has lost fewer than 15 health points, they are healed to max health
                 if player.maxhealth-15 < player.health:
                     healthGain = player.maxhealth - player.health
                     if healthGain < 1:
                         healthGain = 0
                 else:
+                #otherwise, they gain 15 hp
                     healthGain = 15
                 player.health += 15
                 if player.health > player.maxhealth:
                     player.health = player.maxhealth
                     player.items.remove(healingPotion)
-                print("You healed "+str(healthGain)+" points. You now have "+str(player.health)+"health")
+                print("You healed "+str(healthGain)+" points. You now have "+str(player.health)+"health.")
             else:
-                print("You do not have a Healing Potion in your inventory")
-            commandSuccess = False
-
-        elif Command == "drop":
-            targetName = command[5:]
-            target = player.isInInventory(targetName)
-            if target != False:
-                player.drop(target)
-            else:
-                print("That item is not currently in your inventory.")
-                newtarget = player.isEquipped(targetName)
-                if newtarget != False:
-                    print("Make sure to unequip it first")
-                    print()
+                print("You do not have a Healing Potion in your inventory.")
                 commandSuccess = False
 
+        elif Command == "drop":
+        #drops an item (removes from inventory and places in room)
+            try:
+                targetName = command[5:]
+                target = player.isInInventory(targetName)
+                if target != False:
+                    player.drop(target)
+                else:
+                    print("That item is not currently in your inventory.")
+                    newtarget = player.isEquipped(targetName)
+                    if newtarget != False:
+                        print("Make sure to unequip it first")
+                        print()
+                    commandSuccess = False
+            except IndexError:
+                print("Specify an item to drop.")
+
         elif Command == "inventory":
+        #displays inventory (with stacking of duplicate items)
             player.showInventory()        
             player.showEquipped()
 
 
         elif Command == "help":
+        #displays help menu
             showHelp()
 
 
         elif Command == "exit":
+        #quits the game
             playing = False
 
 
         elif Command == "attack":
-            targetName = command[7:]
-            target = player.location.getMonsterByName(targetName)
-            if target != False:
-                player.attackMonster(target)
-                timePasses = True
-            else:
-                print("No such monster.")
-                commandSuccess = False
+        #attacks a specified monster
+            try:
+                targetName = command[7:]
+                target = player.location.getMonsterByName(targetName)
+                if target != False:
+                    player.attackMonster(target)
+                    timePasses = True
+                else:
+                    print("No such monster.")
+                    commandSuccess = False
+            except IndexError:
+                print("Specify a monster to attack.")
 
 
         elif Command == "wait":
+        #runs updates on everything
             timePasses = True
         
 
         elif Command == "me":
+        #displays player hp,xp,gold, and stats
             player.showStats()
 
 
         elif Command == "equip":
-            equipChoice = command[6:]
-            equipitem = player.isInInventory(equipChoice)
-            if equipitem != False:
-                player.equip(equipitem)
-                #Bug: A player can equip any number of items
-            else:
-                print("You aren't currently carrying that.")
+        #equips an item to provide static bonuses
+            try:
+                equipChoice = command[6:]
+                equipitem = player.isInInventory(equipChoice)
+                if equipitem != False:
+                    player.equip(equipitem)
+                    #Bug: A player can equip any number of items
+                else:
+                    print("You aren't currently carrying that.")
+                    commandSuccess = False
+            except IndexError:
+                print("Specify item to equip.")
                 commandSuccess = False
 
-
         elif Command == "unequip":
-            equipChoice = command[8:]
-            equipitem = player.isEquipped(equipChoice)
-            if equipitem != False:
-                player.unequip(equipitem)
-                player.items.append(equipitem)
-            else:
-                print("That isn't currently equipped.")
+        #unequips a specified item
+            try:
+                equipChoice = command[8:]
+                equipitem = player.isEquipped(equipChoice)
+                if equipitem != False:
+                    player.unequip(equipitem)
+                    player.items.append(equipitem)
+                else:
+                    print("That isn't currently equipped.")
+                    commandSuccess = False
+            except:
+                print("Specify an item to unequip.")
                 commandSuccess = False
                 
         elif Command == "inspect":
-            descriptionGiven = False
-            if commandWords[1] == None:
-                print("Please specify which object you want to inspect")
-                commandSuccess = False
-            for item in player.items:
-                if checkCommand(commandWords[1].lower(),item.name()):
-                    item.describe()
+            try:
+                descriptionGiven = False
+                    commandSuccess = False
+                for item in player.items:
+                    if checkCommand(commandWords[1].lower(),item.name()):
+                        item.describe()
+                        descriptionGiven = True
+                for item in player.location.items:
+                    if checkCommand(commandWords[1].lower(),item.name()):
+                        item.describe()
+                        descriptionGiven = True 
+                if not descriptionGiven: 
+                    print("You do not have that item.")
                     descriptionGiven = True
-            for item in player.location.items:
-                if checkCommand(commandWords[1].lower(),item.name()):
-                    item.describe()
-                    descriptionGiven = True 
-            if not descriptionGiven: 
-                print("You do not have that item")
-                descriptionGiven = True
+                    commandSuccess = False
+            except IndexError:
+                print("Please specify which object you want to inspect.")
                 commandSuccess = False
 
         elif Command == "talk":
@@ -461,13 +493,15 @@ while playing and player.alive:
                     item = player.getItemFromInventory(itemName)
                 else:
                     print("You do not have that item")
+                    commandSuccess = False
                 if item != False:
                     player.sell(character,item) 
                 else:
                     print(str(characterName)+ " does not have that item")
+                    commandSuccess = False
             else:
                 print(str(characterName)+" is not in this room")
-            commandSuccess = False
+                commandSuccess = False
 
         elif Command == "save":
             try:
